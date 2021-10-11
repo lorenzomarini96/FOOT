@@ -1,0 +1,7 @@
+\small
+	\frametitle{Channels calibration}
+    		\begin{figure}
+		 \centering
+			\includegraphics[scale=0.5]{figures/ch11.pdf}
+			\caption{Channel 11.}
+		\end{figure}
