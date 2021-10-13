@@ -1,6 +1,0 @@
-\beamer@sectionintoc {1}{Crate}{3}{0}{1}
-\beamer@sectionintoc {2}{Instruments}{4}{0}{2}
-\beamer@sectionintoc {3}{Instruments}{5}{0}{3}
-\beamer@sectionintoc {4}{Instruments}{6}{0}{4}
-\beamer@sectionintoc {5}{Channels calibration}{7}{0}{5}
-\beamer@sectionintoc {6}{Crate}{19}{0}{6}

@@ -1,0 +1,190 @@
+\documentclass[9pt]{beamer}
+%------------------------------------------------------------------------
+%usepackages
+%------------------------------------------------------------------------
+\input{usepackages.tex}
+
+
+\usetheme{Warsaw}
+%Information to be included in the title page:
+\title[Calibration of veto discriminators]{Calibration of veto discriminators}
+\subtitle[]{Fragmentation Trigger FOOT}
+%\author[]{Lorenzo Marini \\   
+%le parentesi quadre \author{Lorenzo Marini} servono a rimuovere il nome dalla barra in basso a sinistra.
+%\small \texttt{lorenzo.marini.1996@gmail.com}}
+\author[L. Marini, INFN Pisa ]{L. Marini} 
+\institute{INFN Pisa}
+\date[October 2021]{October 2021}
+
+\setbeamertemplate{section in toc}{\hspace*{1em}\inserttocsectionnumber.~\inserttocsection\par}
+\setbeamertemplate{subsection in toc}{\hspace*{2em}\inserttocsectionnumber.\inserttocsubsectionnumber.~\inserttocsubsection\par}
+
+\begin{document}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber] 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\titlepage}
+
+
+%==================================================================
+						%SLIDE - \tableofcontents
+%==================================================================
+
+\begin{frame} 
+  	\tableofcontents
+\end{frame}
+
+\input{calibration_1.tex}
+
+\input{why.tex}
+
+
+
+%==================================================================
+				%SLIDE 
+%==================================================================
+\section{Instruments}
+\subsection{TGP110 Pulse Generator}
+\begin{frame} [fragile]
+\small
+	\frametitle{TGP110 Pulse Generator}
+    		\begin{figure}
+		 \centering
+			\includegraphics[scale=0.25]{figures/instruments/AIM_TGP110_1k_0.jpg}
+			\caption{TGP110. \url{https://resources.aimtti.com/datasheets/AIM-TGP110_pulse_generator_data_sheet-Iss1A.pdf}}
+		\end{figure}
+\end{frame}
+
+%==================================================================
+				%SLIDE 
+%==================================================================
+\subsection{Crate}
+\begin{frame} [fragile]
+\small
+	\frametitle{Crate}
+    		\begin{figure}
+		 \centering
+			\includegraphics[scale=0.3]{photos/im2.png}
+			\caption{Channel 0 to 11 of WaveDream 166.}
+		\end{figure}  
+\end{frame}
+
+
+%==================================================================
+				%SLIDE 
+%==================================================================
+\begin{frame} [fragile]
+\small
+	\frametitle{Connection map TOF}
+	
+	\colorbox{pink}{Why WaveDream 166?}
+
+\begin{center}
+\captionof{table}{X-View TOF.}
+\begin{tabular}{ |c|c|c|c|c|c| } 
+ 	\hline
+ 	\textbf{Ch TOF} & \textbf{Barra TOF} & \textbf{Nome WD} & \textbf{Slot WD} & \textbf{Ch WD} & \textbf{SiPM}  \\
+	 \hline
+	 16 & X 8 & \colorbox{green}{wd166} & 6 & 0 & 12 \\ 
+	 \hline
+	 17 & X 8 & wd166 & 6 & 1 & 50 \\ 
+	 \hline
+	 18 & X 9 & wd166 & 6 & 2 & 14 \\ 
+	 \hline
+	 19 & X 9 & wd166 & 6 & 3 & 62 \\ 
+	 \hline
+	 20 & X 10 & wd166 & 6 & 4 & 15 \\ 
+	 \hline
+	 21 & X 10 & wd166 & 6 & 5 & 48 \\ 
+	 \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\captionof{table}{Y-View TOF.}
+\begin{tabular}{ |c|c|c|c|c|c| } 
+ 	\hline
+ 	\textbf{Ch TOF} & \textbf{Barra TOF} & \textbf{Nome WD} & \textbf{Slot WD} & \textbf{Ch WD} & \textbf{SiPM}  \\
+	 \hline
+	 56 & Y 8 & wd166 & 6 & 6 & 71 \\ 
+	 \hline
+	 57 & Y 8 & wd166 & 6 & 7 & 30 \\ 
+	 \hline
+	 58 & Y 9 & wd166 & 6 & 8 & 65 \\ 
+	 \hline
+	 59 & Y 9 & wd166 & 6 & 9 & 27 \\ 
+	 \hline
+	 60 & Y 10 & wd166 & 6 & 10 & 73 \\ 
+	 \hline
+	 61 & Y 10 & wd166 & 6 & 11 & 25 \\ 
+	 \hline
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+%==================================================================
+				%SLIDE 
+%==================================================================
+\section{Method}
+\subsection{Amplitude and Trigger correlation}
+\begin{frame} [fragile]
+\small
+	\frametitle{Method}
+    		\begin{figure}
+		 \centering
+			\includegraphics[scale=1.4]{figures/instruments/Waveform.pdf}
+			\caption{Example Waveform recorded by DRS4}
+		\end{figure}
+	\begin{itemize}
+		\item Select the \textcolor{blue}{channel} of interest (ch 0 $\longrightarrow$ 11)
+		\item Measure the amplitude of the signal ($\pm$ 5 mV)
+		\item Correlate with the \textcolor{red}{trigger value}  ($\pm$ 3 mV)
+	\end{itemize}  
+\end{frame}
+
+%==================================================================
+				%SLIDE 5 
+%==================================================================
+\begin{frame} [fragile]
+\small
+	\frametitle{Amplitude and Trigger correlation}
+    		\begin{figure}
+		 \centering
+			\includegraphics[scale=0.3]{figures/instruments/Waveform_trigger.png}
+			\caption{Example Waveform recorded by DRS4}
+		\end{figure}  
+	\begin{itemize}
+		\item By changing the amplitude from a minimum value (300 mV) to a maximum value (full scale), in steps of 25 mV, \colorbox{yellow}{check the linearity} between the amplitude value and the trigger value.
+	\end{itemize}
+\end{frame}
+
+%---------------------------------------------------------------------------------------------
+%  RESULTS
+%---------------------------------------------------------------------------------------------
+\section{Results}
+	\subsection{Fits}
+		\input{fit_ch0.tex}
+		\input{fit_ch1.tex}
+		\input{fit_ch2.tex}
+		\input{fit_ch3.tex}
+		\input{fit_ch4.tex}
+		\input{fit_ch5.tex}
+		\input{fit_ch6.tex}
+		\input{fit_ch7.tex}
+		\input{fit_ch8.tex}
+		\input{fit_ch9.tex}
+		\input{fit_ch10.tex}
+		\input{fit_ch11.tex}
+	\subsection{Table}
+		\input{table_calibration.tex}
+
+
+%==================================================================
+						%SLIDE - thebibliography
+%==================================================================
+%\input{thebibliography.tex}
+%==================================================================
+
+\end{document}

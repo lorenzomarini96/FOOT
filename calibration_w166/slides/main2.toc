@@ -1,0 +1,11 @@
+\beamer@sectionintoc {1}{Calibration}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Goal of the measure}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Why a calibration?}{4}{0}{1}
+\beamer@sectionintoc {2}{Instruments}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{TGP110 Pulse Generator}{5}{0}{2}
+\beamer@subsectionintoc {2}{2}{Crate}{6}{0}{2}
+\beamer@sectionintoc {3}{Method}{8}{0}{3}
+\beamer@subsectionintoc {3}{1}{Amplitude and Trigger correlation}{8}{0}{3}
+\beamer@sectionintoc {4}{Results}{10}{0}{4}
+\beamer@subsectionintoc {4}{1}{Fits}{10}{0}{4}
+\beamer@subsectionintoc {4}{2}{Table}{22}{0}{4}
