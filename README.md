@@ -1,4 +1,6 @@
-# FOOT
+# Nuclear Fragmentation measurement for Particle Therapy with FOOT experiment
+
+**Optimization of the trigger system and data acquisition of the FOOT experiment at the CNAO**
 
 This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). He is teaching me many interesting aspects regarding the acquisition trigger of the **FOOT** **experiment**. The themes range from **hadrontherapy** to the revelation of charged ions; from **FPGAs**, **Wavedream**, and acquisition systems to board firmware and **Verilog** language.
 
@@ -9,17 +11,29 @@ Here are some useful links as a reference for basic knowledge and for any furthe
 
 # Repo Structure
 ```
-   FOOT
-   └── calibration_w166
-       ├── data
-       ├── figures
-       ├── instrument
-       └── slides
-           ├── figures
-           │   ├── crate_configuration
-           │   └── instruments
-           └── photos
+FOOT/
+├── calibration_w166
+│   ├── data
+│   ├── figures
+│   ├── instrument
+│   └── slides
+│       ├── figures
+│       │   ├── crate_configuration
+│       │   └── instruments
+│       └── photos
+├── clock
+└── tofwall
+
 ```
+
+## Keywords
+- Nuclear Physics
+- Nuclear Fragmentation
+- Particle Therapy
+- Data acquisition system (DAQ)
+- Wavedream board
+- Trigger system
+
 # Useful knowledge
 
 ## Verilog
