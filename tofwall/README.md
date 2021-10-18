@@ -16,13 +16,13 @@
 
 ### Work on WaveDAQ Oscilloscope
 
-| Command | Description |
+| Button                        | Quantity | Description |
 | --- | --- | --- |
-| **Config**                   |            | To open the *configuration panel*|
-| **Trigger**                   | Level  | Set the trigger value (i.e.to -50 mV)|
-| **Trigger**                   | Delay  | Set the delay value (i.e.to 0 ns)|
-| **Sampling Speed**   |            | Set the sampling rate (i.e. to 3 Gigasamples)
-| **Analog Front-end** |Gain    | Set the gain (i.e. to 10)|
+| **Config**                   |               | To open the *configuration panel*|
+| **Trigger**                   | Level     | Set the trigger value (i.e.to -50 mV)|
+| **Trigger**                   | Delay    | Set the delay value (i.e.to 0 ns)|
+| **Sampling Speed**   |              | Set the sampling rate (i.e. to 3 Gigasamples)
+| **Analog Front-end** |Gain      | Set the gain (i.e. to 10)|
 
 
 ### Edit the configuration file
