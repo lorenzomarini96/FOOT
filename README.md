@@ -2,6 +2,7 @@
 
 **Optimization of the trigger system and data acquisition of the FOOT experiment at the CNAO**
 
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/foot_logo.jpeg" width="80">
 
 [FOOT (FragmentatiOn Of Target)](https://web.infn.it/foot/) is an applied nuclear physics experiment conceived to conduct high-precision cross section measurements of nuclear fragmentation processes relevant for [particle therapy](https://en.wikipedia.org/wiki/Particle_therapy) and [radiation protection in space](https://www.nasa.gov/sites/default/files/atoms/files/space_radiation_ebook.pdf). These measurements are important to estimate the physical and biological effects of nuclear fragments, which are produced when energetic particle beams penetrate human tissue.
 
@@ -11,13 +12,13 @@ The goal of the FOOT (FragmentatiOn Of Target) experiment is to measure double d
 ## FOOT applications
 
 ### Hadrontherapy
-
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/med_rad.jpeg" width="80">
 Hadrontherapy is a very advanced form of radiotherapy. Radiotherapy, alone or associated with surgery and / or chemotherapy, improves local control in various tumor pathologies.
 
 The strength of hadrontherapy resides in the unique physical and radiobiological properties of the charged particles (hadrons): they can penetrate the tissues with little diffusion and deposit maximum energy just before stopping. This allows the region to be irradiated to be defined very precisely. The characteristic peak shape of the energy deposit is called the [Bragg peak](https://en.wikipedia.org/wiki/Bragg_peak) and has become the symbol of hadrontherapy.
 
 ### Space Travel  
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/space_rad.jpeg" width="48">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/space_rad.jpeg" width="80">
 One of the biggest obstacles to space travel is the large amount of **radiation** present outside the atmosphere, which would pose a serious risk to both the crew and the electronics. The data provided by FOOT can be used to develop **cosmic radiation protection systems** aboard space shuttles.
 
 
