@@ -8,11 +8,28 @@
 ## Goal of FOOT
 The goal of the FOOT (FragmentatiOn Of Target) experiment is to measure double differential cross sections (in fragment kinetic energy and direction) for nuclear fragmentation processes induced by beams impinging on targets, that are of interest for particle therapy
 
+## FOOT applications
+
+### Hadrontherapy
+
+Hadrontherapy is a very advanced form of radiotherapy. Radiotherapy, alone or associated with surgery and / or chemotherapy, improves local control in various tumor pathologies.
+
+The strength of hadrontherapy resides in the unique physical and radiobiological properties of the charged particles (hadrons): they can penetrate the tissues with little diffusion and deposit maximum energy just before stopping. This allows the region to be irradiated to be defined very precisely. The characteristic peak shape of the energy deposit is called the [Bragg peak](https://en.wikipedia.org/wiki/Bragg_peak) and has become the symbol of hadrontherapy.
+
+### Space Travel  
+![alt text](https://github.com/lorenzomarini96/FOOT/blob/main/figures/space_rad.jpeg)
+One of the biggest obstacles to space travel is the large amount of **radiation** present outside the atmosphere, which would pose a serious risk to both the crew and the electronics. The data provided by FOOT can be used to develop **cosmic radiation protection systems** aboard space shuttles.
+
+
 ## The repository
 This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). He is teaching me many interesting aspects regarding the acquisition trigger of the **FOOT experiment**. 
 
 ### Topics 
 The topics range from **hadrontherapy** to the revelation of charged ions; from [FPGAs](https://en.wikipedia.org/wiki/Field-programmable_gate_array), [Wavedream](https://www.psi.ch/sites/default/files/import/drs/DocumentationEN/elba15.pdf), and acquisition systems to board firmware and [Verilog](https://en.wikipedia.org/wiki/Verilog) language.
+
+
+
+
 
 Here are some useful links as a reference for basic knowledge and for any further information.
 
