@@ -2,7 +2,7 @@
 
 **Optimization of the trigger system and data acquisition of the FOOT experiment at the CNAO**
 
-This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). He is teaching me many interesting aspects regarding the acquisition trigger of the [**FOOT**]((https://web.infn.it/foot/)) **experiment**. The topics range from **hadrontherapy** to the revelation of charged ions; from **FPGAs**, **Wavedream**, and acquisition systems to board firmware and **Verilog** language.
+This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). He is teaching me many interesting aspects regarding the acquisition trigger of the [FOOT]((https://web.infn.it/foot/)) **experiment**. The topics range from **hadrontherapy** to the revelation of charged ions; from **FPGAs**, **Wavedream**, and acquisition systems to board firmware and **Verilog** language.
 
 Here are some useful links as a reference for basic knowledge and for any further information. (Modificato)Ripristina originale
 
