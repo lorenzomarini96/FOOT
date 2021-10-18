@@ -79,7 +79,7 @@ FOOT/
 
 ## Root
 
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/root_logo.png" width="160">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/root_logo.jpeg" width="160">
 
 - [root](https://root.cern)
 - [tutorial](https://root.cern/doc/master/group__Tutorials.html)
