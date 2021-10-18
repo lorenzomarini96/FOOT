@@ -28,7 +28,7 @@ One of the biggest obstacles to **space travel** is the large amount of **radiat
 
 ## The repository
 
-This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). He is teaching me many interesting aspects regarding the acquisition trigger of the **FOOT experiment**. 
+This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). As the trigger manager, he is teaching me many interesting aspects regarding the acquisition trigger of the **FOOT experiment**. 
 
 ### Topics
 
