@@ -38,5 +38,5 @@ endmodule
 Un flip-flop può essere descritto in Verilog con un always
 in cui la sensibilità al fronte positivo o negativo del trigger 
 si specifica rispettivamente con le keyword posedge o negedge
-
+ 
 */
