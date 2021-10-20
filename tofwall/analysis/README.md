@@ -82,7 +82,7 @@
 
 # Data analysis of TOFwall with ROOT
 
-- Once the data acquisition is finished, a file in ```.bit``` format will be created.
+- Once the data acquisition is finished, a file in ```.bin``` format will be created.
 - Before it can be read and manipulated for analysis, it must be converted to a ROOT file.
 - This magic is accomplished by a script, called ```read_binary.C```.
 - This macro implements a function called ```decode()``` to be applied directly to the affected file.
