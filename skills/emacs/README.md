@@ -1,8 +1,8 @@
 # What is Emacs?
 
 
-- Emacs is an editor available in UNIX.
-- Like vi, emacs is a screen editor.
+- Emacs is an editor available in **UNIX**.
+- Like vi, emacs is a **screen editor**.
 - Commands in emacs are either control characters (hold down the  `<Ctrl>` key while typing another character) or are prefixed by one of a set of reserved characters: ` <Esc>` or ` <Ctrl>-X`.
 - To use emacs on a file, type    `emacs <filename>`.
 
