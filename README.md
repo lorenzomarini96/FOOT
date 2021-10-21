@@ -3,11 +3,9 @@
 
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/foot_logo.jpeg" width="80">
 
-[FOOT (FragmentatiOn Of Target)](https://web.infn.it/foot/) is an applied nuclear physics experiment conceived to conduct high-precision cross section measurements of nuclear fragmentation processes relevant for [particle therapy](https://en.wikipedia.org/wiki/Particle_therapy) and [radiation protection in space](https://www.nasa.gov/sites/default/files/atoms/files/space_radiation_ebook.pdf). These measurements are important to estimate the physical and biological effects of nuclear fragments, which are produced when energetic particle beams penetrate human tissue.
-
 ## The repository
 
-This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). As the trigger manager, he is teaching me many interesting aspects regarding the acquisition trigger of the **FOOT experiment**. 
+This repository contains some material on which I have been working in these months together with my thesis supervisor (Dr. Luca Galli). As the trigger manager, he is teaching me many interesting aspects regarding the acquisition trigger of the [FOOT (FragmentatiOn Of Target)](https://web.infn.it/foot/). 
 
 ## Topics
 
@@ -79,4 +77,5 @@ FOOT
 - Dr. Luca Galli (INFN) (+++++)
 - Prof. Maria Giuseppina Bisogni (INFN) (++++)
 - Dr. Marco Francesconi (INFN) (++)
+- Dr. Matteo Morrocchi  (INFN) (+++)
 - ?
