@@ -1,11 +1,19 @@
-# Git
+# What is Git?
 
-## Web source
-[1] [Git](https://git-scm.com/docs)
-[2] [Git commands](https://www.atlassian.com/git/glossary) 
-[3] [Top 20 Git Commands With Examples](https://dzone.com/articles/top-20-git-commands-with-examples)
+-
+-
+-
+
 
  
+## Useful commands
+ 
+ Web source
+ - [Git](https://git-scm.com/docs)
+ - [Git commands](https://www.atlassian.com/git/glossary) 
+ - [Top 20 Git Commands With Examples](https://dzone.com/articles/top-20-git-commands-with-examples)
+
+
  | Command | Description |
  | --- | --- |
  | `$ git config –global user.name “[name] `                                | sets the author name and email address respectively to be used with your commits |  
