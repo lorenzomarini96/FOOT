@@ -33,32 +33,50 @@ The topics range from **hadrontherapy** to the revelation of charged ions; from 
 # Repo Structure
 
 ```
-FOOT
+FOOT/
+├── appendix
 ├── data_analysis
-│   └── tofwall
-│       ├── analysis
-│       └── figures
+│   ├── calibration_w166
+│   │   ├── figures
+│   │   └── slides
+│   │       ├── figures
+│   │       │   ├── crate_configuration
+│   │       │   └── instruments
+│   │       └── photos
+│   └── tofwall
+│       ├── analysis
+│       └── figures
 ├── figures
 ├── foot_experiment
-│   └── setup
+│   ├── daq
+│   │   └── wavedream
+│   │       └── figures
+│   ├── setup
+│   │   ├── calo
+│   │   │   └── figures
+│   │   ├── start_counter
+│   │   │   └── figures
+│   │   └── tofwall
+│   │       └── figures
+│   └── trigger
 ├── measures
-│   └── calibration_w166
-│       ├── data
-│       ├── figures
-│       ├── instrument
-│       └── slides
-│           ├── figures
-│           │   ├── crate_configuration
-│           │   └── instruments
-│           └── photos
+│   └── calibration_w166
+│       ├── data
+│       ├── figures
+│       ├── instrument
+│       └── slides
+│           ├── figures
+│           │   ├── crate_configuration
+│           │   └── instruments
+│           └── photos
 ├── skills
-│   ├── emacs
-│   ├── git
-│   ├── root
-│   │   └── macro
-│   ├── shell
-│   └── verilog
-│       └── clock
+│   ├── emacs
+│   ├── git
+│   ├── root
+│   │   └── macro
+│   ├── shell
+│   └── verilog
+│       └── clock
 └── trigger
 
 ```
