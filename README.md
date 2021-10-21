@@ -12,8 +12,6 @@ This repository contains some material on which I have been working in these mon
 The topics range from **hadrontherapy** to the revelation of charged ions; from [FPGAs](https://en.wikipedia.org/wiki/Field-programmable_gate_array), [Wavedream](https://www.psi.ch/sites/default/files/import/drs/DocumentationEN/elba15.pdf), and acquisition systems to board firmware and [Verilog](https://en.wikipedia.org/wiki/Verilog) language.
 
 
-Here are some useful links as a reference for basic knowledge and for any further information.
-
 ## Keywords
 
 - Nuclear Physics
@@ -69,6 +67,7 @@ FOOT
 - [x] Neutron Trigger
 - [x] Fragmentation Trigger
 - [x] Calorimeter Trigger
+- [x] TOFwall Trigger
 - [ ] Data acquisition at CNAO
 - [ ] Write Thesis 
 
