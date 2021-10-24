@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "mean_1.C": "cpp",
+        "fit_linear.C": "cpp",
+        "fit1.C": "cpp",
+        "fit_read_file.C": "cpp"
+    }
+}
