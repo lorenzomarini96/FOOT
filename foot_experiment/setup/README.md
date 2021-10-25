@@ -3,7 +3,7 @@
 **Sorce**: 
 1. *Charge identification of nuclear fragments with the FOOT Time-Of-Flight system (A.C. Kraan, R. Zarrella, A. Alexandrov et al./ Nuclear Inst. and Methods in Physics Research, A 1001 (2021) 165206)*
 2. *Fragment charge identification technique with a plastic scintillator detector using clinical carbon beams (L. Galli, A.C. Kraan, E. Ciarrocchi et al.)*
-3.https://docs.google.com/spreadsheets/d/1hk4Tdgfkv0YjdsjldSWQQZtwZSucif55sulnaugNLGw/edit#gid=334484356
+3. https://docs.google.com/spreadsheets/d/1hk4Tdgfkv0YjdsjldSWQQZtwZSucif55sulnaugNLGw/edit#gid=334484356
 
 # Full System
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="900">
