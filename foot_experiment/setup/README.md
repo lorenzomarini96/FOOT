@@ -36,6 +36,9 @@ and is located before the target.
 - The TW, located behind the target, is used to measure the energy loss 𝛥𝐸 of the passing particles and to provide their arrival time.
 - It is made of **40 bars of EJ-200 plastic scintillator** arranged in two orthogonal layers of 20 each (for each layer, we had 20 × 20 = 400 hit positions).
 - Each bar has an active area of 44 × 2 cm^2 and is 3 mm **thick**.
+
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofwall.png" width="800">
+
 - At each end of each bar, the two series of two SiPMs were connected in parallel.
 -
 - The light produced in the bars is collected at each end by **four 3 × 3 mm2 MPPC SiPMs** with 25 μm microcell pitch .
