@@ -19,6 +19,8 @@
     - the *Start Counter* (SC)
     - the *TOF-Wall* (TW).
 
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/DeltaE_TOF.png" width="80">
+
 ### Start Counter
 
 - The SC is used to provide the **rate** of the primary particle beam and
