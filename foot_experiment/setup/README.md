@@ -37,7 +37,7 @@ and is located before the target.
 - It is made of **40 bars of EJ-200 plastic scintillator** arranged in two orthogonal layers of 20 each (for each layer, we had 20 × 20 = 400 hit positions).
 - Each bar has an active area of 44 × 2 cm^2 and is 3 mm **thick**.
 
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofwall.png" width="800">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofwall.png" width="500">
 
 - At each end of each bar, the two series of two SiPMs were connected in parallel.
 -
