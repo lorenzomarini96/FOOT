@@ -68,18 +68,21 @@ and is located before the target.
     - 8 independent analogue channels (connected to 1 WDB) for the SC;
     - 2 channels for each bar of the TW (80 channels and 7 WDBs in total).
     
+## TOF *x*, TOF *y*    
 <p float="left">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofx.png" width="300">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofy.png" width="325">
 </p>
 
 
+## Connection Map (*x*-view, *y*-view)
 <p float="left">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapx.png" width="300">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapy.png" width="313">
 </p>
 
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="300">
+## Full System
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="500">
 
 ## 𝛥E calibration
 - Calibrate the energy response of the detector
