@@ -68,12 +68,10 @@ and is located before the target.
     - 8 independent analogue channels (connected to 1 WDB) for the SC;
     - 2 channels for each bar of the TW (80 channels and 7 WDBs in total).
     
-    
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofx.png" width="400">
-
-
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofy.png" width="400">
-
+<p float="left">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofx.png" width="300">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofy.png" width="300">
+</p>
 
 ## 𝛥E calibration
 - Calibrate the energy response of the detector
