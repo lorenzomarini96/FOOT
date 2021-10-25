@@ -70,7 +70,7 @@ and is located before the target.
     
 <p float="left">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofx.png" width="300">
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofy.png" width="330">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofy.png" width="325">
 </p>
 
 ## 𝛥E calibration
