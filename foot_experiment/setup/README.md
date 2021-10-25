@@ -5,7 +5,7 @@
 2. *Fragment charge identification technique with a plastic scintillator detector using clinical carbon beams (L. Galli, A.C. Kraan, E. Ciarrocchi et al.)*
 
 # Full System
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="800">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="900">
 
 # ∆E-TOF
 
