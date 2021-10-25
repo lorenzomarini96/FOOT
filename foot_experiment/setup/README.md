@@ -35,11 +35,11 @@ and is located before the target.
 - It is made of **40 bars of EJ-200 plastic scintillator** arranged in two orthogonal layers of 20 each (for each layer, we had 20 × 20 = 400 hit positions).
 - Each bar has an active area of 44 × 2 cm^2 and is 3 mm **thick**.
 - At each end of each bar, the two series of two SiPMs were connected in parallel.
-- 
+-
 - The light produced in the bars is collected at each end by **four 3 × 3 mm2 MPPC SiPMs** with 25 μm microcell pitch .
 
 - Each group of four SiPMs provides a **single summed analogical signal** for further processing.
-- - The **output signal** of each side of each bar was input to a waveform digitizer board, WaveDREAM, hosted in the WaveDAQ integrated trigger and data acquisition system.
+- The **output signal** of each side of each bar was input to a waveform digitizer board, WaveDREAM, hosted in the WaveDAQ integrated trigger and data acquisition system.
 - The signals collected by the SiPMs of both detectors are sampled through **WaveDREAM digitizer boards (WDB)**, integrated in the **WaveDAQ system**.
 - Each module end was read out by one channel of the WaveDREAM board, that provided also the **bias voltage** for the SiPMs
 
