@@ -1,51 +1,65 @@
 # Setup
 
-## ∆E-TOF
-
 **Sorce**: 
 1. *Charge identification of nuclear fragments with the FOOT Time-Of-Flight system (A.C. Kraan, R. Zarrella, A. Alexandrov et al./ Nuclear Inst. and Methods in Physics Research, A 1001 (2021) 165206)*
 2. *Fragment charge identification technique with a plastic scintillator detector using clinical carbon beams (L. Galli, A.C. Kraan, E. Ciarrocchi et al.)*
 
 
+## ∆E-TOF
+
 - A crucial component of the FOOT apparatus is the 𝛥𝐸-TOF system, designed to identify the **charge** of the fragments using **plastic scintillators** to measure the **energy** deposited and the **time of flight** with respect to a start counter.
+
 - It is designed to measure energy loss and time- of-flight of nuclear fragments produced in particle collisions in thin targets in order to extract their charge and **velocity**.
+
 - The 𝛥𝐸-TOF system is composed of:
     - a **start counter**, providing the start time for the time-of-flight;
+    
     -  a 40 × 40 cm^2 wall of thin plastic scintillator bars, providing the arrival time and energy loss of the fragments passing through the detector.
+    
 - Particle charge discrimination can be achieved by correlating the energy loss in the scintillator bars with the measured time-of-flight.
+
 - To reach this goal, the system should achieve for such nuclei an **accuracy** in energy loss and TOF measurements of at most 5% and 100 ps, respectively.
 
 - The 𝛥𝐸-TOF system consists of two **scintillation detectors**: 
     - the *Start Counter* (SC)
     - the *TOF-Wall* (TW).
 
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/DeltaE_TOF.png" width="800">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/DeltaE_TOF.png" width="700">
 
 ### Start Counter
 
 - The SC is used to provide the **rate** of the primary particle beam and
 their start time.
+
 - It is the first detector encountered by the beam
 and is located before the target.
+
 -  It utilizes a thin (250 μm) **foil of EJ-228 plastic scintillator** with an active area of 5 × 5 cm^2.
+
 - The light produced in the SC is collected by 8 groups of six 3 × 3 mm^2 ASD- NUV3S-P SiPMs with 25 μm microcell pitch.
+
 - Each group of SiPMs provides a summed **analogical signal**.
 
 ### TOF-Wall 
 
 - The TW, located behind the target, is used to measure the energy loss 𝛥𝐸 of the passing particles and to provide their arrival time.
+
 - It is made of **40 bars of EJ-200 plastic scintillator** arranged in two orthogonal layers of 20 each (for each layer, we had 20 × 20 = 400 hit positions).
+
 - Each bar has an active area of 44 × 2 cm^2 and is 3 mm **thick**.
 
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofwall.png" width="500">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofwall.png" width="400">
 
 - At each end of each bar, the two series of two SiPMs were connected in parallel.
--
+
 - The light produced in the bars is collected at each end by **four 3 × 3 mm2 MPPC SiPMs** with 25 μm microcell pitch .
 
 - Each group of four SiPMs provides a **single summed analogical signal** for further processing.
+
 - The **output signal** of each side of each bar was input to a waveform digitizer board, WaveDREAM, hosted in the WaveDAQ integrated trigger and data acquisition system.
+
 - The signals collected by the SiPMs of both detectors are sampled through **WaveDREAM digitizer boards (WDB)**, integrated in the **WaveDAQ system**.
+
 - Each module end was read out by one channel of the WaveDREAM board, that provided also the **bias voltage** for the SiPMs
 
 - The WDBs can sample up to **16 channels** and also provide the supply voltage to the SiPMs of the detectors.
