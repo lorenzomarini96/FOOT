@@ -76,7 +76,7 @@ and is located before the target.
 
 <p float="left">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapx.png" width="300">
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapy.png" width="300">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapy.png" width="320">
 </p>
 
 ## 𝛥E calibration
