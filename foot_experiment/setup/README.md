@@ -79,6 +79,8 @@ and is located before the target.
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapy.png" width="313">
 </p>
 
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="300">
+
 ## 𝛥E calibration
 - Calibrate the energy response of the detector
 - In order to extract the energy loss of the fragments passing through the 𝛥𝐸-TOF system, the raw values for the energy loss were extracted directly from the TW signals.
