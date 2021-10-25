@@ -51,7 +51,7 @@ and is located before the target.
 
 - Each bar has an active area of 44 × 2 cm^2 and is 3 mm **thick**.
 
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tof.png" width="600">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tof.png" width="500">
 
 - At each end of each bar, the two series of two SiPMs were connected in parallel.
 
