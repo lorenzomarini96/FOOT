@@ -19,7 +19,7 @@
     - the *Start Counter* (SC)
     - the *TOF-Wall* (TW).
 
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/DeltaE_TOF.png" width="150">
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/DeltaE_TOF.png" width="800">
 
 ### Start Counter
 
