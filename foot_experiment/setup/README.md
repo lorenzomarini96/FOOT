@@ -4,8 +4,10 @@
 1. *Charge identification of nuclear fragments with the FOOT Time-Of-Flight system (A.C. Kraan, R. Zarrella, A. Alexandrov et al./ Nuclear Inst. and Methods in Physics Research, A 1001 (2021) 165206)*
 2. *Fragment charge identification technique with a plastic scintillator detector using clinical carbon beams (L. Galli, A.C. Kraan, E. Ciarrocchi et al.)*
 
+# Full System
+<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="500">
 
-## ∆E-TOF
+# ∆E-TOF
 
 - A crucial component of the FOOT apparatus is the 𝛥𝐸-TOF system, designed to identify the **charge** of the fragments using **plastic scintillators** to measure the **energy** deposited and the **time of flight** with respect to a start counter.
 
@@ -26,7 +28,7 @@
 
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/DeltaE_TOF.png" width="700">
 
-### Start Counter
+## Start Counter
 
 - The SC is used to provide the **rate** of the primary particle beam and
 their start time.
@@ -40,7 +42,7 @@ and is located before the target.
 
 - Each group of SiPMs provides a summed **analogical signal**.
 
-### TOF-Wall 
+## TOF-Wall 
 
 - The TW, located behind the target, is used to measure the energy loss 𝛥𝐸 of the passing particles and to provide their arrival time.
 
@@ -68,21 +70,20 @@ and is located before the target.
     - 8 independent analogue channels (connected to 1 WDB) for the SC;
     - 2 channels for each bar of the TW (80 channels and 7 WDBs in total).
     
-## TOF *x*, TOF *y*    
+### TOF *x*, TOF *y*    
 <p float="left">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofx.png" width="300">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/tofy.png" width="325">
 </p>
 
 
-## Connection Map (*x*-view, *y*-view)
+### Connection Map (*x*-view, *y*-view)
 <p float="left">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapx.png" width="300">
 <img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/connection_mapy.png" width="313">
 </p>
 
-## Full System
-<img src="https://github.com/lorenzomarini96/FOOT/blob/main/figures/full_system.png" width="500">
+
 
 ## 𝛥E calibration
 - Calibrate the energy response of the detector
