@@ -62,13 +62,19 @@ Open the linux shell and run the following commands:
 ### Bringing footon files to my computer
 
 | Command | Description |
-| ---                                                                | --- |
-| `scp file.root root@pcfoot:path`     | copy a file with scp (you are on *footon* and on the folder where the file is) |
-| `password`                                                   | Insert password for footon |
-| `(pcfoot) mv file.root /Desktop`     | Move the file from home/Desktop |
+| ---                                                                    | --- |
+| `scp file.root root@pcfoot:[path]`     | copy a file with scp (you are on *footon* and on the folder where the file is) |
+| `password`                                                      | Insert password for footon |
+| `(pcfoot) mv file.root /Desktop`        | Move the file from home/Desktop |
 
 
 
 
+### Small suggestions
 
+1. Remember to insert `/` at the beginning for the path. Example: `/home/Desktop/...`. Otherwise, it cannot find the folder.
 
+2. If you have to copy a lot of files, you should do the following:
+    - create a new folder in which to move all the files of interest:  `.mkdir <folder>`.
+    - `mv <file * .bin> </ folder />`.
+    - copy the entire folder with the command scp: `scp - r <folder> root@pcfoot:[path]` 
