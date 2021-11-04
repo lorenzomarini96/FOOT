@@ -30,6 +30,11 @@
 
 void rec::Loop()
 {
+   // GENERAL INFO
+   Int_t WD = 165;
+   char file_root[20] = "cosmici_tot.root";
+
+
    if (fChain == 0) return;
    Long64_t nentries = fChain->GetEntriesFast();
    Long64_t nbytes = 0, nb = 0;
@@ -37,7 +42,7 @@ void rec::Loop()
    //------------------------------
    // FILE .ROOT TO SAVE HISTOGRAMS
    //------------------------------
-   TFile hfile("WD165.root","RECREATE");
+   TFile hfile("WD165_v2.root","RECREATE");
    gStyle->SetOptFit(10111);
 
    //------------------------------
@@ -85,7 +90,7 @@ void rec::Loop()
    {
       sprintf(name_q,"h_q%d",i);
       sprintf(title_q,"WD165 - Charge WF of ch%d",i);
-      h_q[i] = new TH1F(name_q,title_q,50, 0.0, 100);
+      h_q[i] = new TH1F(name_q,title_q,50, 0.0, 80);
       h_q[i]->GetXaxis()->SetTitle("Charge [a.u.]");
       h_q[i]->GetYaxis()->SetTitle("Entries");
       h_q[i]->SetMarkerStyle(20);
@@ -112,7 +117,7 @@ void rec::Loop()
    {
       sprintf(name_q_tot,"h_q_tot%d",i);
       sprintf(title_q_tot,"WD165 - TOT Charge bar%d",i);
-      h_q_tot[i] = new TH1F(name_q_tot,title_q_tot,50, 0.0, 100);
+      h_q_tot[i] = new TH1F(name_q_tot,title_q_tot,50, 0.0, 60);
       h_q_tot[i]->GetXaxis()->SetTitle("Charge [a.u.]");
       h_q_tot[i]->GetYaxis()->SetTitle("Entries");
       h_q_tot[i]->SetMarkerStyle(20);
@@ -145,14 +150,17 @@ void rec::Loop()
       h_w_min[i]->SetMarkerStyle(20);
       h_w_min[i]->SetMarkerStyle(kFullCircle);
       h_w_min[i]->SetMarkerColor(kBlack);
-      //h_w_min[i]->SetFillColor(kGreen-9);
+      h_w_min[i]->SetFillColor(kGreen-9);
    }
 
    //------------------------------
-   // FILE TO SAVE DATA
+   // FILES TO SAVE DATA
    //------------------------------
    fstream file;
-   file.open("WD165.txt", ios::out);
+   file.open("WD165_v2.txt", ios::out);
+
+   fstream file_qbar;
+   file_qbar.open("WD165_qbar.txt", ios::out);
 
    // NAME COLUMNS
    file << "n_event"<<left<<"\t";
@@ -161,6 +169,13 @@ void rec::Loop()
       file <<"\t" <<"ch" << ch <<left<< setw(14)<< "\t\t";
    }
    file << endl;
+
+   // NAME COLUMNS
+   for (Int_t b=0; b<8; b++)
+   {
+      file_qbar <<"\t" <<"#bar" << b <<left<< setw(14)<< "\t\t";
+   }
+   file_qbar << endl;
 
    //------------------------------
    // LOOP ON ENTRIES
@@ -173,7 +188,13 @@ void rec::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
 
       // NAMEN RAWS
-      file << jentry << "\t";
+      //file << jentry << "\t";
+      //file_qbar << jentry << "\t";
+
+      cout << "\n*********************************************************************************************************************" << endl;
+      cout << "WaveDREAM " << WD << endl;
+      cout << left<<setw(15)<<"Event"<<left<<setw(15)<<"Ch"<<left<<setw(15)<<"Vbase[mV]"<<left<<setw(15)<<"Vmin[mV]"<<left<<setw(15)<<"Vampl[mV]"<<left<<setw(15)<<"Q_L[a.u.]"<<left<<setw(15)<<"Q_R[a.u.]"<<left<<setw(15)<<"Qtot[a.u.]"<<left<<setw(15)<<endl;
+      cout << "*********************************************************************************************************************\n" << endl;
 
       //------------------------------
       // LOOP ON CHANNELS
@@ -183,22 +204,20 @@ void rec::Loop()
          //------------------------------
          // INITIALIZE VALUES
          //------------------------------
-         Double_t wave = 0.;                         // [mV]   INITIALIZE VALUE OF WAVEFORM
-         Double_t w_min = 0;                         // [s]    INITIALIZE COORESPONDING TIME VALUE OF MINIMUM
-         Double_t baseline = 0.;                     // [mV]   INITIALIZE BASELINE VALUE
-         Double_t ampl[11236][16];                   // [mV]   INITIALIZE AMPLITUDE VALUE
-         Double_t new_ampl[11236][16];               // [mV]   INITIALIZE AMPLITUDE VALUE (removed same values)
-         Double_t charge[11236][16];                 // [a.u.] INITIALIZE CHARGE MATRIX (removed same values)
-         Double_t q = 0.;                            // [a.u.] INITIALIZE CHARGE VALUE
-         Double_t min = board165_waveform[ch][300];  // INITIALIZE MIN VALUE (Usually located at 1/3 of range)
-         Double_t q_L = 0.;                          // CHARGE COLLECTED IN LEFT CH OF BAR
-         Double_t q_R = 0.;                          // CHARGE COLLECTED IN  RIGHT CH OF BAR
+         Double_t wave = 0.;                         // [mV]   VALUE OF WAVEFORM
+         Double_t w_min = 0;                         // [s]    COORESPONDING TIME VALUE OF MINIMUM
+         Double_t baseline = 0.;                     // [mV]   BASELINE VALUE
+         Double_t ampl[11236][16];                   // [mV]   AMPLITUDE VALUE
+         Double_t new_ampl[11236][16];               // [mV]   AMPLITUDE VALUE (removed same values)
+         Double_t charge[11236][16];                 // [a.u.] CHARGE MATRIX (removed same values)
+         Double_t q = 0.;                            // [a.u.] CHARGE VALUE
+         Double_t min = board165_waveform[ch][300];  // MIN VALUE (Usually located at 1/3 of range)
          Double_t q_bar_X_TOF[20];                   // ARRAY OF COLLECTED CHARGHE IN BAR OF X-VIEW
          Double_t q_bar_Y_TOF[20];                   // ARRAY OF COLLECTED CHARGHE IN BAR OF Y-VIEW
          //------------------------------
          // LOOP ON SAMPLES OF WAVEFORM
          //------------------------------
-         for (Int_t w=10; w<=800; w++) // Don't 1024 (problem with last component!)
+         for (Int_t w=10; w<=800; w++)
          {
             if (w > 50 && board165_waveform[ch][w] < min)
             {
@@ -206,51 +225,69 @@ void rec::Loop()
                w_min = w;
             }
             // APPROX FIRST 1/3 OF 1024 SAMPLES
-            if (w <= 170) {wave =  wave + board165_waveform[ch][w];}      
+            if (w <= 150) {wave =  wave + board165_waveform[ch][w];}      
          }
 
-         baseline = wave/170;                  // COMPUTE BASELINE  [mV] (mean values of the first 200 bins)
+         baseline = wave/140;                  // COMPUTE BASELINE  [mV] (mean values 150-10=140 bins)
          ampl[jentry][ch] = baseline - min;    // COMPUTE AMPLITUDE [mV]
-         
-         for (Int_t w=250; w<570; w++)
-         {
-            //q += (board167_time[ch][w]-board167_time[ch][w-1])*ampl[jentry][ch];
-            q += ampl[jentry][ch];
-         }
 
-         charge[jentry][ch] = q;               // COMPUTE CHARGE    [a.u.]
-
-         if (ch%2!=0) // IF CHANNEL IS ODD
-         {
-            // COMPUTE TOT CHARGE COLLECTED IN A BAR
-            q_bar_X_TOF[ch/2] = sqrt(charge[jentry][ch] * charge[jentry][ch-1]); 
-         }
-
-
-         if (jentry > 0 && ampl[jentry][ch]-ampl[jentry-1][ch]<0.001)
-         {
+         if (jentry > 0 && abs(ampl[jentry][ch]-ampl[jentry-1][ch])<0.00001) // SOLVE PROBLEM OF REPEATED WF?
+         {  
+            // DO NOT CONSIDER THE EVENT
             new_ampl[jentry][ch] = 0.;
+            baseline             = 0.;
+            min                  = 0.;
+            w_min                = 0;
+            q                    = 0.;
+            charge[jentry][ch]   = 0.;
+            q_bar_X_TOF[ch/2]    = 0.;
          }
          else
          {
             new_ampl[jentry][ch] = ampl[jentry][ch];
 
+            for (Int_t w=250; w<570; w++)
+            {
+               //q += (board167_time[ch][w]-board167_time[ch][w-1])*ampl[jentry][ch];
+               //q += ampl[jentry][ch];
+               q += (baseline - board165_waveform[ch][w]);
+            }
+            charge[jentry][ch] = q;  // COMPUTE CHARGE [a.u.]
+         
             //------------------------------
             // FILLING HISTOGRAMS
             //------------------------------
-            h_ampl[ch]->Fill(new_ampl[jentry][ch]);
-            h_w_min[ch]->Fill(w_min);
-            h_q[ch]->Fill(charge[jentry][ch]);
-            if (ch%2!=0) {h_q_tot[ch/2]->Fill(q_bar_X_TOF[ch/2]);}
+            if (new_ampl[jentry][ch] > 0. && charge[jentry][ch]>0.)
+            {
+               h_ampl[ch]->Fill(new_ampl[jentry][ch]);
+               h_q[ch]->Fill(charge[jentry][ch]);   
+            }
+            //h_w_min[ch]->Fill(w_min);
+
+            if (ch%2!=0 && charge[jentry][ch]>0.)
+            {
+               q_bar_X_TOF[ch/2] = sqrt(charge[jentry][ch] * charge[jentry][ch-1]); // COMPUTE TOT CHARGE COLLECTED IN A BAR
+               h_q_tot[ch/2]->Fill(q_bar_X_TOF[ch/2]);
+            }
          }
       
-         file << "\t\t" <<left<< setw(10) << new_ampl[jentry][ch] << "\t\t";
+         file << "\t\t" <<left<< setw(10) << ampl[jentry][ch] << "\t\t";
 
 
          //--------------------------------------------------------
          // PRINT
          //--------------------------------------------------------
-         if (1) // 0 = no print; 1 = print.
+         if (ch%2==0)
+         { 
+            cout << left<< setw(15) << jentry <<left<< setw(15) << ch <<left<< setw(15) << baseline <<left<< setw(15) << min <<left<< setw(15) << new_ampl[jentry][ch]<< setw(15) << charge[jentry][ch] <<left<< setw(15) <<"   " <<left<< setw(15) << "   " <<left<< setw(15) << endl;
+         }
+         else
+         {
+            cout << left<< setw(15) << jentry <<left<< setw(15) << ch <<left<< setw(15) << baseline <<left<< setw(15) << min <<left<< setw(15) << new_ampl[jentry][ch]<< setw(15) << "   " <<left<< setw(15) << charge[jentry][ch] <<left<< setw(15) << q_bar_X_TOF[ch/2] <<left<< setw(15) << endl;
+         }
+        
+        
+         if (0) // 0 = no print; 1 = print.
          {
             cout << "\n-------------------------------\n"                << endl;
             cout << "# Event                = " << jentry                << endl;
@@ -258,8 +295,7 @@ void rec::Loop()
             cout << "# Minimum       [mV]   = " << min                   << endl;
             cout << "# Min position  [a.u.] = " << w_min                 << endl;
             cout << "# Baseline      [mV]   = " << baseline              << endl;
-            cout << "# Amplitude     [mV]   = " << ampl[jentry][ch]      << endl;
-            cout << "# NEW Amplitude [mV]   = " << new_ampl[jentry][ch]  << endl;
+            cout << "# Amplitude     [mV]   = " << new_ampl[jentry][ch]  << endl;
             if (ch%2==0){cout << "# Charge_L      [a.u.] = " << charge[jentry][ch] << endl;}
             else {cout << "# Charge_R      [a.u.] = " << charge[jentry][ch] << endl;}
             if (ch%2!=0)
@@ -281,12 +317,13 @@ void rec::Loop()
    for (int ch=0; ch<16; ch++)
    {  
       // AMPLITUDE
-      h_ampl[ch]->Fit("landau", "Q");
       h_ampl[ch]->Draw("E");
+      h_ampl[ch]->Fit("landau", "Q");
+      //h_ampl[ch]->Draw("E");
 
       // MINIMUM POSITION
-      h_w_min[ch]->Fit("gaus", "Q");
-      h_w_min[ch]->Draw("E");
+      //h_w_min[ch]->Fit("gaus", "Q");
+      //h_w_min[ch]->Draw("E");
 
       // CHARGE
       h_q[ch]->Fit("landau", "Q");
