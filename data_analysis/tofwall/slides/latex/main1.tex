@@ -11,7 +11,6 @@
 	\input{title_page.tex}
 
 \begin{document}
-
 	\setbeamertemplate{page number in head/foot}[totalframenumber] 
 	\frame{\titlepage}
 
@@ -20,13 +19,11 @@
 	%---------------------------------------------------------------------------------------------
 	\input{tableofcontents.tex}
 
-
 	%---------------------------------------------------------------------------------------------
 	%  TOF-WALL DETECTOR
 	%---------------------------------------------------------------------------------------------
 	\section{TOF-wall detector}
 		\input{tof_wall_detect.tex}
-
 
 	%---------------------------------------------------------------------------------------------
 	%  EXPERIMENTAL SETUP
@@ -34,15 +31,26 @@
 	\section{Experimental setup}
 		\input{experimental_setup.tex}
 		\input{experimental_setup2.tex}
+		\input{daq1.tex}
+		
 	%---------------------------------------------------------------------------------------------
-	%  
+	%  DATA ANALYSIS
 	%---------------------------------------------------------------------------------------------
-	\section{Prova}
-		\input{model.tex}
-		\input{model_2.tex}
+	\section{Data analysis}
+		\subsection{Flowchart}
+			\input{flowchart.tex}
+		\subsection{Amplitude}
+			\input{amplitude_165.tex}
+			\input{amplitude_165_2.tex}
+		\subsection{Charge}
+			\input{charge1.tex}
+			\input{charge2.tex}
+		\subsection{Hitmap}
+			\input{hit_map1.tex}
+
 	%---------------------------------------------------------------------------------------------
 	%  BIBLIOGRAPHY
-	%----	-----------------------------------------------------------------------------------------
+	%---------------------------------------------------------------------------------------------
 		%\input{thebibliography.tex}
 
 \end{document}

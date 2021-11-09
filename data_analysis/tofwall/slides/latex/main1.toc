@@ -1,3 +1,7 @@
 \beamer@sectionintoc {1}{TOF-wall detector}{3}{0}{1}
 \beamer@sectionintoc {2}{Experimental setup}{4}{0}{2}
-\beamer@sectionintoc {3}{Prova}{6}{0}{3}
+\beamer@sectionintoc {3}{Data analysis}{7}{0}{3}
+\beamer@subsectionintoc {3}{1}{Flowchart}{7}{0}{3}
+\beamer@subsectionintoc {3}{2}{Amplitude}{8}{0}{3}
+\beamer@subsectionintoc {3}{3}{Charge}{10}{0}{3}
+\beamer@subsectionintoc {3}{4}{Hitmap}{12}{0}{3}
