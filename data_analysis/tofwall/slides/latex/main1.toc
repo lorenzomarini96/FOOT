@@ -1,7 +1,8 @@
-\beamer@sectionintoc {1}{TOF-wall detector}{3}{0}{1}
-\beamer@sectionintoc {2}{Experimental setup}{4}{0}{2}
-\beamer@sectionintoc {3}{Data analysis}{7}{0}{3}
-\beamer@subsectionintoc {3}{1}{Flowchart}{7}{0}{3}
-\beamer@subsectionintoc {3}{2}{Amplitude}{8}{0}{3}
-\beamer@subsectionintoc {3}{3}{Charge}{10}{0}{3}
-\beamer@subsectionintoc {3}{4}{Hitmap}{12}{0}{3}
+\beamer@sectionintoc {1}{Experimental setup}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{TOF-wall detector}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Data acquisition}{6}{0}{1}
+\beamer@sectionintoc {2}{Data analysis}{7}{0}{2}
+\beamer@subsectionintoc {2}{1}{Flowchart}{7}{0}{2}
+\beamer@subsectionintoc {2}{2}{Amplitude}{8}{0}{2}
+\beamer@subsectionintoc {2}{3}{Charge}{10}{0}{2}
+\beamer@subsectionintoc {2}{4}{Hitmap}{12}{0}{2}

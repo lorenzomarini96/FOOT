@@ -20,18 +20,15 @@
 	\input{tableofcontents.tex}
 
 	%---------------------------------------------------------------------------------------------
-	%  TOF-WALL DETECTOR
-	%---------------------------------------------------------------------------------------------
-	\section{TOF-wall detector}
-		\input{tof_wall_detect.tex}
-
-	%---------------------------------------------------------------------------------------------
 	%  EXPERIMENTAL SETUP
 	%---------------------------------------------------------------------------------------------
 	\section{Experimental setup}
-		\input{experimental_setup.tex}
-		\input{experimental_setup2.tex}
-		\input{daq1.tex}
+		\subsection{TOF-wall detector}
+			\input{tof_wall_detect.tex}
+			\input{experimental_setup.tex}
+			\input{experimental_setup2.tex}
+		\subsection{Data acquisition}
+			\input{daq1.tex}
 		
 	%---------------------------------------------------------------------------------------------
 	%  DATA ANALYSIS
@@ -51,6 +48,6 @@
 	%---------------------------------------------------------------------------------------------
 	%  BIBLIOGRAPHY
 	%---------------------------------------------------------------------------------------------
-		%\input{thebibliography.tex}
+		\input{thebibliography.tex}
 
 \end{document}

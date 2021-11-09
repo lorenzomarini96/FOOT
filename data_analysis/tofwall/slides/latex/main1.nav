@@ -4,43 +4,46 @@
 \headcommand {\beamer@framepages {2}{2}}
 \headcommand {\beamer@sectionpages {1}{2}}
 \headcommand {\beamer@subsectionpages {1}{2}}
-\headcommand {\sectionentry {1}{TOF-wall detector}{3}{TOF-wall detector}{0}}
-\headcommand {\slideentry {1}{0}{1}{3/3}{}{0}}
+\headcommand {\sectionentry {1}{Experimental setup}{3}{Experimental setup}{0}}
+\headcommand {\beamer@subsectionpages {3}{2}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{TOF-wall detector}}
+\headcommand {\slideentry {1}{1}{1}{3/3}{TOF-wall detector}{0}}
 \headcommand {\beamer@framepages {3}{3}}
-\headcommand {\beamer@sectionpages {3}{3}}
-\headcommand {\beamer@subsectionpages {3}{3}}
-\headcommand {\sectionentry {2}{Experimental setup}{4}{Experimental setup}{0}}
-\headcommand {\slideentry {2}{0}{1}{4/4}{}{0}}
+\headcommand {\slideentry {1}{1}{2}{4/4}{TOF-wall detector}{0}}
 \headcommand {\beamer@framepages {4}{4}}
-\headcommand {\slideentry {2}{0}{2}{5/5}{}{0}}
+\headcommand {\slideentry {1}{1}{3}{5/5}{TOF-wall detector}{0}}
 \headcommand {\beamer@framepages {5}{5}}
-\headcommand {\slideentry {2}{0}{3}{6/6}{}{0}}
+\headcommand {\beamer@subsectionpages {3}{5}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{6}{Data acquisition}}
+\headcommand {\slideentry {1}{2}{1}{6/6}{Data acquisition}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\beamer@sectionpages {4}{6}}
-\headcommand {\beamer@subsectionpages {4}{6}}
-\headcommand {\sectionentry {3}{Data analysis}{7}{Data analysis}{0}}
+\headcommand {\beamer@sectionpages {3}{6}}
+\headcommand {\beamer@subsectionpages {6}{6}}
+\headcommand {\sectionentry {2}{Data analysis}{7}{Data analysis}{0}}
 \headcommand {\beamer@subsectionpages {7}{6}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{7}{Flowchart}}
-\headcommand {\slideentry {3}{1}{1}{7/7}{Flowchart}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{7}{Flowchart}}
+\headcommand {\slideentry {2}{1}{1}{7/7}{Flowchart}{0}}
 \headcommand {\beamer@framepages {7}{7}}
 \headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{8}{Amplitude}}
-\headcommand {\slideentry {3}{2}{1}{8/8}{Amplitude}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{8}{Amplitude}}
+\headcommand {\slideentry {2}{2}{1}{8/8}{Amplitude}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {3}{2}{2}{9/9}{Amplitude}{0}}
+\headcommand {\slideentry {2}{2}{2}{9/9}{Amplitude}{0}}
 \headcommand {\beamer@framepages {9}{9}}
 \headcommand {\beamer@subsectionpages {8}{9}}
-\headcommand {\beamer@subsectionentry {0}{3}{3}{10}{Charge}}
-\headcommand {\slideentry {3}{3}{1}{10/10}{Charge}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{10}{Charge}}
+\headcommand {\slideentry {2}{3}{1}{10/10}{Charge}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\slideentry {3}{3}{2}{11/11}{Charge}{0}}
+\headcommand {\slideentry {2}{3}{2}{11/11}{Charge}{0}}
 \headcommand {\beamer@framepages {11}{11}}
 \headcommand {\beamer@subsectionpages {10}{11}}
-\headcommand {\beamer@subsectionentry {0}{3}{4}{12}{Hitmap}}
-\headcommand {\slideentry {3}{4}{1}{12/12}{Hitmap}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{4}{12}{Hitmap}}
+\headcommand {\slideentry {2}{4}{1}{12/12}{Hitmap}{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\beamer@partpages {1}{12}}
-\headcommand {\beamer@subsectionpages {12}{12}}
-\headcommand {\beamer@sectionpages {7}{12}}
-\headcommand {\beamer@documentpages {12}}
-\headcommand {\gdef \inserttotalframenumber {12}}
+\headcommand {\slideentry {2}{4}{2}{13/13}{Hitmap}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@partpages {1}{13}}
+\headcommand {\beamer@subsectionpages {12}{13}}
+\headcommand {\beamer@sectionpages {7}{13}}
+\headcommand {\beamer@documentpages {13}}
+\headcommand {\gdef \inserttotalframenumber {13}}
