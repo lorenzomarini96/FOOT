@@ -3,6 +3,7 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+#include <stdlib.h>
 
 
 
@@ -34,9 +35,9 @@ void rec::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
 
       /*
-      cout << "**************************" << endl;
-      cout << "Entry " << jentry << endl;
-      cout << "**************************" << endl;
+      std::cout << "**************************" << std::endl;
+      std::cout << "Entry " << jentry << endl;
+      std::cout << "**************************" << std::endl;
       */
       // INIT VALUES
       Int_t bar_TOF_X = -1;
@@ -90,10 +91,10 @@ void rec::Loop()
                else if (ch==14) bar_TOF_X = 7;
                else if (ch==15) bar_TOF_X = 7;
                /*
-               cout << "WD 165" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_165[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_X << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 165" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_165[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_X << endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }
          }
@@ -134,10 +135,10 @@ void rec::Loop()
                else if (ch==4) bar_TOF_X = 10;
                else if (ch==5) bar_TOF_X = 10;
                /*
-               cout << "WD 166" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_166[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_X << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 166" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_166[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_X << std::endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }                    
          }  
@@ -188,10 +189,10 @@ void rec::Loop()
                else if (ch==14) bar_TOF_X = 18;
                else if (ch==15) bar_TOF_X = 18;
                /*
-               cout << "WD 157" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_157[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_X << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 157" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_157[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_X << std::endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }
          }
@@ -228,10 +229,10 @@ void rec::Loop()
                if (ch==4) bar_TOF_X = 19;
                else if (ch==5) bar_TOF_X = 19;
                /*
-               cout << "WD 158" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_158[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_X << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 158" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_158[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_X << std::endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }
          }
@@ -281,10 +282,10 @@ void rec::Loop()
                else if (ch==14) bar_TOF_Y = 26;
                else if (ch==15) bar_TOF_Y = 26;
                /*
-               cout << "WD 167" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_167[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_Y << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 167" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_167[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_Y << std::endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }
          }
@@ -336,10 +337,10 @@ void rec::Loop()
                else if (ch==14) bar_TOF_Y = 37;
                else if (ch==15) bar_TOF_Y = 37;
                /*
-               cout << "WD 168" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_168[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_Y << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 168" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_168[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_Y << std::endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }
          }
@@ -382,10 +383,10 @@ void rec::Loop()
                else if (ch==10) bar_TOF_Y = 30;
                else if (ch==11) bar_TOF_Y = 30;
                /*
-               cout << "WD 166" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_166[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_Y << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 166" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_166[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_Y << std::endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }
          }
@@ -426,10 +427,10 @@ void rec::Loop()
                else if (ch==2) bar_TOF_Y = 39;
                else if (ch==3) bar_TOF_Y = 39;
                /*
-               cout << "WD 158" << endl;
-               cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_158[jentry][ch] << endl;
-               cout << "Barra = " << bar_TOF_Y << endl;
-               cout << "------------------------------\n" << endl;
+               std::cout << "WD 158" << std::endl;
+               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_158[jentry][ch] << std::endl;
+               std::cout << "Barra = " << bar_TOF_Y << std::endl;
+               std::cout << "------------------------------\n" << std::endl;
                */
             }
          }
@@ -440,7 +441,7 @@ void rec::Loop()
          hist->Fill(bar_TOF_X, bar_TOF_Y);
       }
       else {
-         //cout << "No Match X-Y Bar for event # " << jentry << endl;
+         //std::cout << "No Match X-Y Bar for event # " << jentry << endl;
       }
    
    }// END LOOP ON ENTRIES
