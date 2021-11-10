@@ -12,15 +12,22 @@ void rec::Loop()
    Long64_t nentries = fChain->GetEntriesFast();
    Long64_t nbytes = 0, nb = 0;
 
+   gStyle->SetOptStat(0);
+   gStyle->SetPadGridX(kTRUE); // draw horizontal and vertical grids
+   gStyle->SetPadGridY(kTRUE);
+
    //**************************************
    // CANVAS
    //**************************************
    TCanvas *c1 = new TCanvas("c1", "hitmap",600,600);
    c1->SetTickx();
    c1->SetTicky();
-   c1->SetLeftMargin(0.15);
+   //c1->SetGridx(); // set the grid
+   //c1->SetGridy();
+   //c1->SetGrid();
+   
 
-   gStyle->SetOptStat(0);
+   c1->SetLeftMargin(0.15);
 
    //**************************************
    // HISTOGRAM
@@ -367,10 +374,10 @@ void rec::Loop()
    
    }// END LOOP ON ENTRIES
    hist->GetXaxis()->SetTitle("FronBar, LayerX");
-   //hist->GetXaxis()->SetRangeUser(0, 19);
+   hist->SetNdivisions(20,"X");
    hist->GetYaxis()->SetTitle("RearBar, LayerY");
-   //hist->GetYaxis()->SetRangeUser(20, 39);
+   hist->SetNdivisions(20,"Y");
    hist->GetZaxis()->SetTitle("# hits");
-   //hist->SetBarOffset(-0.5);
-   hist->Draw("colz");
+   hist->Draw("colz TEXT0 SAME");//https://root.cern.ch/doc/v608/classTHistPainter.html#HP15
+   //hist->Draw("colz");
 }
