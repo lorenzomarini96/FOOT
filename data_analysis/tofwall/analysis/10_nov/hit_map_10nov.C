@@ -20,6 +20,8 @@ void rec::Loop()
    c1->SetTicky();
    c1->SetLeftMargin(0.15);
 
+   gStyle->SetOptStat(0);
+
    //**************************************
    // HISTOGRAM
    //**************************************
