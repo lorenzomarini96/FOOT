@@ -13,8 +13,8 @@ void rec::Loop()
    Long64_t nbytes = 0, nb = 0;
 
    gStyle->SetOptStat(0);
-   gStyle->SetPadGridX(kTRUE); // draw horizontal and vertical grids
-   gStyle->SetPadGridY(kTRUE);
+   //gStyle->SetPadGridX(kTRUE); 
+   //gStyle->SetPadGridY(kTRUE);
 
    //**************************************
    // CANVAS
@@ -58,9 +58,11 @@ void rec::Loop()
       std::cout << "\n**************************\n" << std::endl;
       
       // INIT VALUES
-      Int_t bar_TOF_X = -1;
-      Int_t bar_TOF_Y = -1;
-      Double_t f_CFD = 0.3; // FRACTION FOR COMPUTE THE TIME 
+      Int_t bar_TOF_X = -1;         // NUMBER OF THE BAR (X-VIEW)
+      Int_t bar_TOF_Y = -1;         // NUMBER OF THE BAR (Y-VIEW)
+      Double_t f_CFD = 0.3;         // FRACTION FOR COMPUTE THE TIME
+      Double_t mean_time_X = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (X-VIEW)
+      Double_t mean_time_Y = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (Y-VIEW)
 
       //********************************************************************
       // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)
@@ -76,7 +78,7 @@ void rec::Loop()
             Double_t v_base_165 = 0.;                          // V BASELINE (PEDESTAL) [mV]
             Double_t v_ampl_165[16];                           // V AMPLITUDE OF CHANNEL [mV]
             Double_t v_peak_165 = board165_waveform[ch][300];  // V MINIMUM (PEAK) [mV]
-            Double_t v_th;                                     // V THRESHOLD [mV]
+            Double_t v_th_165;                                 // V THRESHOLD [mV]
             Double_t time_165[16];                             // TIME OF WF OF CHANNEL [a.u.]
             Double_t delta_time_165[8];                        // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_165[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
@@ -90,30 +92,27 @@ void rec::Loop()
                if (t <= 150) voltage_165 =  voltage_165 + board165_waveform[ch][t];
             }
  
-            v_base_165 = voltage_165/140;                          // V BASELINE
-            v_th = v_base_165 - f_CFD * (v_base_165 - v_peak_165); // V THRESHOLD
-            v_ampl_165[ch] = v_base_165 - v_peak_165;              // V AMPLITUDE
+            v_base_165 = voltage_165/140;                              // V BASELINE
+            v_th_165 = v_base_165 - f_CFD * (v_base_165 - v_peak_165); // V THRESHOLD
+            v_ampl_165[ch] = v_base_165 - v_peak_165;                  // V AMPLITUDE
 
             // TIME OF CHANNEL
             for (Int_t t=10; t<900; t++) {
-               if (board165_waveform[ch][t] == v_th) time_165[ch] = t;
-               else if (board165_waveform[ch][t] < v_th) time_165[ch] = (t+(t-1))/2;  // time_165[ch] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+               if (board165_waveform[ch][t] == v_th_165) time_165[ch] = t;
+               else if (board165_waveform[ch][t] < v_th_165) time_165[ch] = (t+(t-1))/2;  // time_165[ch] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
             }
 
-            // CHARGHE OF CHANNEL
             for (Int_t t=250; t<570; t++) {      
-               q_165[ch] += (v_base_165 - board165_waveform[ch][t]);
+               q_165[ch] += (v_base_165 - board165_waveform[ch][t]);     // CHARGHE OF CHANNEL
             }
    
-            // CHARGHE OF BAR
             if (ch%2!=0) {
-               q_bar_165[ch/2] = sqrt(q_165[ch] * q_165[ch-1]); 
+               q_bar_165[ch/2] = sqrt(q_165[ch] * q_165[ch-1]);          // CHARGHE OF BAR
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
-            // MEAN TIME OF BAR
             if (ch%2!=0) {
-               mean_time_165[ch/2] = (time_165[ch] + time_165[ch-1])/2; 
+               mean_time_165[ch/2] = (time_165[ch] + time_165[ch-1])/2;  // MEAN TIME OF BAR
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
@@ -148,14 +147,14 @@ void rec::Loop()
             std::cout << "-----------------------------"          << std::endl;
             std::cout << "\nv_base_165      = " << v_base_165     << std::endl;
             std::cout << "\nv_peak_165      = " << v_peak_165     << std::endl;
-            std::cout << "\nv_th            = " << v_th           << std::endl;
+            std::cout << "\nv_th_165        = " << v_th_165       << std::endl;
             std::cout << "\ntime_165        = " << time_165[ch]   << std::endl;
             std::cout << "\nv_ampl_165      = " << v_ampl_165[ch] << std::endl;
             std::cout << "\nq_165           = " << q_165[ch]      << std::endl;
             std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
              if (ch%2!=0) {
                 std::cout << "\n-----------------------------"              << std::endl;
-                std::cout << "\ndelta_time_165  = " << time_165[ch/2]       << std::endl;
+                std::cout << "\ndelta_time_165  = " << delta_time_165[ch/2] << std::endl;
                 std::cout << "\nq_bar_165       = " << q_bar_165[ch/2]      << std::endl;
                 std::cout << "\nmean_time_165   = " << mean_time_165[ch/2]  << std::endl;
                 std::cout << "\n-----------------------------"              << std::endl;
@@ -167,48 +166,94 @@ void rec::Loop()
       // WAVEDREAM 166 - X VIEW (BAR 8 TO 10); Y VIEW (BAR 28 to 30)
       //********************************************************************
 
-      for (Int_t ch=0; ch<12; ch++){
-
-         // INITIALIZE VALUES
-         Double_t voltage_166 = 0.;                         
-         Double_t baseline_166 = 0.;                     
-         Double_t ampl_166[nentries][16];                                  
-         Double_t min_166 = board166_waveform[ch][300];  
+      // LOOP ON CHANNELS OF WAVEDREAM
+      for (Int_t ch=0; ch<16; ch++) {
          
-         // LOOP ON SAMPLES OF WAVEFORM
-         for (Int_t v=10; v<800; v++){
+         if (board166_hit[ch] == 1) {
 
-            if (v > 50 && board166_waveform[ch][v] < min_166){min_166 = board166_waveform[ch][v];}
-            // APPROX FIRST 1/3 OF 1024 SAMPLES
-            if (v <= 150) {voltage_166 =  voltage_166 + board166_waveform[ch][v];}      
-         }
-         baseline_166 = voltage_166/140;
+            // INITIALIZE VALUES
+            Double_t voltage_166 = 0.;                         
+            Double_t v_base_166 = 0.;                          // V BASELINE (PEDESTAL) [mV]
+            Double_t v_ampl_166[16];                           // V AMPLITUDE OF CHANNEL [mV]
+            Double_t v_peak_166 = board166_waveform[ch][300];  // V MINIMUM (PEAK) [mV]
+            Double_t v_th_166;                                 // V THRESHOLD [mV]
+            Double_t time_166[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            Double_t delta_time_166[8];                        // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t mean_time_166[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+            Double_t q_166[16];                                // CHARGE OF CHANNEL [a.u.]
+            Double_t q_bar_166[8];                             // CHARGE OF CHARGE [a.u.]
+            
+            // V PEAK (MINIMUM)
+            for (Int_t t=10; t<800; t++) {// LOOP ON SAMPLES OF WAVEFORM
+               if (t > 50 && board166_waveform[ch][t] < v_peak_166) v_peak_166 = board166_waveform[ch][t];
+               // APPROX FIRST 1/3 OF 1024 SAMPLES
+               if (t <= 150) voltage_166 =  voltage_166 + board166_waveform[ch][t];
+            }
+ 
+            v_base_166 = voltage_166/140;                              // V BASELINE
+            v_th_166 = v_base_166 - f_CFD * (v_base_166 - v_peak_166); // V THRESHOLD
+            v_ampl_166[ch] = v_base_166 - v_peak_166;                  // V AMPLITUDE
 
-         // AMPLITUDE (EVENTO J-ESIMO, CANALE CH)    
-         ampl_166[jentry][ch] = baseline_166 - min_166;  
+            // TIME OF CHANNEL
+            for (Int_t t=10; t<900; t++) {
+               if (board166_waveform[ch][t] == v_th_166) time_166[ch] = t;
+               else if (board166_waveform[ch][t] < v_th_166) time_166[ch] = (t+(t-1))/2;  // time_165[ch] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+            }
+
+            // CHARGHE OF CHANNEL
+            for (Int_t t=250; t<570; t++) {      
+               q_166[ch] += (v_base_166 - board166_waveform[ch][t]);
+            }
+   
+            // CHARGHE OF BAR
+            if (ch%2!=0) {
+               q_bar_166[ch/2] = sqrt(q_166[ch] * q_166[ch-1]); 
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            // MEAN TIME OF BAR
+            if (ch%2!=0) {
+               mean_time_166[ch/2] = (time_166[ch] + time_166[ch-1])/2; 
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            // DELTA TIME OF BAR
+            if (ch%2!=0) {
+               delta_time_166[ch/2] = time_166[ch] - time_166[ch-1]; // QUALCOSA NO VA...
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
          
-         if (board166_hit[ch] == 1 && ampl_166[jentry][ch] > 0.020)
-         {
-            if (1)
-            {
-               if (ch==0) bar_TOF_X = 8;
-               else if (ch==1) bar_TOF_X = 8;
-               else if (ch==2) bar_TOF_X = 9;
-               else if (ch==3) bar_TOF_X = 9;
-               else if (ch==4) bar_TOF_X = 10;
-               else if (ch==5) bar_TOF_X = 10;
-               else if (ch==6) bar_TOF_Y = 28;
-               else if (ch==7) bar_TOF_Y = 28;
-               else if (ch==8) bar_TOF_Y = 29;
-               else if (ch==9) bar_TOF_Y = 29;
-               else if (ch==10) bar_TOF_Y = 30;
-               else if (ch==11) bar_TOF_Y = 30;
-               /*
-               std::cout << "WD 166" << std::endl;
-               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_166[jentry][ch] << std::endl;
-               std::cout << "Barra = " << bar_TOF_X << std::endl;
-               std::cout << "------------------------------\n" << std::endl;
-               */
+            if (ch==0) bar_TOF_X = 8;
+            else if (ch==1) bar_TOF_X = 8;
+            else if (ch==2) bar_TOF_X = 9;
+            else if (ch==3) bar_TOF_X = 9;
+            else if (ch==4) bar_TOF_X = 10;
+            else if (ch==5) bar_TOF_X = 10;
+
+            else if (ch==6) bar_TOF_Y = 28;
+            else if (ch==7) bar_TOF_Y = 28;
+            else if (ch==8) bar_TOF_Y = 29;
+            else if (ch==9) bar_TOF_Y = 29;
+            else if (ch==10) bar_TOF_Y = 30;
+            else if (ch==11) bar_TOF_Y = 30;
+   
+            std::cout << "\nWD 166"                               << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "Ch                = " << ch             << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "\nv_base_166      = " << v_base_166     << std::endl;
+            std::cout << "\nv_peak_166      = " << v_peak_166     << std::endl;
+            std::cout << "\nv_th_166        = " << v_th_166       << std::endl;
+            std::cout << "\ntime_166        = " << time_166[ch]   << std::endl;
+            std::cout << "\nv_ampl_166      = " << v_ampl_166[ch] << std::endl;
+            std::cout << "\nq_166           = " << q_166[ch]      << std::endl;
+            std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
+             if (ch%2!=0) {
+                std::cout << "\n-----------------------------"              << std::endl;
+                std::cout << "\ndelta_time_166  = " << delta_time_166[ch/2] << std::endl;
+                std::cout << "\nq_bar_166       = " << q_bar_166[ch/2]      << std::endl;
+                std::cout << "\nmean_time_166   = " << mean_time_166[ch/2]  << std::endl;
+                std::cout << "\n-----------------------------"              << std::endl;
             }                    
          }  
       }// END LOOP ON CHANNEL
@@ -217,52 +262,94 @@ void rec::Loop()
       // WAVEDREAM 170 - X VIEW (BAR 11 TO 18)
       //********************************************************************
 
-      for (Int_t ch=0; ch<16; ch++){
+      // LOOP ON CHANNELS OF WAVEDREAM
+      for (Int_t ch=0; ch<16; ch++) {
+         
+         if (board170_hit[ch] == 1) {
 
-         // INITIALIZE VALUES
-         Double_t voltage_170 = 0.;                         
-         Double_t baseline_170 = 0.;                     
-         Double_t ampl_170[nentries][16];                   
-         Double_t min_170 = board170_waveform[ch][300];  
-         
-         // LOOP ON SAMPLES OF WAVEFORM
-         for (Int_t v=10; v<800; v++){
-         
-            if (v > 50 && board170_waveform[ch][v] < min_170){min_170 = board170_waveform[ch][v];}
-            // APPROX FIRST 1/3 OF 1024 SAMPLES
-            if (v <= 150) {voltage_170 =  voltage_170 + board170_waveform[ch][v];}      
-         }
-         baseline_170 = voltage_170/140;
+            // INITIALIZE VALUES
+            Double_t voltage_170 = 0.;                         
+            Double_t v_base_170 = 0.;                          // V BASELINE (PEDESTAL) [mV]
+            Double_t v_ampl_170[16];                           // V AMPLITUDE OF CHANNEL [mV]
+            Double_t v_peak_170 = board170_waveform[ch][300];  // V MINIMUM (PEAK) [mV]
+            Double_t v_th_170;                                 // V THRESHOLD [mV]
+            Double_t time_170[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            Double_t delta_time_170[8];                        // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t mean_time_170[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+            Double_t q_170[16];                                // CHARGE OF CHANNEL [a.u.]
+            Double_t q_bar_170[8];                             // CHARGE OF CHARGE [a.u.]
+            
+            // V PEAK (MINIMUM)
+            for (Int_t t=10; t<800; t++) {// LOOP ON SAMPLES OF WAVEFORM
+               if (t > 50 && board170_waveform[ch][t] < v_peak_170) v_peak_170 = board170_waveform[ch][t];
+               // APPROX FIRST 1/3 OF 1024 SAMPLES
+               if (t <= 150) voltage_170 =  voltage_170 + board170_waveform[ch][t];
+            }
+ 
+            v_base_170 = voltage_170/140;                              // V BASELINE
+            v_th_170 = v_base_170 - f_CFD * (v_base_170 - v_peak_170); // V THRESHOLD
+            v_ampl_170[ch] = v_base_170 - v_peak_170;                  // V AMPLITUDE
 
-         // AMPLITUDE (EVENTO J-ESIMO, CANALE CH)    
-         ampl_170[jentry][ch] = baseline_170 - min_170;
-         
-         if (board170_hit[ch] == 1)
-         {
-            if (1)
-            {  
-               if (ch==0) bar_TOF_X = 11;
-               else if (ch==1) bar_TOF_X = 11;
-               else if (ch==2) bar_TOF_X = 12;
-               else if (ch==3) bar_TOF_X = 12;
-               else if (ch==4) bar_TOF_X = 13;
-               else if (ch==5) bar_TOF_X = 13;
-               else if (ch==6) bar_TOF_X = 14;
-               else if (ch==7) bar_TOF_X = 14;
-               else if (ch==8) bar_TOF_X = 15;
-               else if (ch==9) bar_TOF_X = 15;
-               else if (ch==10) bar_TOF_X = 16;
-               else if (ch==11) bar_TOF_X = 16;
-               else if (ch==12) bar_TOF_X = 17;
-               else if (ch==13) bar_TOF_X = 17;
-               else if (ch==14) bar_TOF_X = 18;
-               else if (ch==15) bar_TOF_X = 18;
-               /*
-               std::cout << "WD 157" << std::endl;
-               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_157[jentry][ch] << std::endl;
-               std::cout << "Barra = " << bar_TOF_X << std::endl;
-               std::cout << "------------------------------\n" << std::endl;
-               */
+            // TIME OF CHANNEL
+            for (Int_t t=10; t<900; t++) {
+               if (board170_waveform[ch][t] == v_th_170) time_170[ch] = t;
+               else if (board170_waveform[ch][t] < v_th_170) time_170[ch] = (t+(t-1))/2;  // time_170[ch] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+            }
+
+            for (Int_t t=250; t<570; t++) {      
+               q_170[ch] += (v_base_170 - board170_waveform[ch][t]);     // CHARGHE OF CHANNEL
+            }
+   
+            if (ch%2!=0) {
+               q_bar_170[ch/2] = sqrt(q_170[ch] * q_170[ch-1]);          // CHARGHE OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            if (ch%2!=0) {
+               mean_time_170[ch/2] = (time_170[ch] + time_170[ch-1])/2;  // MEAN TIME OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            // DELTA TIME OF BAR
+            if (ch%2!=0) {
+               delta_time_170[ch/2] = time_170[ch] - time_170[ch-1]; // QUALCOSA NO VA...
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+            
+            if (ch==0) bar_TOF_X = 11;
+            else if (ch==1) bar_TOF_X = 11;
+            else if (ch==2) bar_TOF_X = 12;
+            else if (ch==3) bar_TOF_X = 12;
+            else if (ch==4) bar_TOF_X = 13;
+            else if (ch==5) bar_TOF_X = 13;
+            else if (ch==6) bar_TOF_X = 14;
+            else if (ch==7) bar_TOF_X = 14;
+            else if (ch==8) bar_TOF_X = 15;
+            else if (ch==9) bar_TOF_X = 15;
+            else if (ch==10) bar_TOF_X = 16;
+            else if (ch==11) bar_TOF_X = 16;
+            else if (ch==12) bar_TOF_X = 17;
+            else if (ch==13) bar_TOF_X = 17;
+            else if (ch==14) bar_TOF_X = 18;
+            else if (ch==15) bar_TOF_X = 18;
+
+            std::cout << "\nWD 170"                               << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "Ch                = " << ch             << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "\nv_base_170      = " << v_base_170     << std::endl;
+            std::cout << "\nv_peak_170      = " << v_peak_170     << std::endl;
+            std::cout << "\nv_th_170        = " << v_th_170       << std::endl;
+            std::cout << "\ntime_170        = " << time_170[ch]   << std::endl;
+            std::cout << "\nv_ampl_170      = " << v_ampl_170[ch] << std::endl;
+            std::cout << "\nq_170           = " << q_170[ch]      << std::endl;
+            std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
+             if (ch%2!=0) {
+                std::cout << "\n-----------------------------"              << std::endl;
+                std::cout << "\ndelta_time_170  = " << delta_time_170[ch/2] << std::endl;
+                std::cout << "\nq_bar_170       = " << q_bar_170[ch/2]      << std::endl;
+                std::cout << "\nmean_time_170   = " << mean_time_170[ch/2]  << std::endl;
+                std::cout << "\n-----------------------------"              << std::endl;
             }
          }
       }// END LOOP ON CHANNEL
@@ -271,52 +358,96 @@ void rec::Loop()
       // WAVEDREAM 167 - X VIEW (BAR 19); Y VIEW (BAR 20 TO 26)
       //********************************************************************
 
-      for (Int_t ch=0; ch<16; ch++){
+      // LOOP ON CHANNELS OF WAVEDREAM
+      for (Int_t ch=0; ch<16; ch++) {
+         
+         if (board167_hit[ch] == 1) {
 
-         // INITIALIZE VALUES
-         Double_t voltage_167 = 0.;                         
-         Double_t baseline_167 = 0.;                     
-         Double_t ampl_167[nentries][16];           
-         Double_t min_167 = board167_waveform[ch][300];  
-         
-         // LOOP ON SAMPLES OF WAVEFORM
-         for (Int_t v=10; v<800; v++){
-         
-            if (v > 50 && board167_waveform[ch][v] < min_167){min_167 = board167_waveform[ch][v];}
-            // APPROX FIRST 1/3 OF 1024 SAMPLES
-            if (v <= 150) {voltage_167 =  voltage_167 + board167_waveform[ch][v];}      
-         }
-         baseline_167 = voltage_167/140;
+            // INITIALIZE VALUES
+            Double_t voltage_167 = 0.;                         
+            Double_t v_base_167 = 0.;                          // V BASELINE (PEDESTAL) [mV]
+            Double_t v_ampl_167[16];                           // V AMPLITUDE OF CHANNEL [mV]
+            Double_t v_peak_167 = board167_waveform[ch][300];  // V MINIMUM (PEAK) [mV]
+            Double_t v_th_167;                                 // V THRESHOLD [mV]
+            Double_t time_167[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            Double_t delta_time_167[8];                        // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t mean_time_167[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+            Double_t q_167[16];                                // CHARGE OF CHANNEL [a.u.]
+            Double_t q_bar_167[8];                             // CHARGE OF CHARGE [a.u.]
+            
+            // V PEAK (MINIMUM)
+            for (Int_t t=10; t<800; t++) {// LOOP ON SAMPLES OF WAVEFORM
+               if (t > 50 && board167_waveform[ch][t] < v_peak_167) v_peak_167 = board167_waveform[ch][t];
+               // APPROX FIRST 1/3 OF 1024 SAMPLES
+               if (t <= 150) voltage_167 =  voltage_167 + board167_waveform[ch][t];
+            }
+ 
+            v_base_167 = voltage_167/140;                              // V BASELINE
+            v_th_167 = v_base_167 - f_CFD * (v_base_167 - v_peak_167); // V THRESHOLD
+            v_ampl_167[ch] = v_base_167 - v_peak_167;                  // V AMPLITUDE
 
-         // AMPLITUDE (EVENTO J-ESIMO, CANALE CH)    
-         ampl_167[jentry][ch] = baseline_167 - min_167;  
-         
-         if (board167_hit[ch] == 1)
-         {
-            if (1)
-            {
-               if (ch==0) bar_TOF_X = 19;
-               else if (ch==1) bar_TOF_X = 19;
-               else if (ch==2) bar_TOF_Y = 20;
-               else if (ch==3) bar_TOF_Y = 20;
-               else if (ch==4) bar_TOF_Y = 21;
-               else if (ch==5) bar_TOF_Y = 21;
-               else if (ch==6) bar_TOF_Y = 22;
-               else if (ch==7) bar_TOF_Y = 22;
-               else if (ch==8) bar_TOF_Y = 23;
-               else if (ch==9) bar_TOF_Y = 23;
-               else if (ch==10) bar_TOF_Y = 24;
-               else if (ch==11) bar_TOF_Y = 24;
-               else if (ch==12) bar_TOF_Y = 25;
-               else if (ch==13) bar_TOF_Y = 25;
-               else if (ch==14) bar_TOF_Y = 26;
-               else if (ch==15) bar_TOF_Y = 26;
-               /*
-               std::cout << "WD 167" << std::endl;
-               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_158[jentry][ch] << std::endl;
-               std::cout << "Barra = " << bar_TOF_X << std::endl;
-               std::cout << "------------------------------\n" << std::endl;
-               */
+            // TIME OF CHANNEL
+            for (Int_t t=10; t<900; t++) {
+               if (board167_waveform[ch][t] == v_th_167) time_167[ch] = t;
+               else if (board167_waveform[ch][t] < v_th_167) time_167[ch] = (t+(t-1))/2;  // time_170[ch] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+            }
+
+            for (Int_t t=250; t<570; t++) {      
+               q_167[ch] += (v_base_167 - board167_waveform[ch][t]);     // CHARGHE OF CHANNEL
+            }
+   
+            if (ch%2!=0) {
+               q_bar_167[ch/2] = sqrt(q_167[ch] * q_167[ch-1]);          // CHARGHE OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            if (ch%2!=0) {
+               mean_time_167[ch/2] = (time_167[ch] + time_167[ch-1])/2;  // MEAN TIME OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            // DELTA TIME OF BAR
+            if (ch%2!=0) {
+               delta_time_167[ch/2] = time_167[ch] - time_167[ch-1]; // QUALCOSA NO VA...
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+   
+            
+            if (ch==0) bar_TOF_X = 19;
+
+            else if (ch==1) bar_TOF_X = 19;
+            else if (ch==2) bar_TOF_Y = 20;
+            else if (ch==3) bar_TOF_Y = 20;
+            else if (ch==4) bar_TOF_Y = 21;
+            else if (ch==5) bar_TOF_Y = 21;
+            else if (ch==6) bar_TOF_Y = 22;
+            else if (ch==7) bar_TOF_Y = 22;
+            else if (ch==8) bar_TOF_Y = 23;
+            else if (ch==9) bar_TOF_Y = 23;
+            else if (ch==10) bar_TOF_Y = 24;
+            else if (ch==11) bar_TOF_Y = 24;
+            else if (ch==12) bar_TOF_Y = 25;
+            else if (ch==13) bar_TOF_Y = 25;
+            else if (ch==14) bar_TOF_Y = 26;
+            else if (ch==15) bar_TOF_Y = 26;
+            
+            std::cout << "\nWD 167"                               << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "Ch                = " << ch             << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "\nv_base_167      = " << v_base_167     << std::endl;
+            std::cout << "\nv_peak_167      = " << v_peak_167     << std::endl;
+            std::cout << "\nv_th_167        = " << v_th_167       << std::endl;
+            std::cout << "\ntime_167        = " << time_167[ch]   << std::endl;
+            std::cout << "\nv_ampl_167      = " << v_ampl_167[ch] << std::endl;
+            std::cout << "\nq_167           = " << q_167[ch]      << std::endl;
+            std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
+             if (ch%2!=0) {
+                std::cout << "\n-----------------------------"              << std::endl;
+                std::cout << "\ndelta_time_167  = " << delta_time_167[ch/2] << std::endl;
+                std::cout << "\nq_bar_167       = " << q_bar_167[ch/2]      << std::endl;
+                std::cout << "\nmean_time_167   = " << mean_time_167[ch/2]  << std::endl;
+                std::cout << "\n-----------------------------"              << std::endl;
             }
          }
       }// END LOOP ON CHANNEL
