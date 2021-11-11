@@ -25,15 +25,8 @@ void rec::Loop()
    //------------------------------
    //TFile hfile("time_resolution1.root","RECREATE");
 
-   gStyle->SetOptStat(0);
-
-   //**************************************
-   // CANVAS
-   //**************************************
-   TCanvas *c1 = new TCanvas("c1", "hitmap",600,600);
-   c1->SetTickx();
-   c1->SetTicky();
-   c1->SetLeftMargin(0.15);
+   //gStyle->SetOptStat(0);
+   gStyle->SetOptFit(10111);
 
    //**************************************
    // HISTOGRAM
@@ -42,19 +35,20 @@ void rec::Loop()
    //TH2D *hist = new TH2D("hist", "Hit-map Test Cosmic rays", 20, 0, 20, 20, 20, 40);
    TH2D *hist = new TH2D("hist", "Hit-map Test Cosmic rays", 20, -0.5, 19.5, 20, 19.5, 39.5);
 
+   TH1F *hist_mean_time = new TH1F("hist_mean_time", "Delta mean time barX/Y", 60, -150, 150);
    //------------------------------
-   // HISTOGRAMS DELTA TIME
+   // HISTOGRAMS DELTA TIME WD165
    //------------------------------
-   TH1F *h_delta_time[16];
-   char name_delta_time[20];
-   char title_delta_time[100];
+   TH1F *h_delta_time_165[16];
+   char name_delta_time_165[20];
+   char title_delta_time_165[100];
 
    for (Int_t b=0; b<8; b++) {
-      sprintf(name_delta_time,"h_delta_time%d", b);
-      sprintf(title_delta_time,"WD165 - Delta T WF of bar%d", b);
-      h_delta_time[b] = new TH1F(name_delta_time,title_delta_time,200, -300, 300);
-      h_delta_time[b]->GetXaxis()->SetTitle("Delta T [a.u.]");
-      h_delta_time[b]->GetYaxis()->SetTitle("Entries");
+      sprintf(name_delta_time_165,"h_delta_time_165%d", b);
+      sprintf(title_delta_time_165,"WD165 - Delta T WD165 of bar%d", b);
+      h_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165,60, -150, 150);
+      h_delta_time_165[b]->GetXaxis()->SetTitle("Delta T [a.u.]");
+      h_delta_time_165[b]->GetYaxis()->SetTitle("Entries");
    }
 
    // LOOP ON ENTRIES
@@ -75,8 +69,7 @@ void rec::Loop()
       Double_t mean_time_Y = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (Y-VIEW)
 
       //********************************************************************
-      // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)
-      //********************************************************************   
+      // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)   
       
       // LOOP ON CHANNELS OF WAVEDREAM
       for (Int_t ch=0; ch<16; ch++) {
@@ -123,26 +116,27 @@ void rec::Loop()
 
             if (ch%2!=0) {
                mean_time_165[ch/2] = (time_165[ch] + time_165[ch-1])/2;  // MEAN TIME OF BAR
+               mean_time_X = (time_165[ch] + time_165[ch-1])/2;
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
             if (ch%2!=0) {
                delta_time_165[ch/2] = time_165[ch] - time_165[ch-1]; // DELTA TIME OF BAR
-               h_delta_time[ch/2]->Fill(delta_time_165[ch/2]);
+               h_delta_time_165[ch/2]->Fill(delta_time_165[ch/2]);
             }
 
             // BARS X TOFWALL
-            if (ch==0) bar_TOF_X = 0;
-            else if (ch==1) bar_TOF_X = 0;
-            else if (ch==2) bar_TOF_X = 1;
-            else if (ch==3) bar_TOF_X = 1;
-            else if (ch==4) bar_TOF_X = 2;
-            else if (ch==5) bar_TOF_X = 2;
-            else if (ch==6) bar_TOF_X = 3;
-            else if (ch==7) bar_TOF_X = 3;
-            else if (ch==6) bar_TOF_X = 3;
-            else if (ch==8) bar_TOF_X = 4;
-            else if (ch==9) bar_TOF_X = 4;
+            if (ch==0)       bar_TOF_X = 0;
+            else if (ch==1)  bar_TOF_X = 0;
+            else if (ch==2)  bar_TOF_X = 1;
+            else if (ch==3)  bar_TOF_X = 1;
+            else if (ch==4)  bar_TOF_X = 2;
+            else if (ch==5)  bar_TOF_X = 2;
+            else if (ch==6)  bar_TOF_X = 3;
+            else if (ch==7)  bar_TOF_X = 3;
+            else if (ch==6)  bar_TOF_X = 3;
+            else if (ch==8)  bar_TOF_X = 4;
+            else if (ch==9)  bar_TOF_X = 4;
             else if (ch==10) bar_TOF_X = 5;
             else if (ch==11) bar_TOF_X = 5;
             else if (ch==12) bar_TOF_X = 6;
@@ -222,7 +216,9 @@ void rec::Loop()
 
             // MEAN TIME OF BAR
             if (ch%2!=0) {
-               mean_time_166[ch/2] = (time_166[ch] + time_166[ch-1])/2; 
+               //mean_time_166[ch/2] = (time_166[ch] + time_166[ch-1])/2;
+               if (ch<6) mean_time_X = (time_166[ch] + time_166[ch-1])/2;
+               else mean_time_Y = (time_166[ch] + time_166[ch-1])/2;
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
@@ -233,17 +229,17 @@ void rec::Loop()
             }
 
             // BARS X TOFWALL
-            if (ch==0) bar_TOF_X = 8;
-            else if (ch==1) bar_TOF_X = 8;
-            else if (ch==2) bar_TOF_X = 9;
-            else if (ch==3) bar_TOF_X = 9;
-            else if (ch==4) bar_TOF_X = 10;
-            else if (ch==5) bar_TOF_X = 10;
+            if (ch==0)       bar_TOF_X = 8;
+            else if (ch==1)  bar_TOF_X = 8;
+            else if (ch==2)  bar_TOF_X = 9;
+            else if (ch==3)  bar_TOF_X = 9;
+            else if (ch==4)  bar_TOF_X = 10;
+            else if (ch==5)  bar_TOF_X = 10;
 
-            else if (ch==6) bar_TOF_Y = 28;
-            else if (ch==7) bar_TOF_Y = 28;
-            else if (ch==8) bar_TOF_Y = 29;
-            else if (ch==9) bar_TOF_Y = 29;
+            else if (ch==6)  bar_TOF_Y = 28;
+            else if (ch==7)  bar_TOF_Y = 28;
+            else if (ch==8)  bar_TOF_Y = 29;
+            else if (ch==9)  bar_TOF_Y = 29;
             else if (ch==10) bar_TOF_Y = 30;
             else if (ch==11) bar_TOF_Y = 30;
    
@@ -266,7 +262,7 @@ void rec::Loop()
                 std::cout << "\n-----------------------------"              << std::endl;
             }                    
          } // END if (board166_hit[ch] == 1)
-      }// END LOOP ON CHANNEL
+      } // END LOOP ON CHANNEL
 
       //********************************************************************
       // WAVEDREAM 170 - X VIEW (BAR 11 TO 18)
@@ -316,7 +312,9 @@ void rec::Loop()
             }
 
             if (ch%2!=0) {
-               mean_time_170[ch/2] = (time_170[ch] + time_170[ch-1])/2;  // MEAN TIME OF BAR
+               //mean_time_170[ch/2] = (time_170[ch] + time_170[ch-1])/2;  // MEAN TIME OF BAR
+               if (ch<3) mean_time_X = (time_170[ch] + time_170[ch-1])/2;
+               else mean_time_Y = (time_170[ch] + time_170[ch-1])/2;
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
@@ -327,16 +325,16 @@ void rec::Loop()
             }
             
             // BARS X TOFWALL
-            if (ch==0) bar_TOF_X = 11;
-            else if (ch==1) bar_TOF_X = 11;
-            else if (ch==2) bar_TOF_X = 12;
-            else if (ch==3) bar_TOF_X = 12;
-            else if (ch==4) bar_TOF_X = 13;
-            else if (ch==5) bar_TOF_X = 13;
-            else if (ch==6) bar_TOF_X = 14;
-            else if (ch==7) bar_TOF_X = 14;
-            else if (ch==8) bar_TOF_X = 15;
-            else if (ch==9) bar_TOF_X = 15;
+            if (ch==0)       bar_TOF_X = 11;
+            else if (ch==1)  bar_TOF_X = 11;
+            else if (ch==2)  bar_TOF_X = 12;
+            else if (ch==3)  bar_TOF_X = 12;
+            else if (ch==4)  bar_TOF_X = 13;
+            else if (ch==5)  bar_TOF_X = 13;
+            else if (ch==6)  bar_TOF_X = 14;
+            else if (ch==7)  bar_TOF_X = 14;
+            else if (ch==8)  bar_TOF_X = 15;
+            else if (ch==9)  bar_TOF_X = 15;
             else if (ch==10) bar_TOF_X = 16;
             else if (ch==11) bar_TOF_X = 16;
             else if (ch==12) bar_TOF_X = 17;
@@ -419,23 +417,25 @@ void rec::Loop()
 
             // DELTA TIME OF BAR
             if (ch%2!=0) {
-               delta_time_167[ch/2] = time_167[ch] - time_167[ch-1]; // QUALCOSA NO VA...
+               //delta_time_167[ch/2] = time_167[ch] - time_167[ch-1]; // QUALCOSA NO VA...
+               if (ch<3) mean_time_X = (time_167[ch] + time_167[ch-1])/2;
+               else mean_time_Y = (time_167[ch] + time_167[ch-1])/2;
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
             
             // BARS X TOFWALL
-            if (ch==0) bar_TOF_X = 19;
-            else if (ch==1) bar_TOF_X = 19;
+            if (ch==0)       bar_TOF_X = 19;
+            else if (ch==1)  bar_TOF_X = 19;
 
             // BARS Y TOFWALL
-            else if (ch==2) bar_TOF_Y = 20;
-            else if (ch==3) bar_TOF_Y = 20;
-            else if (ch==4) bar_TOF_Y = 21;
-            else if (ch==5) bar_TOF_Y = 21;
-            else if (ch==6) bar_TOF_Y = 22;
-            else if (ch==7) bar_TOF_Y = 22;
-            else if (ch==8) bar_TOF_Y = 23;
-            else if (ch==9) bar_TOF_Y = 23;
+            else if (ch==2)  bar_TOF_Y = 20;
+            else if (ch==3)  bar_TOF_Y = 20;
+            else if (ch==4)  bar_TOF_Y = 21;
+            else if (ch==5)  bar_TOF_Y = 21;
+            else if (ch==6)  bar_TOF_Y = 22;
+            else if (ch==7)  bar_TOF_Y = 22;
+            else if (ch==8)  bar_TOF_Y = 23;
+            else if (ch==9)  bar_TOF_Y = 23;
             else if (ch==10) bar_TOF_Y = 24;
             else if (ch==11) bar_TOF_Y = 24;
             else if (ch==12) bar_TOF_Y = 25;
@@ -512,7 +512,8 @@ void rec::Loop()
             }
 
             if (ch%2!=0) {
-               mean_time_168[ch/2] = (time_168[ch] + time_168[ch-1])/2;  // MEAN TIME OF BAR
+               //mean_time_168[ch/2] = (time_168[ch] + time_168[ch-1])/2;  // MEAN TIME OF BAR
+               mean_time_Y = (time_168[ch] + time_168[ch-1])/2;
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
@@ -523,16 +524,16 @@ void rec::Loop()
             }
             
             // BARS Y TOFWALL
-            if (ch==0) bar_TOF_Y = 27;
-            else if (ch==1) bar_TOF_Y = 27;
-            else if (ch==2) bar_TOF_Y = 31;
-            else if (ch==3) bar_TOF_Y = 31;
-            else if (ch==4) bar_TOF_Y = 32;
-            else if (ch==5) bar_TOF_Y = 32;
-            else if (ch==6) bar_TOF_Y = 33;
-            else if (ch==7) bar_TOF_Y = 33;
-            else if (ch==8) bar_TOF_Y = 34;
-            else if (ch==9) bar_TOF_Y = 34;
+            if (ch==0)       bar_TOF_Y = 27;
+            else if (ch==1)  bar_TOF_Y = 27;
+            else if (ch==2)  bar_TOF_Y = 31;
+            else if (ch==3)  bar_TOF_Y = 31;
+            else if (ch==4)  bar_TOF_Y = 32;
+            else if (ch==5)  bar_TOF_Y = 32;
+            else if (ch==6)  bar_TOF_Y = 33;
+            else if (ch==7)  bar_TOF_Y = 33;
+            else if (ch==8)  bar_TOF_Y = 34;
+            else if (ch==9)  bar_TOF_Y = 34;
             else if (ch==10) bar_TOF_Y = 35;
             else if (ch==11) bar_TOF_Y = 35;
             else if (ch==12) bar_TOF_Y = 36;
@@ -608,7 +609,8 @@ void rec::Loop()
             }
 
             if (ch%2!=0) {
-               mean_time_158[ch/2] = (time_158[ch] + time_158[ch-1])/2;  // MEAN TIME OF BAR
+               //mean_time_158[ch/2] = (time_158[ch] + time_158[ch-1])/2;  // MEAN TIME OF BAR
+               mean_time_Y = (time_158[ch] + time_158[ch-1])/2;
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
@@ -646,15 +648,20 @@ void rec::Loop()
       } // END LOOP ON CHANNEL
 
       // FILL THE HISTOGRAM
-      if (bar_TOF_X > -1 && bar_TOF_Y > -1) {
-         hist->Fill(bar_TOF_X, bar_TOF_Y);
-
-      }
-      else {
-         //std::cout << "No Match X-Y Bar for event # " << jentry << endl;
-      }
-   
+      if (bar_TOF_X > -1 && bar_TOF_Y > -1)      hist->Fill(bar_TOF_X, bar_TOF_Y);
+      if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
+      
+         
    }// END LOOP ON ENTRIES
+   
+   //**************************************
+   // CANVAS
+   //**************************************
+   TCanvas *c1 = new TCanvas("c1", "hitmap",600,600);
+   c1->SetTickx();
+   c1->SetTicky();
+   c1->SetLeftMargin(0.15);
+
    hist->GetXaxis()->SetTitle("FronBar, LayerX");
    hist->SetNdivisions(20,"X");
    hist->GetYaxis()->SetTitle("RearBar, LayerY");
@@ -665,6 +672,44 @@ void rec::Loop()
    
    //h_delta_time[0]->Draw();
       
+   //**************************************
+   // CANVAS
+   //**************************************
+   TCanvas *c_2 = new TCanvas("c_2", "Delta t",600,600);
+   c_2->SetTickx();
+   c_2->SetTicky();
+   c_2->SetLeftMargin(0.15);
+
+   for (int b=0; b<8; b++)
+   {  
+      //------------------------------
+      // DELTA TIME
+      //------------------------------
+      TString canvas_title = Form("c_bar%d",b); 
+      TCanvas *time = new TCanvas(canvas_title, canvas_title, 600, 600);
+      time->SetTickx();
+      time->SetTicky();
+      time->SetLeftMargin(0.15);
+      h_delta_time_165[b]->SetMarkerStyle(20);
+      h_delta_time_165[b]->SetMarkerStyle(kFullCircle);
+      h_delta_time_165[b]->SetMarkerColor(kBlack);
+      h_delta_time_165[b]->Fit("gaus", "Q");
+      h_delta_time_165[b]->Draw("E");
+
+   }
+
+   //**************************************
+   // CANVAS
+   //**************************************
+   TCanvas *c3 = new TCanvas("c3", "delta_mean_time",600,600);
+   c3->SetTickx();
+   c3->SetTicky();
+   c3->SetLeftMargin(0.15);
+
+   hist_mean_time->GetXaxis()->SetTitle("Delta mean time");
+   hist_mean_time->GetYaxis()->SetTitle("Counts");
+   hist_mean_time->Draw();//https://root.cern.ch/doc/v608/classTHistPainter.html#HP15
+
    //------------------------------
    // SAVE HISROGRAMS IN ROOT FILE
    //------------------------------
