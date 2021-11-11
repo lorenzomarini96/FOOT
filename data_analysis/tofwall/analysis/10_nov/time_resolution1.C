@@ -1,3 +1,11 @@
+//------------------------------------------------------------------------
+// MACRO COMPUTING, FOR EACH WAVEDREAM:
+//
+// - THE TIME DISTRIBUTION OF THE WAVEFORM
+// - THE CHARGE DISTRIBUTION
+// - THE DELTA TIME DISTRIBUTION
+//------------------------------------------------------------------------
+
 #define rec_cxx
 #include "rec.h"
 #include <TH2.h>
@@ -12,9 +20,12 @@ void rec::Loop()
    Long64_t nentries = fChain->GetEntriesFast();
    Long64_t nbytes = 0, nb = 0;
 
+   //------------------------------
+   // FILE .ROOT TO SAVE HISTOGRAMS
+   //------------------------------
+   //TFile hfile("time_resolution1.root","RECREATE");
+
    gStyle->SetOptStat(0);
-   //gStyle->SetPadGridX(kTRUE); 
-   //gStyle->SetPadGridY(kTRUE);
 
    //**************************************
    // CANVAS
@@ -41,7 +52,7 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time,"h_delta_time%d", b);
       sprintf(title_delta_time,"WD165 - Delta T WF of bar%d", b);
-      h_delta_time[b] = new TH1F(name_delta_time,title_delta_time,100, 250, 450);
+      h_delta_time[b] = new TH1F(name_delta_time,title_delta_time,200, -300, 300);
       h_delta_time[b]->GetXaxis()->SetTitle("Delta T [a.u.]");
       h_delta_time[b]->GetYaxis()->SetTitle("Entries");
    }
@@ -51,7 +62,6 @@ void rec::Loop()
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
-
       
       std::cout << "\n**************************\n" << std::endl;
       std::cout << "Entry " << jentry << endl;
@@ -116,13 +126,12 @@ void rec::Loop()
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
 
-            // DELTA TIME OF BAR
             if (ch%2!=0) {
-               delta_time_165[ch/2] = time_165[ch] - time_165[ch-1]; // QUALCOSA NO VA...
-               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+               delta_time_165[ch/2] = time_165[ch] - time_165[ch-1]; // DELTA TIME OF BAR
+               h_delta_time[ch/2]->Fill(delta_time_165[ch/2]);
             }
 
-            // BAR TOFWALL
+            // BARS X TOFWALL
             if (ch==0) bar_TOF_X = 0;
             else if (ch==1) bar_TOF_X = 0;
             else if (ch==2) bar_TOF_X = 1;
@@ -151,7 +160,7 @@ void rec::Loop()
             std::cout << "\ntime_165        = " << time_165[ch]   << std::endl;
             std::cout << "\nv_ampl_165      = " << v_ampl_165[ch] << std::endl;
             std::cout << "\nq_165           = " << q_165[ch]      << std::endl;
-            std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
+            std::cout << "\nBar (X)         = " << bar_TOF_X      << std::endl;
              if (ch%2!=0) {
                 std::cout << "\n-----------------------------"              << std::endl;
                 std::cout << "\ndelta_time_165  = " << delta_time_165[ch/2] << std::endl;
@@ -159,7 +168,7 @@ void rec::Loop()
                 std::cout << "\nmean_time_165   = " << mean_time_165[ch/2]  << std::endl;
                 std::cout << "\n-----------------------------"              << std::endl;
              }           
-         } // END IF 
+         } // END if (board165_hit[ch] == 1)
       } // END LOOP ON CHANNELS
 
       //********************************************************************
@@ -220,9 +229,10 @@ void rec::Loop()
             // DELTA TIME OF BAR
             if (ch%2!=0) {
                delta_time_166[ch/2] = time_166[ch] - time_166[ch-1]; // QUALCOSA NO VA...
-               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+               //h_delta_time[ch/2]->Fill(q_bar[ch/2]);
             }
-         
+
+            // BARS X TOFWALL
             if (ch==0) bar_TOF_X = 8;
             else if (ch==1) bar_TOF_X = 8;
             else if (ch==2) bar_TOF_X = 9;
@@ -247,7 +257,7 @@ void rec::Loop()
             std::cout << "\ntime_166        = " << time_166[ch]   << std::endl;
             std::cout << "\nv_ampl_166      = " << v_ampl_166[ch] << std::endl;
             std::cout << "\nq_166           = " << q_166[ch]      << std::endl;
-            std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
+            std::cout << "\nBar (X)         = " << bar_TOF_X      << std::endl;
              if (ch%2!=0) {
                 std::cout << "\n-----------------------------"              << std::endl;
                 std::cout << "\ndelta_time_166  = " << delta_time_166[ch/2] << std::endl;
@@ -255,7 +265,7 @@ void rec::Loop()
                 std::cout << "\nmean_time_166   = " << mean_time_166[ch/2]  << std::endl;
                 std::cout << "\n-----------------------------"              << std::endl;
             }                    
-         }  
+         } // END if (board166_hit[ch] == 1)
       }// END LOOP ON CHANNEL
 
       //********************************************************************
@@ -316,6 +326,7 @@ void rec::Loop()
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
             
+            // BARS X TOFWALL
             if (ch==0) bar_TOF_X = 11;
             else if (ch==1) bar_TOF_X = 11;
             else if (ch==2) bar_TOF_X = 12;
@@ -343,7 +354,7 @@ void rec::Loop()
             std::cout << "\ntime_170        = " << time_170[ch]   << std::endl;
             std::cout << "\nv_ampl_170      = " << v_ampl_170[ch] << std::endl;
             std::cout << "\nq_170           = " << q_170[ch]      << std::endl;
-            std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
+            std::cout << "\nBar (X)         = " << bar_TOF_X      << std::endl;
              if (ch%2!=0) {
                 std::cout << "\n-----------------------------"              << std::endl;
                 std::cout << "\ndelta_time_170  = " << delta_time_170[ch/2] << std::endl;
@@ -351,8 +362,8 @@ void rec::Loop()
                 std::cout << "\nmean_time_170   = " << mean_time_170[ch/2]  << std::endl;
                 std::cout << "\n-----------------------------"              << std::endl;
             }
-         }
-      }// END LOOP ON CHANNEL
+         } // END if (board170_hit[ch] == 1)
+      } // END LOOP ON CHANNEL
 
       //********************************************************************
       // WAVEDREAM 167 - X VIEW (BAR 19); Y VIEW (BAR 20 TO 26)
@@ -411,11 +422,12 @@ void rec::Loop()
                delta_time_167[ch/2] = time_167[ch] - time_167[ch-1]; // QUALCOSA NO VA...
                //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
             }
-   
             
+            // BARS X TOFWALL
             if (ch==0) bar_TOF_X = 19;
-
             else if (ch==1) bar_TOF_X = 19;
+
+            // BARS Y TOFWALL
             else if (ch==2) bar_TOF_Y = 20;
             else if (ch==3) bar_TOF_Y = 20;
             else if (ch==4) bar_TOF_Y = 21;
@@ -441,16 +453,17 @@ void rec::Loop()
             std::cout << "\ntime_167        = " << time_167[ch]   << std::endl;
             std::cout << "\nv_ampl_167      = " << v_ampl_167[ch] << std::endl;
             std::cout << "\nq_167           = " << q_167[ch]      << std::endl;
-            std::cout << "\nBar             = " << bar_TOF_X      << std::endl;
-             if (ch%2!=0) {
-                std::cout << "\n-----------------------------"              << std::endl;
-                std::cout << "\ndelta_time_167  = " << delta_time_167[ch/2] << std::endl;
-                std::cout << "\nq_bar_167       = " << q_bar_167[ch/2]      << std::endl;
-                std::cout << "\nmean_time_167   = " << mean_time_167[ch/2]  << std::endl;
-                std::cout << "\n-----------------------------"              << std::endl;
+            if (ch==0 || ch==1) std::cout << "\nBar (X)         = " << bar_TOF_X      << std::endl;
+            else std::cout << "\nBar (Y)         = " << bar_TOF_Y      << std::endl;
+            if (ch%2!=0) {
+               std::cout << "\n-----------------------------"              << std::endl;
+               std::cout << "\ndelta_time_167  = " << delta_time_167[ch/2] << std::endl;
+               std::cout << "\nq_bar_167       = " << q_bar_167[ch/2]      << std::endl;
+               std::cout << "\nmean_time_167   = " << mean_time_167[ch/2]  << std::endl;
+               std::cout << "\n-----------------------------"              << std::endl;
             }
-         }
-      }// END LOOP ON CHANNEL
+         } // END if (board167_hit[ch] == 1)
+      } // END LOOP ON CHANNEL
 
       //********************************************************************
       // WAVEDREAM 168 - Y VIEW (BAR 27 ANS 31 TO 37)
@@ -458,101 +471,184 @@ void rec::Loop()
 
       for (Int_t ch=0; ch<16; ch++){
 
-         // INITIALIZE VALUES
-         Double_t voltage_168 = 0.;                         
-         Double_t baseline_168 = 0.;                     
-         Double_t ampl_168[nentries][16];
-         Double_t min_168 = board168_waveform[ch][300];  
-         
-         // LOOP ON SAMPLES OF WAVEFORM
-         for (Int_t v=10; v<800; v++){
-         
-            if (v > 50 && board168_waveform[ch][v] < min_168){min_168 = board168_waveform[ch][v];}
-            // APPROX FIRST 1/3 OF 1024 SAMPLES
-            if (v <= 150) {voltage_168 =  voltage_168 + board168_waveform[ch][v];}      
-         }
-         baseline_168 = voltage_168/140;
+         if (board168_hit[ch] == 1) {
 
-         // AMPLITUDE (EVENTO J-ESIMO, CANALE CH)    
-         ampl_168[jentry][ch] = baseline_168 - min_168;  
-         
-         if (board168_hit[ch] == 1)
-         //if (jentry > 0 && abs(ampl_168[jentry][ch]-ampl_168[jentry-1][ch])>0.00001 && ampl_168[jentry][ch]>0.)
-         {
-            if (1)
-            {
-               if (ch==0) bar_TOF_Y = 27;
-               else if (ch==1) bar_TOF_Y = 27;
-               else if (ch==2) bar_TOF_Y = 31;
-               else if (ch==3) bar_TOF_Y = 31;
-               else if (ch==4) bar_TOF_Y = 32;
-               else if (ch==5) bar_TOF_Y = 32;
-               else if (ch==6) bar_TOF_Y = 33;
-               else if (ch==7) bar_TOF_Y = 33;
-               else if (ch==8) bar_TOF_Y = 34;
-               else if (ch==9) bar_TOF_Y = 34;
-               else if (ch==10) bar_TOF_Y = 35;
-               else if (ch==11) bar_TOF_Y = 35;
-               else if (ch==12) bar_TOF_Y = 36;
-               else if (ch==13) bar_TOF_Y = 36;
-               else if (ch==14) bar_TOF_Y = 37;
-               else if (ch==15) bar_TOF_Y = 37;
-               /*
-               std::cout << "WD 168" << std::endl;
-               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_168[jentry][ch] << std::endl;
-               std::cout << "Barra = " << bar_TOF_Y << std::endl;
-               std::cout << "------------------------------\n" << std::endl;
-               */
+            // INITIALIZE VALUES
+            Double_t voltage_168 = 0.;                         
+            Double_t v_base_168 = 0.;                          // V BASELINE (PEDESTAL) [mV]
+            Double_t v_ampl_168[16];                           // V AMPLITUDE OF CHANNEL [mV]
+            Double_t v_peak_168 = board168_waveform[ch][300];  // V MINIMUM (PEAK) [mV]
+            Double_t v_th_168;                                 // V THRESHOLD [mV]
+            Double_t time_168[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            Double_t delta_time_168[8];                        // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t mean_time_168[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+            Double_t q_168[16];                                // CHARGE OF CHANNEL [a.u.]
+            Double_t q_bar_168[8];                             // CHARGE OF CHARGE [a.u.]
+            
+            // V PEAK (MINIMUM)
+            for (Int_t t=10; t<800; t++) {// LOOP ON SAMPLES OF WAVEFORM
+               if (t > 50 && board168_waveform[ch][t] < v_peak_168) v_peak_168 = board168_waveform[ch][t];
+               // APPROX FIRST 1/3 OF 1024 SAMPLES
+               if (t <= 150) voltage_168 =  voltage_168 + board168_waveform[ch][t];
             }
-         }
-      }// END LOOP ON CHANNEL
+ 
+            v_base_168 = voltage_168/140;                              // V BASELINE
+            v_th_168 = v_base_168 - f_CFD * (v_base_168 - v_peak_168); // V THRESHOLD
+            v_ampl_168[ch] = v_base_168 - v_peak_168;                  // V AMPLITUDE
+
+            // TIME OF CHANNEL
+            for (Int_t t=10; t<900; t++) {
+               if (board168_waveform[ch][t] == v_th_168) time_168[ch] = t;
+               else if (board168_waveform[ch][t] < v_th_168) time_168[ch] = (t+(t-1))/2;  // time_170[ch] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+            }
+
+            for (Int_t t=250; t<570; t++) {      
+               q_168[ch] += (v_base_168 - board168_waveform[ch][t]);     // CHARGHE OF CHANNEL
+            }
+   
+            if (ch%2!=0) {
+               q_bar_168[ch/2] = sqrt(q_168[ch] * q_168[ch-1]);          // CHARGHE OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            if (ch%2!=0) {
+               mean_time_168[ch/2] = (time_168[ch] + time_168[ch-1])/2;  // MEAN TIME OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            // DELTA TIME OF BAR
+            if (ch%2!=0) {
+               delta_time_168[ch/2] = time_168[ch] - time_168[ch-1]; // QUALCOSA NO VA...
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+            
+            // BARS Y TOFWALL
+            if (ch==0) bar_TOF_Y = 27;
+            else if (ch==1) bar_TOF_Y = 27;
+            else if (ch==2) bar_TOF_Y = 31;
+            else if (ch==3) bar_TOF_Y = 31;
+            else if (ch==4) bar_TOF_Y = 32;
+            else if (ch==5) bar_TOF_Y = 32;
+            else if (ch==6) bar_TOF_Y = 33;
+            else if (ch==7) bar_TOF_Y = 33;
+            else if (ch==8) bar_TOF_Y = 34;
+            else if (ch==9) bar_TOF_Y = 34;
+            else if (ch==10) bar_TOF_Y = 35;
+            else if (ch==11) bar_TOF_Y = 35;
+            else if (ch==12) bar_TOF_Y = 36;
+            else if (ch==13) bar_TOF_Y = 36;
+            else if (ch==14) bar_TOF_Y = 37;
+            else if (ch==15) bar_TOF_Y = 37;
+
+            std::cout << "\nWD 168"                               << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "Ch                = " << ch             << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "\nv_base_168      = " << v_base_168     << std::endl;
+            std::cout << "\nv_peak_168      = " << v_peak_168     << std::endl;
+            std::cout << "\nv_th_168        = " << v_th_168       << std::endl;
+            std::cout << "\ntime_168        = " << time_168[ch]   << std::endl;
+            std::cout << "\nv_ampl_168      = " << v_ampl_168[ch] << std::endl;
+            std::cout << "\nq_168           = " << q_168[ch]      << std::endl;
+            std::cout << "\nBar (Y)         = " << bar_TOF_Y      << std::endl;
+            if (ch%2!=0) {
+               std::cout << "\n-----------------------------"              << std::endl;
+               std::cout << "\ndelta_time_168  = " << delta_time_168[ch/2] << std::endl;
+               std::cout << "\nq_bar_168       = " << q_bar_168[ch/2]      << std::endl;
+               std::cout << "\nmean_time_168   = " << mean_time_168[ch/2]  << std::endl;
+               std::cout << "\n-----------------------------"              << std::endl;
+            }
+         } // END if (board168_hit[ch] == 1)
+      } // END LOOP ON CHANNEL
 
       //********************************************************************
       // WAVEDREAM 158 - Y VIEW (BAR 38 TO 39)
       //********************************************************************
 
-      for (Int_t ch=0; ch<4; ch++){
+      for (Int_t ch=0; ch<4; ch++) {
+         
+         if (board158_hit[ch] == 1) {
 
-         // INITIALIZE VALUES
-         Double_t voltage_158 = 0.;                        
-         Double_t baseline_158 = 0.;                
-         Double_t ampl_158[nentries][16];
-         Double_t min_158 = board158_waveform[ch][300];  
-         
-         // LOOP ON SAMPLES OF WAVEFORM
-         for (Int_t v=10; v<800; v++){
-         
-            if (v > 50 && board158_waveform[ch][v] < min_158){min_158 = board158_waveform[ch][v];}
-            // APPROX FIRST 1/3 OF 1024 SAMPLES
-            if (v <= 150) {voltage_158 =  voltage_158 + board158_waveform[ch][v];}
-         }
-         baseline_158 = voltage_158/140;
-
-         // AMPLITUDE (EVENTO J-ESIMO, CANALE CH)    
-         ampl_158[jentry][ch] = baseline_158 - min_158;  
-         
-         if (board158_hit[ch] == 1)
-         //if (jentry > 0 && abs(ampl_168[jentry][ch]-ampl_168[jentry-1][ch])>0.00001 && ampl_168[jentry][ch]>0.)
-         {
-            if (1)
-            {                 
-               if (ch==0) bar_TOF_Y= 38;
-               else if (ch==1) bar_TOF_Y= 38;
-               else if (ch==2) bar_TOF_Y = 39;
-               else if (ch==3) bar_TOF_Y = 39;
-               /*
-               std::cout << "WD 158" << std::endl;
-               std::cout << "V_ampl["<<jentry<<"]["<<ch<<"] = " << ampl_158[jentry][ch] << std::endl;
-               std::cout << "Barra = " << bar_TOF_Y << std::endl;
-               std::cout << "------------------------------\n" << std::endl;
-               */
+            // INITIALIZE VALUES
+            Double_t voltage_158 = 0.;                         
+            Double_t v_base_158 = 0.;                          // V BASELINE (PEDESTAL) [mV]
+            Double_t v_ampl_158[16];                           // V AMPLITUDE OF CHANNEL [mV]
+            Double_t v_peak_158 = board168_waveform[ch][300];  // V MINIMUM (PEAK) [mV]
+            Double_t v_th_158;                                 // V THRESHOLD [mV]
+            Double_t time_158[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            Double_t delta_time_158[8];                        // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t mean_time_158[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+            Double_t q_158[16];                                // CHARGE OF CHANNEL [a.u.]
+            Double_t q_bar_158[8];                             // CHARGE OF CHARGE [a.u.]
+            
+            // V PEAK (MINIMUM)
+            for (Int_t t=10; t<800; t++) {// LOOP ON SAMPLES OF WAVEFORM
+               if (t > 50 && board158_waveform[ch][t] < v_peak_158) v_peak_158 = board158_waveform[ch][t];
+               // APPROX FIRST 1/3 OF 1024 SAMPLES
+               if (t <= 150) voltage_158 =  voltage_158 + board158_waveform[ch][t];
             }
-         }
-      }// END LOOP ON CHANNEL
+ 
+            v_base_158 = voltage_158/140;                              // V BASELINE
+            v_th_158 = v_base_158 - f_CFD * (v_base_158 - v_peak_158); // V THRESHOLD
+            v_ampl_158[ch] = v_base_158 - v_peak_158;                  // V AMPLITUDE
+
+            // TIME OF CHANNEL
+            for (Int_t t=10; t<900; t++) {
+               if (board158_waveform[ch][t] == v_th_158) time_158[ch] = t;
+               else if (board158_waveform[ch][t] < v_th_158) time_158[ch] = (t+(t-1))/2;  // time_170[ch] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+            }
+
+            for (Int_t t=250; t<570; t++) {      
+               q_158[ch] += (v_base_158 - board158_waveform[ch][t]);     // CHARGHE OF CHANNEL
+            }
+   
+            if (ch%2!=0) {
+               q_bar_158[ch/2] = sqrt(q_158[ch] * q_158[ch-1]);          // CHARGHE OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            if (ch%2!=0) {
+               mean_time_158[ch/2] = (time_158[ch] + time_158[ch-1])/2;  // MEAN TIME OF BAR
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+
+            // DELTA TIME OF BAR
+            if (ch%2!=0) {
+               delta_time_158[ch/2] = time_158[ch] - time_158[ch-1]; // QUALCOSA NO VA...
+               //h_q_tot[ch/2]->Fill(q_bar[ch/2]);
+            }
+                 
+            // BARS Y TOFWALL
+            if (ch==0) bar_TOF_Y = 38;
+            else if (ch==1) bar_TOF_Y = 38;
+            else if (ch==2) bar_TOF_Y = 39;
+            else if (ch==3) bar_TOF_Y = 39;
+
+            std::cout << "\nWD 158"                               << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "Ch                = " << ch             << std::endl;
+            std::cout << "-----------------------------"          << std::endl;
+            std::cout << "\nv_base_158      = " << v_base_158     << std::endl;
+            std::cout << "\nv_peak_158      = " << v_peak_158     << std::endl;
+            std::cout << "\nv_th_158        = " << v_th_158       << std::endl;
+            std::cout << "\ntime_158        = " << time_158[ch]   << std::endl;
+            std::cout << "\nv_ampl_158      = " << v_ampl_158[ch] << std::endl;
+            std::cout << "\nq_158           = " << q_158[ch]      << std::endl;
+            std::cout << "\nBar (Y)         = " << bar_TOF_Y      << std::endl;
+            if (ch%2!=0) {
+               std::cout << "\n-----------------------------"              << std::endl;
+               std::cout << "\ndelta_tiME_158  = " << delta_time_158[ch/2] << std::endl;
+               std::cout << "\nq_bar_158       = " << q_bar_158[ch/2]      << std::endl;
+               std::cout << "\nmean_time_158   = " << mean_time_158[ch/2]  << std::endl;
+               std::cout << "\n-----------------------------"              << std::endl;
+            }
+         }  // END (board158_hit[ch] == 1)
+      } // END LOOP ON CHANNEL
 
       // FILL THE HISTOGRAM
       if (bar_TOF_X > -1 && bar_TOF_Y > -1) {
          hist->Fill(bar_TOF_X, bar_TOF_Y);
+
       }
       else {
          //std::cout << "No Match X-Y Bar for event # " << jentry << endl;
@@ -566,4 +662,11 @@ void rec::Loop()
    hist->GetZaxis()->SetTitle("# hits");
    hist->Draw("colz TEXT0 SAME");//https://root.cern.ch/doc/v608/classTHistPainter.html#HP15
    //hist->Draw("colz");
+   
+   //h_delta_time[0]->Draw();
+      
+   //------------------------------
+   // SAVE HISROGRAMS IN ROOT FILE
+   //------------------------------
+   //hfile.Write();
 }
