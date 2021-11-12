@@ -4,8 +4,9 @@
 // - V AMPLITUDE FOR EACH CHANNEL
 // - CHARGE FOR EACH CHANNEL
 // - CHARGE FOR EACH BAR
+// - TIME FOR EACH CHANNEL: time when the WF crosses Vth, evaluated through a 
+//   linear interpolation of the two points nearest to the threshold.
 // - DELTA TIME FOR EACH CHANNEL
-// - TIME FOR EACH CHANNEL
 //---------------------------------------------------------------------------------------------
 
 #define rec_cxx
@@ -51,7 +52,7 @@ void rec::Loop()
 
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_v_ampl_165, "hist_v_ampl_165%d", chn);
-      sprintf(title_v_ampl_165, "WD165 - V_ampl of chn%d", chn);
+      sprintf(title_v_ampl_165, "WD165 - V_{ampl} of chn%d", chn);
       hist_v_ampl_165[chn] = new TH1F(name_v_ampl_165,title_v_ampl_165, 60, 0, 0.5);
       hist_v_ampl_165[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
       hist_v_ampl_165[chn]->GetYaxis()->SetTitle("Entries");
@@ -102,9 +103,9 @@ void rec::Loop()
 
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_165,"h_delta_time_165%d", b);
-      sprintf(title_delta_time_165,"WD165 - Delta T WD165 of bar%d", b);
-      hist_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165, 40, -0.30, 0.30); // [ns]
-      hist_delta_time_165[b]->GetXaxis()->SetTitle("Delta T [ns]");
+      sprintf(title_delta_time_165,"WD165 - #DeltaT WD165 of bar%d", b);
+      hist_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165, 40, -30.0, 30.0); // [ns]
+      hist_delta_time_165[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_165[b]->GetYaxis()->SetTitle("Entries");
    }
 
@@ -129,11 +130,11 @@ void rec::Loop()
             // INITIALIZE VALUES
             Double_t voltage_165 = 0.;                         
             Double_t v_base_165 = 0.;                          // V BASELINE (PEDESTAL) [mV]
-            Double_t v_ampl_165[16];                           // V AMPLITUDE OF CHANNEL [mV]
-            Double_t v_peak_165 = board165_waveform[chn][300];  // V MINIMUM (PEAK) [mV]
+            Double_t v_ampl_165;                               // V AMPLITUDE OF CHANNEL [mV]
+            Double_t v_peak_165 = board165_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
             Double_t v_th_165;                                 // V THRESHOLD [mV]
             Double_t time_165[16];                             // TIME OF WF OF CHANNEL [a.u.]
-            Double_t delta_time_165[8];                        // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t delta_time_165;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_165[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
             Double_t q = 0.;                                   // CHARGE [a.u.]
             Double_t q_165[16];                                // CHARGE OF CHANNEL [a.u.]
@@ -146,38 +147,24 @@ void rec::Loop()
                if (t <= 150) voltage_165 =  voltage_165 + board165_waveform[chn][t];
             }
  
-            v_base_165 = voltage_165/140;                              // V BASELINE
-            v_th_165 = v_base_165 - f_CFD * (v_base_165 - v_peak_165); // V THRESHOLD
-            v_ampl_165[chn] = v_base_165 - v_peak_165;                 // V AMPLITUDE
+            v_base_165 = voltage_165/140;                               // V BASELINE
+            v_th_165 = v_base_165 - f_CFD * (v_base_165 - v_peak_165);  // V THRESHOLD
+            v_ampl_165 = v_base_165 - v_peak_165;                       // V AMPLITUDE
 
-            hist_v_ampl_165[chn]->Fill(v_ampl_165[chn]);
+            hist_v_ampl_165[chn]->Fill(v_ampl_165);
 
             // TIME OF CHANNEL
-            /*
             for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board165_waveform[chn][t] == v_th_165) time_165[chn] = t;
-               else if (board165_waveform[chn][t] < v_th_165) time_165[chn] = (t+(t-1))/2;  // time_165[chn] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
-            }
-            */
-            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               //cout << "board165_time["<<chn<<"]["<<t<<"] = "<< board165_time[chn][t] << endl;
-               if (board165_waveform[chn][t] == v_th_165){
-                 time_165[chn] = board165_time[chn][t] * TMath::Power(10,6); // x10^9 to convert time in [ns] from [ms]?
-               } 
-               else if (board165_waveform[chn][t] < v_th_165) {
-                  time_165[chn] = (board165_time[chn][t] + board165_time[chn][t-1])/2 * TMath::Power(10,6);  // time_165[chn] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
-                  //cout << "time_165["<<chn<<"] = "<< time_165[chn] <<" [ns]"<< endl;
-               }
+               if (board165_waveform[chn][t] == v_th_165) time_165[chn] = board165_time[chn][t]; 
+               else if (board165_waveform[chn][t] < v_th_165) time_165[chn] = (board165_time[chn][t] + board165_time[chn][t-1])/2;
             }
 
-            for (Int_t t=250; t<570; t++) {      
-               q += v_base_165 - board165_waveform[chn][t];                // CHARGHE
-            }
+            for (Int_t t=250; t<570; t++) q += v_base_165 - board165_waveform[chn][t];
             q_165[chn] = q;                                                // CHARGHE OF CHANNEL
             hist_q_165[chn]->Fill(q_165[chn]);
    
             if (chn%2!=0) {
-               q_bar_165[chn/2] = sqrt(q_165[chn] * q_165[chn-1]);         // CHARGHE OF BAR
+               q_bar_165[chn/2] = sqrt(q_165[chn] * q_165[chn-1]);         // CHARGE OF BAR
                hist_q_bar_165[chn/2]->Fill(q_bar_165[chn/2]);
             }
 
@@ -188,9 +175,9 @@ void rec::Loop()
             }
 
             if (chn%2!=0) {
-               delta_time_165[chn/2] = time_165[chn] - time_165[chn-1];     // DELTA TIME OF BAR
-               //cout << "delta_time_165" << delta_time_165[chn/2] << " [ns]" << endl;
-               hist_delta_time_165[chn/2]->Fill(delta_time_165[chn/2]);
+               delta_time_165 = (time_165[chn] - time_165[chn-1]) * TMath::Power(10,9);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               //cout << "delta_time_165 = " << delta_time_165[chn/2] << " [ns]" << endl;
+               hist_delta_time_165[chn/2]->Fill(delta_time_165);
             }
 
             // BARS X TOFWALL
@@ -221,12 +208,12 @@ void rec::Loop()
                std::cout << "\nv_peak_165      = " << v_peak_165      << std::endl;
                std::cout << "\nv_th_165        = " << v_th_165        << std::endl;
                std::cout << "\ntime_165        = " << time_165[chn]   << std::endl;
-               std::cout << "\nv_ampl_165      = " << v_ampl_165[chn] << std::endl;
+               std::cout << "\nv_ampl_165      = " << v_ampl_165      << std::endl;
                std::cout << "\nq_165           = " << q_165[chn]      << std::endl;
                std::cout << "\nBar (X)         = " << bar_TOF_X       << std::endl;
                if (chn%2!=0) {
                   std::cout << "\n-----------------------------"               << std::endl;
-                  std::cout << "\ndelta_time_165  = " << delta_time_165[chn/2] << std::endl;
+                  std::cout << "\ndelta_time_165  = " << delta_time_165        << std::endl;
                   std::cout << "\nq_bar_165       = " << q_bar_165[chn/2]      << std::endl;
                   std::cout << "\nmean_time_165   = " << mean_time_165[chn/2]  << std::endl;
                   std::cout << "\n-----------------------------"               << std::endl;
@@ -249,22 +236,11 @@ void rec::Loop()
    c_hit_165->SetTickx();
    c_hit_165->SetTicky();
    c_hit_165->SetLeftMargin(0.15);
+
    hist_hit_165->GetXaxis()->SetTitle("FronBar, LayerX");
    hist_hit_165->SetNdivisions(8,"X");
    hist_hit_165->GetYaxis()->SetTitle("Counts");
-   hist_hit_165->Draw("BAR");
-
-   /*
-   TCanvas *c3 = new TCanvas("c3", "delta_mean_time",600,600);
-   c3->SetTickx();
-   c3->SetTicky();
-   c3->SetLeftMargin(0.15);
-
-   hist_mean_time->GetXaxis()->SetTitle("Delta mean time");
-   hist_mean_time->GetYaxis()->SetTitle("Counts");
-   hist_mean_time->Fit("gaus", "Q");
-   hist_mean_time->Draw();//https://root.cern.ch/doc/v608/classTHistPainter.html#HP15
-   */
+   hist_hit_165->Draw();
 
    //------------------------------
    // V AMPLITUDE
@@ -350,6 +326,7 @@ void rec::Loop()
       c_delta_time_165->SetTickx();
       c_delta_time_165->SetTicky();
       c_delta_time_165->SetLeftMargin(0.15);
+
       hist_delta_time_165[b]->SetMarkerStyle(20);
       hist_delta_time_165[b]->SetMarkerStyle(kFullCircle);
       hist_delta_time_165[b]->SetMarkerColor(kBlack);
