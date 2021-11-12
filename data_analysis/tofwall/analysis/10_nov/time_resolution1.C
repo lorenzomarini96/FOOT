@@ -708,6 +708,7 @@ void rec::Loop()
 
    hist_mean_time->GetXaxis()->SetTitle("Delta mean time");
    hist_mean_time->GetYaxis()->SetTitle("Counts");
+   hist_mean_time->Fit("gaus", "Q");
    hist_mean_time->Draw();//https://root.cern.ch/doc/v608/classTHistPainter.html#HP15
 
    //------------------------------

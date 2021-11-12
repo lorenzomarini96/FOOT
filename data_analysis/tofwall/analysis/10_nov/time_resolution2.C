@@ -258,7 +258,7 @@ void rec::Loop()
             }
 
             if (chn%2!=0) {
-               delta_time_165 = (time_165[chn] - time_165[chn-1]) * TMath::Power(10,9);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               delta_time_165 = (time_165[chn-1] - time_165[chn]) * TMath::Power(10,9);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
                //cout << "delta_time_165 = " << delta_time_165[chn/2] << " [ns]" << endl;
                hist_delta_time_165[chn/2]->Fill(delta_time_165);
             }
@@ -374,7 +374,7 @@ void rec::Loop()
             }
 
             if (chn%2!=0) {
-               delta_time_166 = (time_166[chn] - time_166[chn-1]) * TMath::Power(10,9);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               delta_time_166 = (time_166[chn-1] - time_166[chn]) * TMath::Power(10,9);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
                //cout << "delta_time_165 = " << delta_time_165[chn/2] << " [ns]" << endl;
                hist_delta_time_166[chn/2]->Fill(delta_time_166);
             }
@@ -419,7 +419,8 @@ void rec::Loop()
       } // END LOOP ON CHANNELS
 
       // FILL THE HISTOGRAM
-      if (bar_TOF_X > -1) hist_hit_166->Fill(bar_TOF_X);
+      if (bar_TOF_X > -1) hist_hit_166_X->Fill(bar_TOF_X);
+      if (bar_TOF_Y > -1) hist_hit_166_Y->Fill(bar_TOF_Y);
       //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
    
    } // END LOOP ON ENTRIES
