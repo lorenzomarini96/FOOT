@@ -38,21 +38,9 @@ void rec::Loop()
    //TH1F *hist_mean_time = new TH1F("hist_mean_time", "Delta mean time barX/Y", 60, -150, 150);
    
    //------------------------------
-   // HISTOGRAMS DELTA TIME WD165
+   // HISTOGRAMS HITBARS 0 TO 7 WD165
    //------------------------------
-   /*
-   TH1F *h_delta_time_165[16];
-   char name_delta_time_165[20];
-   char title_delta_time_165[100];
-
-   for (Int_t b=0; b<8; b++) {
-      sprintf(name_delta_time_165,"h_delta_time_165%d", b);
-      sprintf(title_delta_time_165,"WD165 - Delta T WD165 of bar%d", b);
-      h_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165,60, -150, 150);
-      h_delta_time_165[b]->GetXaxis()->SetTitle("Delta T [a.u.]");
-      h_delta_time_165[b]->GetYaxis()->SetTitle("Entries");
-   }
-   */
+   TH1D *hist_hit_165 = new TH1D("hist", "Hit-map Test Cosmic rays", 8, -0.5, 7.5);
 
    //------------------------------
    // HISTOGRAMS V_AMPLITUDE WD165
@@ -97,7 +85,7 @@ void rec::Loop()
 
    for (Int_t b=0; b<16; b++) {
       sprintf(name_q_bar_165, "hist_q_bar_165%d", b);
-      sprintf(title_q_165, "WD165 - Q of bar%d", b);
+      sprintf(title_q_bar_165, "WD165 - Q of bar%d", b);
       hist_q_bar_165[b] = new TH1F(name_q_bar_165,title_q_bar_165, 50, 0.0, 50);
       hist_q_bar_165[b]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_bar_165[b]->GetYaxis()->SetTitle("Entries");
@@ -105,6 +93,20 @@ void rec::Loop()
       hist_q_bar_165[b]->GetYaxis()->SetTitleSize(0.05);
    }
 
+   //------------------------------
+   // HISTOGRAMS DELTA TIME WD165
+   //------------------------------
+   TH1F *hist_delta_time_165[16];
+   char name_delta_time_165[20];
+   char title_delta_time_165[100];
+
+   for (Int_t b=0; b<8; b++) {
+      sprintf(name_delta_time_165,"h_delta_time_165%d", b);
+      sprintf(title_delta_time_165,"WD165 - Delta T WD165 of bar%d", b);
+      hist_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165,60, -120, 120);
+      hist_delta_time_165[b]->GetXaxis()->SetTitle("Delta T [a.u.]");
+      hist_delta_time_165[b]->GetYaxis()->SetTitle("Entries");
+   }
 
    // LOOP ON ENTRIES
    for (Long64_t jentry=0; jentry<nentries; jentry++) {
@@ -175,7 +177,7 @@ void rec::Loop()
 
             if (chn%2!=0) {
                delta_time_165[chn/2] = time_165[chn] - time_165[chn-1];     // DELTA TIME OF BAR
-               //h_delta_time_165[chn/2]->Fill(delta_time_165[chn/2]);
+               hist_delta_time_165[chn/2]->Fill(delta_time_165[chn/2]);
             }
 
             // BARS X TOFWALL
@@ -221,36 +223,25 @@ void rec::Loop()
       } // END LOOP ON CHANNELS
 
       // FILL THE HISTOGRAM
-      //if (bar_TOF_X > -1 && bar_TOF_Y > -1)      hist->Fill(bar_TOF_X, bar_TOF_Y);
+      if (bar_TOF_X > -1) hist_hit_165->Fill(bar_TOF_X);
       //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
       
          
    }// END LOOP ON ENTRIES
    
-     
+   //------------------------------
+   // HITS ON BARS
+   //------------------------------
+   TCanvas *c_hit_165 = new TCanvas("c_hit_165", "hit", 1200, 1200);
+   c_hit_165->SetTickx();
+   c_hit_165->SetTicky();
+   c_hit_165->SetLeftMargin(0.15);
+   hist_hit_165->GetXaxis()->SetTitle("FronBar, LayerX");
+   hist_hit_165->SetNdivisions(8,"X");
+   hist_hit_165->GetYaxis()->SetTitle("Counts");
+   hist_hit_165->Draw("colz TEXT0 SAME");
+
    /*
-   TCanvas *c_2 = new TCanvas("c_2", "Delta t",600,600);
-   c_2->SetTickx();
-   c_2->SetTicky();
-   c_2->SetLeftMargin(0.15);
-
-   for (int b=0; b<8; b++)
-   {  
-      //------------------------------
-      // DELTA TIME
-      //------------------------------
-      TString canvas_title = Form("c_bar%d",b); 
-      TCanvas *time = new TCanvas(canvas_title, canvas_title, 600, 600);
-      time->SetTickx();
-      time->SetTicky();
-      time->SetLeftMargin(0.15);
-      h_delta_time_165[b]->SetMarkerStyle(20);
-      h_delta_time_165[b]->SetMarkerStyle(kFullCircle);
-      h_delta_time_165[b]->SetMarkerColor(kBlack);
-      h_delta_time_165[b]->Fit("gaus", "Q");
-      h_delta_time_165[b]->Draw("E");
-   }
-
    TCanvas *c3 = new TCanvas("c3", "delta_mean_time",600,600);
    c3->SetTickx();
    c3->SetTicky();
@@ -286,7 +277,6 @@ void rec::Loop()
       hist_v_ampl_165[chn]->Draw();
    }
 
-
    //------------------------------
    // CHARGE CHANNEL
    //------------------------------
@@ -310,7 +300,6 @@ void rec::Loop()
       hist_q_165[chn]->Draw();
    }
 
-
    //------------------------------
    // CHARGHE BAR
    //------------------------------
@@ -333,6 +322,29 @@ void rec::Loop()
       hist_q_bar_165[b]->Fit("landau", "Q");
       hist_q_bar_165[b]->Draw();
    }
+      
+   //------------------------------
+   // DELTA TIME
+   //------------------------------
+   TCanvas *c_delta_time_165 = new TCanvas("c_delta_time_165", "Delta t 165",1200,1200);
+   c_delta_time_165->Divide(4,2);
+
+   for (int b=0; b<8; b++)
+   {  
+      c_delta_time_165->cd(b+1);
+      //TString canvas_title_delta_time_165 = Form("c_delta_time_165bar%d",b); 
+      //TCanvas *c_delta_time_165 = new TCanvas(canvas_title_delta_time_165, canvas_title_delta_time_165, 600, 600);
+      c_delta_time_165->SetTickx();
+      c_delta_time_165->SetTicky();
+      c_delta_time_165->SetLeftMargin(0.15);
+      hist_delta_time_165[b]->SetMarkerStyle(20);
+      hist_delta_time_165[b]->SetMarkerStyle(kFullCircle);
+      hist_delta_time_165[b]->SetMarkerColor(kBlack);
+      hist_delta_time_165[b]->SetFillColor(5); // Yellow
+      hist_delta_time_165[b]->Fit("gaus", "Q");
+      hist_delta_time_165[b]->Draw();
+   }
+
    //------------------------------
    // SAVE HISROGRAMS IN ROOT FILE
    //------------------------------
