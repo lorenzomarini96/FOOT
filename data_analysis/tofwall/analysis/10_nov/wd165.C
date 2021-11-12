@@ -40,7 +40,7 @@ void rec::Loop()
    //------------------------------
    // HISTOGRAMS HITBARS 0 TO 7 WD165
    //------------------------------
-   TH1D *hist_hit_165 = new TH1D("hist", "Hit-map Test Cosmic rays", 8, -0.5, 7.5);
+   TH1D *hist_hit_165 = new TH1D("hist", "Hit-map X-view bar 0 to 7", 8, -0.5, 7.5);
 
    //------------------------------
    // HISTOGRAMS V_AMPLITUDE WD165
@@ -103,8 +103,8 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_165,"h_delta_time_165%d", b);
       sprintf(title_delta_time_165,"WD165 - Delta T WD165 of bar%d", b);
-      hist_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165,60, -120, 120);
-      hist_delta_time_165[b]->GetXaxis()->SetTitle("Delta T [a.u.]");
+      hist_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165, 40, -0.30, 0.30); // [ns]
+      hist_delta_time_165[b]->GetXaxis()->SetTitle("Delta T [ns]");
       hist_delta_time_165[b]->GetYaxis()->SetTitle("Entries");
    }
 
@@ -153,9 +153,21 @@ void rec::Loop()
             hist_v_ampl_165[chn]->Fill(v_ampl_165[chn]);
 
             // TIME OF CHANNEL
+            /*
             for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
                if (board165_waveform[chn][t] == v_th_165) time_165[chn] = t;
                else if (board165_waveform[chn][t] < v_th_165) time_165[chn] = (t+(t-1))/2;  // time_165[chn] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+            }
+            */
+            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+               //cout << "board165_time["<<chn<<"]["<<t<<"] = "<< board165_time[chn][t] << endl;
+               if (board165_waveform[chn][t] == v_th_165){
+                 time_165[chn] = board165_time[chn][t] * TMath::Power(10,6); // x10^9 to convert time in [ns] from [ms]?
+               } 
+               else if (board165_waveform[chn][t] < v_th_165) {
+                  time_165[chn] = (board165_time[chn][t] + board165_time[chn][t-1])/2 * TMath::Power(10,6);  // time_165[chn] = time when the WF crosses Vth, evaluated through a linear interpolation of the two points nearest to the threshold.
+                  //cout << "time_165["<<chn<<"] = "<< time_165[chn] <<" [ns]"<< endl;
+               }
             }
 
             for (Int_t t=250; t<570; t++) {      
@@ -177,6 +189,7 @@ void rec::Loop()
 
             if (chn%2!=0) {
                delta_time_165[chn/2] = time_165[chn] - time_165[chn-1];     // DELTA TIME OF BAR
+               //cout << "delta_time_165" << delta_time_165[chn/2] << " [ns]" << endl;
                hist_delta_time_165[chn/2]->Fill(delta_time_165[chn/2]);
             }
 
@@ -227,7 +240,7 @@ void rec::Loop()
       //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
       
          
-   }// END LOOP ON ENTRIES
+   } // END LOOP ON ENTRIES
    
    //------------------------------
    // HITS ON BARS
@@ -239,7 +252,7 @@ void rec::Loop()
    hist_hit_165->GetXaxis()->SetTitle("FronBar, LayerX");
    hist_hit_165->SetNdivisions(8,"X");
    hist_hit_165->GetYaxis()->SetTitle("Counts");
-   hist_hit_165->Draw("colz TEXT0 SAME");
+   hist_hit_165->Draw("BAR");
 
    /*
    TCanvas *c3 = new TCanvas("c3", "delta_mean_time",600,600);
