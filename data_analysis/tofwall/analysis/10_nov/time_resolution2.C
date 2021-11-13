@@ -26,21 +26,19 @@ void rec::Loop()
    //------------------------------
    // FILE .ROOT TO SAVE HISTOGRAMS
    //------------------------------
-   //TFile hfile("wd165.root","RECREATE");
+   //TFile hfile("wds.root","RECREATE");
 
    //gStyle->SetOptStat(0);
    gStyle->SetOptFit(10111);
 
    TH1D *hist_hit_X = new TH1D("hist_hit_X", "Hit-map X-view bar 0 to 19", 20, -0.5, 19.5);
+   TH1D *hist_hit_Y = new TH1D("hist_hit_Y", "Hit-map Y-view bar 20 to 39", 20, 19.5, 39.5);
+
+
    //==================================================================================
    // // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)   
    //==================================================================================
    
-   //------------------------------
-   // HISTOGRAMS HITBARS 0 TO 7 WD165
-   //------------------------------
-   TH1D *hist_hit_165 = new TH1D("hist_hit_165", "Hit-map X-view bar 0 to 7", 8, -0.5, 7.5);
-
    //------------------------------
    // HISTOGRAMS V_AMPLITUDE WD165
    //------------------------------
@@ -111,16 +109,6 @@ void rec::Loop()
    //==================================================================================
    // WAVEDREAM 166 - X VIEW (BAR 8 TO 10); Y VIEW (BAR 28 to 30)
    //==================================================================================
-   
-   //------------------------------
-   // HISTOGRAMS HITBARS 8 TO 10 WD165
-   //------------------------------
-   TH1D *hist_hit_166_X = new TH1D("hist_hit_166_X", "Hit-map X-view bar 8 to 10", 3, 7.5, 9.5);
-
-   //------------------------------
-   // HISTOGRAMS HITBARS 28 TO 30 WD166
-   //------------------------------
-   TH1D *hist_hit_166_Y = new TH1D("hist_hit_166_Y", "Hit-map Y-view bar 28 to 30", 3, 27.5, 29.5);
 
    //------------------------------
    // HISTOGRAMS V_AMPLITUDE WD165
@@ -193,11 +181,6 @@ void rec::Loop()
    //==================================================================================
    // // WAVEDREAM 170 - X VIEW (BAR 11 TO 18)   
    //==================================================================================
-   
-   //------------------------------
-   // HISTOGRAMS HITBARS 11 TO 18 WD165
-   //------------------------------
-   TH1D *hist_hit_170 = new TH1D("hist_hit_170", "Hit-map X-view bar 11 to 18", 8, 10.5, 17.5);
 
    //------------------------------
    // HISTOGRAMS V_AMPLITUDE WD170
@@ -268,11 +251,6 @@ void rec::Loop()
    //==================================================================================
    // WAVEDREAM 167 - X VIEW (BAR 19); Y VIEW (BAR 20 TO 26)
    //==================================================================================
-   
-   //------------------------------
-   // HISTOGRAMS HITBARS 11 TO 18 WD167
-   //------------------------------
-   //TH1D *hist_hit_167 = new TH1D("hist_hit_170", "Hit-map X-view bar 11 to 18", 8, 10.5, 17.5);
 
    //------------------------------
    // HISTOGRAMS V_AMPLITUDE WD167
@@ -339,8 +317,76 @@ void rec::Loop()
       hist_delta_time_167[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_167[b]->GetYaxis()->SetTitle("Entries");
    }
+   
+   //==================================================================================
+   // // WAVEDREAM 168 - Y VIEW (BAR 0 TO 7)   
+   //==================================================================================
+   
+   //------------------------------
+   // HISTOGRAMS V_AMPLITUDE WD168
+   //------------------------------
+   TH1F *hist_v_ampl_168[16];
+   char name_v_ampl_168[20];
+   char title_v_ampl_168[100];
 
+   for (Int_t chn=0; chn<16; chn++) {
+      sprintf(name_v_ampl_168, "hist_v_ampl_168%d", chn);
+      sprintf(title_v_ampl_168, "WD168 - V_{ampl} of chn%d", chn);
+      hist_v_ampl_168[chn] = new TH1F(name_v_ampl_168,title_v_ampl_165, 60, 0, 0.5);
+      hist_v_ampl_168[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
+      hist_v_ampl_168[chn]->GetYaxis()->SetTitle("Entries");
+      hist_v_ampl_168[chn]->GetXaxis()->SetTitleSize(0.05);
+      hist_v_ampl_168[chn]->GetYaxis()->SetTitleSize(0.05);
+   }
 
+   //------------------------------
+   // HISTOGRAMS CHARGHE WD168
+   //------------------------------
+   TH1F *hist_q_168[16];
+   char name_q_168[20];
+   char title_q_168[100];
+
+   for (Int_t chn=0; chn<16; chn++) {
+      sprintf(name_q_168, "hist_q_168%d", chn);
+      sprintf(title_q_168, "WD168 - Q of chn%d", chn);
+      hist_q_168[chn] = new TH1F(name_q_168,title_q_168, 40, 0.0, 40);
+      hist_q_168[chn]->GetXaxis()->SetTitle("Q [a.u.]");
+      hist_q_168[chn]->GetYaxis()->SetTitle("Entries");
+      hist_q_168[chn]->GetXaxis()->SetTitleSize(0.05);
+      hist_q_168[chn]->GetYaxis()->SetTitleSize(0.05);
+   }
+
+   //------------------------------
+   // HISTOGRAMS CHARGHE BAR WD168
+   //------------------------------
+   TH1F *hist_q_bar_168[16];
+   char name_q_bar_168[20];
+   char title_q_bar_168[100];
+
+   for (Int_t b=0; b<16; b++) {
+      sprintf(name_q_bar_168, "hist_q_bar_168%d", b);
+      sprintf(title_q_bar_168, "WD168 - Q of bar%d", b);
+      hist_q_bar_168[b] = new TH1F(name_q_bar_168,title_q_bar_168, 40, 0.0, 40);
+      hist_q_bar_168[b]->GetXaxis()->SetTitle("Q [a.u.]");
+      hist_q_bar_168[b]->GetYaxis()->SetTitle("Entries");
+      hist_q_bar_168[b]->GetXaxis()->SetTitleSize(0.05);
+      hist_q_bar_168[b]->GetYaxis()->SetTitleSize(0.05);
+   }
+
+   //------------------------------
+   // HISTOGRAMS DELTA TIME WD168
+   //------------------------------
+   TH1F *hist_delta_time_168[16];
+   char name_delta_time_168[20];
+   char title_delta_time_168[100];
+
+   for (Int_t b=0; b<8; b++) {
+      sprintf(name_delta_time_168,"h_delta_time_168%d", b);
+      sprintf(title_delta_time_168,"WD168 - #DeltaT WD168 of bar%d", b);
+      hist_delta_time_168[b] = new TH1F(name_delta_time_168,title_delta_time_168, 30, -50.0, 50.0); // [ns]
+      hist_delta_time_168[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
+      hist_delta_time_168[b]->GetYaxis()->SetTitle("Entries");
+   }
 
    // LOOP ON ENTRIES
    for (Long64_t jentry=0; jentry<nentries; jentry++) {
@@ -460,7 +506,6 @@ void rec::Loop()
       } // END LOOP ON CHANNELS
 
       // FILL THE HISTOGRAM
-      if (bar_TOF_X > -1) hist_hit_165->Fill(bar_TOF_X);
       if (bar_TOF_X > -1) hist_hit_X->Fill(bar_TOF_X);
       //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
       
@@ -468,13 +513,6 @@ void rec::Loop()
       //==================================================================================
       // WAVEDREAM 166 - X VIEW (BAR 8 TO 10); Y VIEW (BAR 28 to 30)
       //==================================================================================
-
-      // INIT VALUES
-      //Int_t bar_TOF_X = -1;         // NUMBER OF THE BAR (X-VIEW)
-      //Int_t bar_TOF_Y = -1;         // NUMBER OF THE BAR (Y-VIEW)
-      //Double_t f_CFD = 0.3;         // FRACTION FOR COMPUTE THE TIME
-      //Double_t mean_time_X = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (X-VIEW)
-      //Double_t mean_time_Y = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (Y-VIEW) 
       
       // LOOP ON CHANNELS OF WAVEDREAM
       for (Int_t chn=0; chn<12; chn++) {
@@ -548,7 +586,6 @@ void rec::Loop()
             else if (chn==9)  bar_TOF_Y = 29;
             else if (chn==10) bar_TOF_Y = 30;
             else if (chn==11) bar_TOF_Y = 30;
-   
             
             if (0) {
                std::cout << "\n**************************"            << std::endl;
@@ -574,20 +611,15 @@ void rec::Loop()
       } // END LOOP ON CHANNELS
 
       // FILL THE HISTOGRAM
-      if (bar_TOF_X > -1) hist_hit_166_X->Fill(bar_TOF_X);
-      if (bar_TOF_Y > -1) hist_hit_166_Y->Fill(bar_TOF_Y);
       if (bar_TOF_X > -1) hist_hit_X->Fill(bar_TOF_X);
+      if (bar_TOF_Y > -1) hist_hit_Y->Fill(bar_TOF_Y);
       //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
    
 
       //==================================================================================
       // WAVEDREAM 170 - X VIEW (BAR 11 TO 18)
       //==================================================================================
-      
-      // INIT VALUES      
-      //Double_t mean_time_X = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (X-VIEW)
-      //Double_t mean_time_Y = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (Y-VIEW) 
-      
+
       // LOOP ON CHANNELS OF WAVEDREAM
       for (Int_t chn=0; chn<16; chn++) {
          
@@ -689,21 +721,14 @@ void rec::Loop()
       } // END LOOP ON CHANNELS
 
       // FILL THE HISTOGRAM
-      if (bar_TOF_X > -1) hist_hit_170->Fill(bar_TOF_X);
       if (bar_TOF_X > -1) hist_hit_X->Fill(bar_TOF_X);
+      if (bar_TOF_Y > -1) hist_hit_Y->Fill(bar_TOF_Y);
       //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
       
 
       //==================================================================================
       // WAVEDREAM 167 - X VIEW (BAR 19); Y VIEW (BAR 20 TO 26)
       //==================================================================================
-      
-      // INIT VALUES
-      //Int_t bar_TOF_X = -1;         // NUMBER OF THE BAR (X-VIEW)
-      //Int_t bar_TOF_Y = -1;         // NUMBER OF THE BAR (Y-VIEW)
-      //Double_t f_CFD = 0.3;         // FRACTION FOR COMPUTE THE TIME
-      //Double_t mean_time_X = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (X-VIEW)
-      //Double_t mean_time_Y = -1.;   // MEAN TIME (LEFT AND RIGHT) ON THE BAR (Y-VIEW) 
       
       // LOOP ON CHANNELS OF WAVEDREAM
       for (Int_t chn=0; chn<16; chn++) {
@@ -807,15 +832,118 @@ void rec::Loop()
       } // END LOOP ON CHANNELS
 
       // FILL THE HISTOGRAM
-      //if (bar_TOF_X > -1) hist_hit_167->Fill(bar_TOF_X);
       if (bar_TOF_X > -1) hist_hit_X->Fill(bar_TOF_X);
+      if (bar_TOF_Y > -1) hist_hit_Y->Fill(bar_TOF_Y);
       //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
       
 
+      //==================================================================================
+      // WAVEDREAM 168 - Y VIEW BAR 19
+      //==================================================================================
+         
+      // LOOP ON CHANNELS OF WAVEDREAM
+      for (Int_t chn=0; chn<16; chn++) {
+         
+         if (board168_hit[chn] == 1) {
 
+            // INITIALIZE VALUES
+            Double_t voltage_168 = 0.;                         
+            Double_t v_base_168 = 0.;                          // V BASELINE (PEDESTAL) [mV]
+            Double_t v_ampl_168;                               // V AMPLITUDE OF CHANNEL [mV]
+            Double_t v_peak_168 = board168_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
+            Double_t v_th_168;                                 // V THRESHOLD [mV]
+            Double_t time_168[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            Double_t delta_time_168;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t mean_time_168[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+            Double_t q = 0.;                                   // CHARGE [a.u.]
+            Double_t q_168[16];                                // CHARGE OF CHANNEL [a.u.]
+            Double_t q_bar_168[8];                             // CHARGE OF CHARGE [a.u.]
+            
+            // V PEAK (MINIMUM)
+            for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
+               if (t > 50 && board168_waveform[chn][t] < v_peak_168) v_peak_168 = board168_waveform[chn][t];
+               // APPROX FIRST 1/3 OF 1024 SAMPLES
+               if (t <= 150) voltage_168 =  voltage_168 + board168_waveform[chn][t];
+            }
+ 
+            v_base_168 = voltage_168/140;                               // V BASELINE
+            v_th_168 = v_base_168 - f_CFD * (v_base_168 - v_peak_168);  // V THRESHOLD
+            v_ampl_168 = v_base_168 - v_peak_168;                       // V AMPLITUDE
 
+            hist_v_ampl_168[chn]->Fill(v_ampl_168);
 
+            // TIME OF CHANNEL
+            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+               if (board168_waveform[chn][t] == v_th_168) time_168[chn] = board168_time[chn][t]; 
+               else if (board168_waveform[chn][t] < v_th_168) time_168[chn] = (board168_time[chn][t] + board168_time[chn][t-1])/2;
+            }
 
+            for (Int_t t=250; t<570; t++) q += v_base_168 - board168_waveform[chn][t];
+            q_168[chn] = q;                                                // CHARGHE OF CHANNEL
+            hist_q_168[chn]->Fill(q_168[chn]);
+   
+            if (chn%2!=0) {
+               q_bar_168[chn/2] = sqrt(q_168[chn] * q_168[chn-1]);         // CHARGE OF BAR
+               hist_q_bar_168[chn/2]->Fill(q_bar_168[chn/2]);
+            }
+
+            if (chn%2!=0) {
+               mean_time_168[chn/2] = (time_168[chn] + time_168[chn-1])/2;  // MEAN TIME OF BAR
+               mean_time_X = (time_168[chn] + time_168[chn-1])/2;
+               //h_q_tot[chn/2]->Fill(q_bar[chn/2]);
+            }
+
+            if (chn%2!=0) {
+               delta_time_168 = (time_168[chn-1] - time_168[chn]) * TMath::Power(10,9);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               //cout << "delta_time_168 = " << delta_time_168[chn/2] << " [ns]" << endl;
+               hist_delta_time_168[chn/2]->Fill(delta_time_168);
+            }
+
+            // BARS Y TOFWALL
+            if (chn==0)       bar_TOF_Y = 27;
+            else if (chn==1)  bar_TOF_Y = 27;
+            else if (chn==2)  bar_TOF_Y = 31;
+            else if (chn==3)  bar_TOF_Y = 31;
+            else if (chn==4)  bar_TOF_Y = 32;
+            else if (chn==5)  bar_TOF_Y = 32;
+            else if (chn==6)  bar_TOF_Y = 33;
+            else if (chn==7)  bar_TOF_Y = 33;
+            else if (chn==8)  bar_TOF_Y = 34;
+            else if (chn==9)  bar_TOF_Y = 34;
+            else if (chn==10) bar_TOF_Y = 35;
+            else if (chn==11) bar_TOF_Y = 35;
+            else if (chn==12) bar_TOF_Y = 36;
+            else if (chn==13) bar_TOF_Y = 36;
+            else if (chn==14) bar_TOF_Y = 37;
+            else if (chn==15) bar_TOF_Y = 37;
+            
+            if (0) {
+               std::cout << "\n**************************"            << std::endl;
+               std::cout << "\nWD 168"                                << std::endl;
+               std::cout << "\nEntry           = " << jentry          << std::endl;
+               std::cout << "\nchn             = " << chn             << std::endl;
+               std::cout << "\nv_base_168      = " << v_base_168      << std::endl;
+               std::cout << "\nv_peak_168      = " << v_peak_168      << std::endl;
+               std::cout << "\nv_th_168        = " << v_th_168        << std::endl;
+               std::cout << "\ntime_168        = " << time_168[chn]   << std::endl;
+               std::cout << "\nv_ampl_168      = " << v_ampl_168      << std::endl;
+               std::cout << "\nq_168           = " << q_168[chn]      << std::endl;
+               std::cout << "\nBar (X)         = " << bar_TOF_X       << std::endl;
+               if (chn%2!=0) {
+                  std::cout << "\n-----------------------------"               << std::endl;
+                  std::cout << "\ndelta_time_168  = " << delta_time_168        << std::endl;
+                  std::cout << "\nq_bar_168       = " << q_bar_168[chn/2]      << std::endl;
+                  std::cout << "\nmean_time_168   = " << mean_time_168[chn/2]  << std::endl;
+                  std::cout << "\n-----------------------------"               << std::endl;
+               }
+            }           
+         } // END if (board168_hit[ch] == 1)
+      } // END LOOP ON CHANNELS
+
+      // FILL THE HISTOGRAM
+      if (bar_TOF_Y > -1) hist_hit_Y->Fill(bar_TOF_Y);
+      //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
+      
 
 
    } // END LOOP ON ENTRIES
@@ -830,29 +958,31 @@ void rec::Loop()
    c_hit_X->SetTicky();
    c_hit_X->SetLeftMargin(0.15);
 
-   hist_hit_X->GetXaxis()->SetTitle("FronBar, LayerX");
+   hist_hit_X->GetXaxis()->SetTitle("RearBar, LayerX");
    hist_hit_X->SetNdivisions(20,"X");
+   hist_hit_X->SetFillColor(49);
    hist_hit_X->GetYaxis()->SetTitle("Counts");
-   hist_hit_X->Draw();
+   hist_hit_X->Draw("bar2");
 
+
+   //------------------------------
+   // HITS ON BARS Y
+   //------------------------------
+   TCanvas *c_hit_Y = new TCanvas("c_hit_Y", "hit_Y", 1200, 1200);
+   c_hit_Y->SetTickx();
+   c_hit_Y->SetTicky();
+   c_hit_Y->SetLeftMargin(0.15);
+
+   hist_hit_Y->GetXaxis()->SetTitle("FrontBar, LayerY");
+   hist_hit_Y->SetNdivisions(20,"X");
+   hist_hit_Y->SetFillColor(50);
+   hist_hit_Y->GetYaxis()->SetTitle("Counts");
+   hist_hit_Y->Draw("hbar2");
 
 
    //==================================================================================
    // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)
    //==================================================================================
-
-   //------------------------------
-   // HITS ON BARS
-   //------------------------------
-   TCanvas *c_hit_165 = new TCanvas("c_hit_165", "hit", 1200, 1200);
-   c_hit_165->SetTickx();
-   c_hit_165->SetTicky();
-   c_hit_165->SetLeftMargin(0.15);
-
-   hist_hit_165->GetXaxis()->SetTitle("FronBar, LayerX");
-   hist_hit_165->SetNdivisions(8,"X");
-   hist_hit_165->GetYaxis()->SetTitle("Counts");
-   hist_hit_165->Draw();
 
    //------------------------------
    // V AMPLITUDE
@@ -948,32 +1078,6 @@ void rec::Loop()
    //==================================================================================
 
    //------------------------------
-   // HITS ON BARS
-   //------------------------------
-   TCanvas *c_hit_166_X = new TCanvas("c_hit_166_X", "hit", 1200, 1200);
-   c_hit_166_X->SetTickx();
-   c_hit_166_X->SetTicky();
-   c_hit_166_X->SetLeftMargin(0.15);
-
-   hist_hit_166_X->GetXaxis()->SetTitle("FrontBar, LayerX");
-   hist_hit_166_X->SetNdivisions(3,"X");
-   hist_hit_166_X->GetYaxis()->SetTitle("Counts");
-   hist_hit_166_X->Draw();
-
-   //------------------------------
-   // HITS ON BARS
-   //------------------------------
-   TCanvas *c_hit_166_Y = new TCanvas("c_hit_166_Y", "hit", 1200, 1200);
-   c_hit_166_Y->SetTickx();
-   c_hit_166_Y->SetTicky();
-   c_hit_166_Y->SetLeftMargin(0.15);
-
-   hist_hit_166_Y->GetXaxis()->SetTitle("FrontBar, LayerY");
-   hist_hit_166_Y->SetNdivisions(3,"X");
-   hist_hit_166_Y->GetYaxis()->SetTitle("Counts");
-   hist_hit_166_Y->Draw();
-
-   //------------------------------
    // V AMPLITUDE
    //------------------------------
    TCanvas *c_v_ampl_166 = new TCanvas("c_v_ampl_166", "c_v_ampl_166", 1200, 1200);
@@ -1065,19 +1169,6 @@ void rec::Loop()
    //==================================================================================
    // WAVEDREAM 170 - X VIEW (BAR 11 TO 18)
    //==================================================================================
-
-   //------------------------------
-   // HITS ON BARS
-   //------------------------------
-   TCanvas *c_hit_170 = new TCanvas("c_hit_170", "hit", 1200, 1200);
-   c_hit_170->SetTickx();
-   c_hit_170->SetTicky();
-   c_hit_170->SetLeftMargin(0.15);
-
-   hist_hit_170->GetXaxis()->SetTitle("FronBar, LayerX");
-   hist_hit_170->SetNdivisions(8,"X");
-   hist_hit_170->GetYaxis()->SetTitle("Counts");
-   hist_hit_170->Draw();
 
    //------------------------------
    // V AMPLITUDE
@@ -1173,21 +1264,6 @@ void rec::Loop()
    //==================================================================================
 
    //------------------------------
-   // HITS ON BARS
-   //------------------------------
-   /*
-   TCanvas *c_hit_167 = new TCanvas("c_hit_167", "hit", 1200, 1200);
-   c_hit_167->SetTickx();
-   c_hit_167->SetTicky();
-   c_hit_167->SetLeftMargin(0.15);
-
-   hist_hit_167->GetXaxis()->SetTitle("FronBar, LayerX");
-   hist_hit_167->SetNdivisions(8,"X");
-   hist_hit_167->GetYaxis()->SetTitle("Counts");
-   hist_hit_167->Draw();
-   */
-  
-   //------------------------------
    // V AMPLITUDE
    //------------------------------
    TCanvas *c_v_ampl_167 = new TCanvas("c_v_ampl_167", "c_v_ampl_167", 1200, 1200);
@@ -1276,6 +1352,98 @@ void rec::Loop()
       hist_delta_time_167[b]->Draw();
    }
 
+   //==================================================================================
+   // WAVEDREAM 168
+   //==================================================================================
+
+   //------------------------------
+   // V AMPLITUDE
+   //------------------------------
+   TCanvas *c_v_ampl_168 = new TCanvas("c_v_ampl_168", "c_v_ampl_168", 1200, 1200);
+   c_v_ampl_168->Divide(4,4);
+
+   for (int chn=0; chn<16; chn++) {
+      c_v_ampl_168->cd(chn+1);
+
+      //TString canvas_title_v_ampl_168 = Form("c_v_ampl_168%d", chn); 
+      //TCanvas *c_v_ampl_168 = new TCanvas(canvas_title_v_ampl_168, canvas_title_v_ampl_168, 600, 600);
+      c_v_ampl_168->SetTickx();
+      c_v_ampl_168->SetTicky();
+      c_v_ampl_168->SetLeftMargin(0.15);
+
+      hist_v_ampl_168[chn]->SetMarkerStyle(20);
+      hist_v_ampl_168[chn]->SetMarkerStyle(kFullCircle);
+      hist_v_ampl_168[chn]->SetMarkerColor(kBlack);
+      hist_v_ampl_168[chn]->SetFillColor(kCyan-9);
+      //hist_v_ampl_168[chn]->Fit("landau", "Q");
+      hist_v_ampl_168[chn]->Draw();
+   }
+
+   //------------------------------
+   // CHARGE CHANNEL
+   //------------------------------
+   TCanvas *c_q_168 = new TCanvas("c_q_168", "c_q_168", 1200, 1200);
+   c_q_168->Divide(4,4);
+
+   for (int chn=0; chn<16; chn++) {
+      c_q_168->cd(chn+1);
+      //TString canvas_title_q_168 = Form("c_q_168%d", chn); 
+      //TCanvas *c_q_168 = new TCanvas(canvas_title_q_168, canvas_title_q_168, 600, 600);
+      c_q_168->SetTickx();
+      c_q_168->SetTicky();
+      c_q_168->SetLeftMargin(0.15);
+
+      hist_q_168[chn]->SetMarkerStyle(20);
+      hist_q_168[chn]->SetMarkerStyle(kFullCircle);
+      hist_q_168[chn]->SetMarkerColor(kBlack);
+      hist_q_168[chn]->SetFillColor(45);
+      //hist_q_168[chn]->Fit("landau", "Q");
+      hist_q_168[chn]->Draw();
+   }
+
+   //------------------------------
+   // CHARGHE BAR
+   //------------------------------
+   TCanvas *c_q_bar_168 = new TCanvas("c_q_bar_168", "c_q_bar_168", 1200, 1200);
+   c_q_bar_168->Divide(4,2);
+
+   for (int b=0; b<8; b++) {  
+      c_q_bar_168->cd(b+1);
+      //TString canvas_title_q_bar_168 = Form("c_q_bar_168%d", chn);
+      //TCanvas *c_q_168 = new TCanvas(canvas_title_q_bar_168, canvas_title_q_bar_168, 600, 600);
+      c_q_bar_168->SetTickx();
+      c_q_bar_168->SetTicky();
+      c_q_bar_168->SetLeftMargin(0.15);
+
+      hist_q_bar_168[b]->SetMarkerStyle(20);
+      hist_q_bar_168[b]->SetMarkerStyle(kFullCircle);
+      hist_q_bar_168[b]->SetMarkerColor(kBlack);
+      hist_q_bar_168[b]->SetFillColor(45);
+      hist_q_bar_168[b]->Fit("landau", "Q");
+      hist_q_bar_168[b]->Draw();
+   }
+      
+   //------------------------------
+   // DELTA TIME
+   //------------------------------
+   TCanvas *c_delta_time_168 = new TCanvas("c_delta_time_168", "Delta t 168",1200,1200);
+   c_delta_time_168->Divide(4,2);
+
+   for (int b=0; b<8; b++) {  
+      c_delta_time_168->cd(b+1);
+      //TString canvas_title_delta_time_168 = Form("c_delta_time_168bar%d",b); 
+      //TCanvas *c_delta_time_168 = new TCanvas(canvas_title_delta_time_168, canvas_title_delta_time_168, 600, 600);
+      c_delta_time_168->SetTickx();
+      c_delta_time_168->SetTicky();
+      c_delta_time_168->SetLeftMargin(0.15);
+
+      hist_delta_time_168[b]->SetMarkerStyle(20);
+      hist_delta_time_168[b]->SetMarkerStyle(kFullCircle);
+      hist_delta_time_168[b]->SetMarkerColor(kBlack);
+      hist_delta_time_168[b]->SetFillColor(5); // Yellow
+      hist_delta_time_168[b]->Fit("gaus", "Q");
+      hist_delta_time_168[b]->Draw();
+   }
 
 
 
