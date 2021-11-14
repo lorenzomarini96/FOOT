@@ -30,14 +30,28 @@ void rec::Loop()
 
    //gStyle->SetOptStat(0);
    gStyle->SetOptFit(10111);
+   //gStyle->SetOptTitle(0); // No Histogram Title
+   //gStyle->SetStatBorderSize(0);
+   //gStyle->SetStatX(.89);
+   //gStyle->SetStatY(.89);
 
+   //------------------------------
+   // HISTOGRAMS HIT
+   //------------------------------
    TH1D *hist_hit_X = new TH1D("hist_hit_X", "Hit-map X-view", 20, -0.5, 19.5);
    TH1D *hist_hit_Y = new TH1D("hist_hit_Y", "Hit-map Y-view", 20, 19.5, 39.5);
    TH2D *hist_hit_XY = new TH2D("hist_hit_XY", "Hit-map", 20, -0.5, 19.5, 20, 19.5, 39.5);
    TH2D *hist_hit_XY_3d = new TH2D("hist_hit_XY_3d", "Hit-map", 20, -0.5, 19.5, 20, 19.5, 39.5);
 
+   //------------------------------
+   // HIST FOR TIME RESOLUTION
+   //------------------------------
+   //TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = (#frac{T_L + T_R}{2})_{front} - (#frac{T_L + T_R}{2})_{rear}", 40, -30.0, 30.0);
+   TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = #bar{T}_{front} - #bar{T}_{rear}", 40, -30.0, 30.0);
+   
+
    //==================================================================================
-   // // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)   
+   // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)   
    //==================================================================================
    
    //------------------------------
@@ -515,9 +529,8 @@ void rec::Loop()
             }
 
             if (chn%2!=0) {
-               mean_time_165[chn/2] = (time_165[chn] + time_165[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_X = (time_165[chn] + time_165[chn-1])/2;
-               //h_q_tot[chn/2]->Fill(q_bar[chn/2]);
+               //mean_time_165[chn/2] = (time_165[chn] + time_165[chn-1])/2 * TMath::Power(10,9);  // MEAN TIME OF BAR [ns]
+               mean_time_X = (time_165[chn] + time_165[chn-1])/2  * TMath::Power(10,9);  // MEAN TIME OF BAR [ns];
             }
 
             if (chn%2!=0) {
@@ -618,9 +631,9 @@ void rec::Loop()
             }
 
             if (chn%2!=0) {
-               mean_time_166[chn/2] = (time_166[chn] + time_166[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_X = (time_166[chn] + time_166[chn-1])/2;
-               //h_q_tot[chn/2]->Fill(q_bar[chn/2]);
+               mean_time_166[chn/2] = (time_166[chn] + time_166[chn-1])/2;    // MEAN TIME OF BAR
+               if (chn<6) mean_time_X = (time_166[chn] + time_166[chn-1])/2  * TMath::Power(10,9);  // MEAN TIME OF BAR [ns];
+               else       mean_time_Y = (time_166[chn] + time_166[chn-1])/2  * TMath::Power(10,9);  // MEAN TIME OF BAR [ns];  // T_BAR = (T_L + T_R)/2
             }
 
             if (chn%2!=0) {
@@ -721,8 +734,7 @@ void rec::Loop()
 
             if (chn%2!=0) {
                mean_time_170[chn/2] = (time_170[chn] + time_170[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_X = (time_170[chn] + time_170[chn-1])/2;
-               //h_q_tot[chn/2]->Fill(q_bar[chn/2]);
+               mean_time_X = (time_170[chn] + time_170[chn-1])/2 * TMath::Power(10,9);  // MEAN TIME OF BAR [ns];           // T_BAR = (T_L + T_R)/2
             }
 
             if (chn%2!=0) {
@@ -823,8 +835,8 @@ void rec::Loop()
 
             if (chn%2!=0) {
                mean_time_167[chn/2] = (time_167[chn] + time_167[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_X = (time_167[chn] + time_167[chn-1])/2;
-               //h_q_tot[chn/2]->Fill(q_bar[chn/2]);
+               if (chn<2) mean_time_X = (time_167[chn] + time_167[chn-1])/2 * TMath::Power(10,9);  // MEAN TIME OF BAR [ns];
+               else       mean_time_Y = (time_167[chn] + time_167[chn-1])/2 * TMath::Power(10,9);  // MEAN TIME OF BAR [ns]; // T_BAR = (T_L + T_R)/2
             }
 
             if (chn%2!=0) {
@@ -927,8 +939,7 @@ void rec::Loop()
 
             if (chn%2!=0) {
                mean_time_168[chn/2] = (time_168[chn] + time_168[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_X = (time_168[chn] + time_168[chn-1])/2;
-               //h_q_tot[chn/2]->Fill(q_bar[chn/2]);
+               mean_time_Y = (time_168[chn] + time_168[chn-1])/2 * TMath::Power(10,9);  // MEAN TIME OF BAR [ns]
             }
 
             if (chn%2!=0) {
@@ -1029,8 +1040,7 @@ void rec::Loop()
 
             if (chn%2!=0) {
                mean_time_158[chn/2] = (time_158[chn] + time_158[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_X = (time_158[chn] + time_158[chn-1])/2;
-               //h_q_tot[chn/2]->Fill(q_bar[chn/2]);
+               mean_time_Y = (time_158[chn] + time_158[chn-1])/2 * TMath::Power(10,9);  // MEAN TIME OF BAR [ns];
             }
 
             if (chn%2!=0) {
@@ -1074,8 +1084,8 @@ void rec::Loop()
       if (bar_TOF_X > -1 && bar_TOF_Y > -1) hist_hit_XY->Fill(bar_TOF_X, bar_TOF_Y);
       if (bar_TOF_X > -1) hist_hit_X->Fill(bar_TOF_X);
       if (bar_TOF_Y > -1) hist_hit_Y->Fill(bar_TOF_Y);
-      //if (bar_TOF_X > -1 && bar_TOF_Y > -1) hist_hit_XY->Fill(bar_TOF_X, bar_TOF_Y);
-      //if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_X - mean_time_Y);
+
+      if (mean_time_X > -1 && mean_time_Y > -1)  hist_mean_time->Fill(mean_time_Y - mean_time_X);
       
    } // END LOOP ON ENTRIES
 
@@ -1150,6 +1160,22 @@ void rec::Loop()
    hist_hit_XY_3d->Draw("LEGO2Z");
    
    c_hit->SaveAs("figures/hit_map.pdf");
+
+   //------------------------------
+   // HIST DELTA MEAN TIME
+   //------------------------------
+   TCanvas *c_delta_mean_time = new TCanvas("c_delta_mean_time", "c_delta_mean_time", 1200, 1200);
+   c_delta_mean_time->cd(1);
+   c_delta_mean_time->SetTickx();
+   c_delta_mean_time->SetTicky();
+   c_delta_mean_time->SetLeftMargin(0.15);
+   hist_mean_time->GetXaxis()->SetTitle("#DeltaT_{TOFWall} [ns]");
+   hist_mean_time->SetFillColor(38);
+   hist_mean_time->GetYaxis()->SetTitle("Counts");
+   hist_mean_time->Fit("gaus", "Q");
+   hist_mean_time->Draw();
+
+   c_delta_mean_time->SaveAs("figures/delta_mean_time.pdf");
 
    //==================================================================================
    // WAVEDREAM 165 - X VIEW (BAR 0 TO 7)
