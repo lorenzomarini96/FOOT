@@ -642,7 +642,7 @@ void rec::Loop()
                hist_delta_time_166[chn/2]->Fill(delta_time_166);
             }
 
-            if (v_ampl_166 > 0.015) { // REMEMBER THE ZEROSUPPRESSION
+            if (v_ampl_166 > 0.05) { // REMEMBER THE ZEROSUPPRESSION
                // BARS X TOFWALL
                if (chn==0)       bar_TOF_X = 8;
                else if (chn==1)  bar_TOF_X = 8;
