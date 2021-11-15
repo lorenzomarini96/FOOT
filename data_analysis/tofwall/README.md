@@ -78,3 +78,21 @@ Open the linux shell and run the following commands:
     - create a new folder in which to move all the files of interest:  `mkdir <folder>`
     - `mv <file*.bin> <folder>`
     - copy the entire folder with the command scp: `scp - r <folder> root@pcfoot:[path]`. 
+
+## Open a folder from the shell
+
+If I need to move the data files from the pc to the Google Drive (FOOT), it is necessary to open the GUI folder window and drag the files directly in the Browser.
+
+The useful command to open the window is:
+
+`xdg-open [folder]`
+
+Example:
+
+If I am in  `folder` and the files are saved in a subfolder called   `data_folder`, the only thing that I need to do is:
+
+`xdg-open data_folder`.
+
+
+
+
