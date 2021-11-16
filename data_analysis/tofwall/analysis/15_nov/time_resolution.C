@@ -47,7 +47,7 @@ void rec::Loop()
    // HIST FOR TIME RESOLUTION
    //------------------------------
    //TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = (#frac{T_L + T_R}{2})_{front} - (#frac{T_L + T_R}{2})_{rear}", 40, -30.0, 30.0);
-   TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = #bar{T}_{front} - #bar{T}_{rear}", 50, -20.0, 20.0);
+   TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = #bar{T}_{front} - #bar{T}_{rear}", 60, -3.0, 3.0);
    
 
    //==================================================================================
@@ -57,7 +57,7 @@ void rec::Loop()
    //------------------------------
    // HISTOGRAMS HIT WD165
    //------------------------------
-   TH2D *hist_charge_time = new TH2D("hist_charge_time", "Log(Q_L/Q_R) vs (t_L - t_R) ", 100, -2.5, 2.5, 100, -20, 20);
+   TH2D *hist_charge_time = new TH2D("hist_charge_time", "Log(Q_L/Q_R) vs (t_L - t_R) ", 100, -2.5, 2.5, 100, -1.5, 1.5);
 
    //------------------------------
    // HISTOGRAMS V_AMPLITUDE WD165
@@ -120,7 +120,7 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_165,"h_delta_time_165%d", b);
       sprintf(title_delta_time_165,"WD165 - #DeltaT WD165 of bar%d", b);
-      hist_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165, 40, -30.0, 30.0); // [ns]
+      hist_delta_time_165[b] = new TH1F(name_delta_time_165,title_delta_time_165, 50, -1.50, 1.50); // [ns]
       hist_delta_time_165[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_165[b]->GetYaxis()->SetTitle("Entries");
    }
@@ -189,7 +189,7 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_166,"h_delta_time_166%d", b);
       sprintf(title_delta_time_166,"WD166 - #DeltaT WD166 of bar%d", b);
-      hist_delta_time_166[b] = new TH1F(name_delta_time_166,title_delta_time_166, 100, -80.0, 80.0); // [ns]
+      hist_delta_time_166[b] = new TH1F(name_delta_time_166,title_delta_time_166, 50, -1.50, 1.50); // [ns]
       hist_delta_time_166[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_166[b]->GetYaxis()->SetTitle("Entries");
    }
@@ -258,7 +258,7 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_170,"h_delta_time_170%d", b);
       sprintf(title_delta_time_170,"WD170 - #DeltaT WD170 of bar%d", b);
-      hist_delta_time_170[b] = new TH1F(name_delta_time_170,title_delta_time_170, 40, -30.0, 30.0); // [ns]
+      hist_delta_time_170[b] = new TH1F(name_delta_time_170,title_delta_time_170, 50, -1.50, 1.50); // [ns]
       hist_delta_time_170[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_170[b]->GetYaxis()->SetTitle("Entries");
    }
@@ -327,7 +327,7 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_167,"h_delta_time_167%d", b);
       sprintf(title_delta_time_167,"WD167 - #DeltaT WD167 of bar%d", b);
-      hist_delta_time_167[b] = new TH1F(name_delta_time_167,title_delta_time_167, 40, -30.0, 30.0); // [ns]
+      hist_delta_time_167[b] = new TH1F(name_delta_time_167,title_delta_time_167, 50, -1.50, 1.50); // [ns]
       hist_delta_time_167[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_167[b]->GetYaxis()->SetTitle("Entries");
    }
@@ -396,7 +396,7 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_168,"h_delta_time_168%d", b);
       sprintf(title_delta_time_168,"WD168 - #DeltaT WD168 of bar%d", b);
-      hist_delta_time_168[b] = new TH1F(name_delta_time_168,title_delta_time_168, 30, -50.0, 50.0); // [ns]
+      hist_delta_time_168[b] = new TH1F(name_delta_time_168,title_delta_time_168, 50, -1.50, 1.50); // [ns]
       hist_delta_time_168[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_168[b]->GetYaxis()->SetTitle("Entries");
    }
@@ -465,14 +465,14 @@ void rec::Loop()
    for (Int_t b=0; b<8; b++) {
       sprintf(name_delta_time_158,"h_delta_time_158%d", b);
       sprintf(title_delta_time_158,"WD158 - #DeltaT WD158 of bar%d", b);
-      hist_delta_time_158[b] = new TH1F(name_delta_time_158,title_delta_time_158, 30, -30.0, 30.0); // [ns]
+      hist_delta_time_158[b] = new TH1F(name_delta_time_158,title_delta_time_158, 50, -1.50, 1.50); // [ns]
       hist_delta_time_158[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
       hist_delta_time_158[b]->GetYaxis()->SetTitle("Entries");
    }
 
    //============================================================================================================================
    // LOOP ON ENTRIES
-   for (Long64_t jentry=0; jentry<nentries; jentry++) {
+   for (Long64_t jentry=0; jentry<nentries/3; jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -500,6 +500,7 @@ void rec::Loop()
             Double_t v_ampl_165;                               // V AMPLITUDE OF CHANNEL [mV]
             Double_t v_peak_165 = board165_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
             Double_t v_th_165;                                 // V THRESHOLD [mV]
+            Double_t min_position_165 = 0;                     // POSITION OF V PEAK
             Double_t time_165[16];                             // TIME OF WF OF CHANNEL [a.u.]
             Double_t delta_time_165 = 0.;                      // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_165[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
@@ -509,7 +510,10 @@ void rec::Loop()
             
             // V PEAK (MINIMUM)
             for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board165_waveform[chn][t] < v_peak_165) v_peak_165 = board165_waveform[chn][t];
+               if (t > 50 && board165_waveform[chn][t] < v_peak_165) {
+                  v_peak_165 = board165_waveform[chn][t];
+                  min_position_165 = t;
+               }
                // APPROX FIRST 1/3 OF 1024 SAMPLES
                if (t <= 150) voltage_165 =  voltage_165 + board165_waveform[chn][t];
             }
@@ -521,7 +525,8 @@ void rec::Loop()
             hist_v_ampl_165[chn]->Fill(v_ampl_165);
 
             // TIME OF CHANNEL
-            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+            /*
+            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
                if (board165_waveform[chn][t] == v_th_165) {
                   time_165[chn] = board165_time[chn][t] * TMath::Power(10,9); // [ns]
                   break;
@@ -531,6 +536,14 @@ void rec::Loop()
                   break;
                }
             }
+            */
+            for (Int_t t=min_position_165; t>300; t--) { // LOOP ON SAMPLES OF WAVEFORM
+               if (board165_waveform[chn][t] > v_th_165) {
+                  time_165[chn] = (board165_time[chn][t] + board165_time[chn][t-1])/2  * TMath::Power(10,9);
+                  break;
+               }
+            }
+
 
             for (Int_t t=250; t<570; t++) q += v_base_165 - board165_waveform[chn][t];
             q_165[chn] = q;                                                // CHARGHE OF CHANNEL
@@ -605,6 +618,7 @@ void rec::Loop()
             Double_t v_ampl_166;                               // V AMPLITUDE OF CHANNEL [mV]
             Double_t v_peak_166 = board166_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
             Double_t v_th_166;                                 // V THRESHOLD [mV]
+            Double_t min_position_166 = 0;
             Double_t time_166[12];                             // TIME OF WF OF CHANNEL [a.u.]
             Double_t delta_time_166;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_166[6];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
@@ -614,7 +628,10 @@ void rec::Loop()
             
             // V PEAK (MINIMUM)
             for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board166_waveform[chn][t] < v_peak_166) v_peak_166 = board166_waveform[chn][t];
+               if (t > 50 && board166_waveform[chn][t] < v_peak_166) {
+                  v_peak_166 = board166_waveform[chn][t];
+                  min_position_166 = t;
+               }
                // APPROX FIRST 1/3 OF 1024 SAMPLES
                if (t <= 150) voltage_166 =  voltage_166 + board166_waveform[chn][t];
             }
@@ -626,13 +643,21 @@ void rec::Loop()
             hist_v_ampl_166[chn]->Fill(v_ampl_166);
 
             // TIME OF CHANNEL
-            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+            /*
+            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
                if (board166_waveform[chn][t] == v_th_166) {
                   time_166[chn] = board166_time[chn][t] * TMath::Power(10,9);
                   break;
                }
                else if (board166_waveform[chn][t] < v_th_166) {
                   time_166[chn] = (board166_time[chn][t] + board166_time[chn][t-1])/2 * TMath::Power(10,9);
+                  break;
+               }
+            }
+            */
+            for (Int_t t=min_position_166; t>300; t--) { // LOOP ON SAMPLES OF WAVEFORM
+               if (board166_waveform[chn][t] > v_th_166) {
+                  time_166[chn] = (board166_time[chn][t] + board166_time[chn][t-1])/2  * TMath::Power(10,9);
                   break;
                }
             }
@@ -710,6 +735,7 @@ void rec::Loop()
             Double_t v_ampl_170;                               // V AMPLITUDE OF CHANNEL [mV]
             Double_t v_peak_170 = board170_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
             Double_t v_th_170;                                 // V THRESHOLD [mV]
+            Double_t min_position_170 = 0;
             Double_t time_170[16];                             // TIME OF WF OF CHANNEL [a.u.]
             Double_t delta_time_170;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_170[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
@@ -719,7 +745,10 @@ void rec::Loop()
             
             // V PEAK (MINIMUM)
             for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board170_waveform[chn][t] < v_peak_170) v_peak_170 = board170_waveform[chn][t];
+               if (t > 50 && board170_waveform[chn][t] < v_peak_170) {
+                  v_peak_170 = board170_waveform[chn][t];
+                  min_position_170 = t;
+               }
                // APPROX FIRST 1/3 OF 1024 SAMPLES
                if (t <= 150) voltage_170 =  voltage_170 + board170_waveform[chn][t];
             }
@@ -731,7 +760,8 @@ void rec::Loop()
             hist_v_ampl_170[chn]->Fill(v_ampl_170);
 
             // TIME OF CHANNEL
-            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+            /*
+            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
                //cout << "board170_time[chn][t]" << board170_time[chn][t] << endl;
                if (board170_waveform[chn][t] == v_th_170) {
                   time_170[chn] = board170_time[chn][t] * TMath::Power(10,9);
@@ -739,6 +769,13 @@ void rec::Loop()
                }
                else if (board170_waveform[chn][t] < v_th_170) {
                   time_170[chn] = (board170_time[chn][t] + board170_time[chn][t-1])/2 * TMath::Power(10,9);
+                  break;
+               }
+            }
+            */
+            for (Int_t t=min_position_170; t>300; t--) { // LOOP ON SAMPLES OF WAVEFORM
+               if (board170_waveform[chn][t] > v_th_170) {
+                  time_170[chn] = (board170_time[chn][t] + board170_time[chn][t-1])/2  * TMath::Power(10,9);
                   break;
                }
             }
@@ -815,6 +852,7 @@ void rec::Loop()
             Double_t v_ampl_167;                               // V AMPLITUDE OF CHANNEL [mV]
             Double_t v_peak_167 = board167_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
             Double_t v_th_167;                                 // V THRESHOLD [mV]
+            Double_t min_position_167 = 0;
             Double_t time_167[16];                             // TIME OF WF OF CHANNEL [a.u.]
             Double_t delta_time_167;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_167[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
@@ -824,7 +862,10 @@ void rec::Loop()
             
             // V PEAK (MINIMUM)
             for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board167_waveform[chn][t] < v_peak_167) v_peak_167 = board167_waveform[chn][t];
+               if (t > 50 && board167_waveform[chn][t] < v_peak_167) {
+                  v_peak_167 = board167_waveform[chn][t];
+                  min_position_167 = t;
+               }
                // APPROX FIRST 1/3 OF 1024 SAMPLES
                if (t <= 150) voltage_167 =  voltage_167 + board167_waveform[chn][t];
             }
@@ -836,13 +877,21 @@ void rec::Loop()
             hist_v_ampl_167[chn]->Fill(v_ampl_167);
 
             // TIME OF CHANNEL
-            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+            /*
+            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
                if (board167_waveform[chn][t] == v_th_167) {
                   time_167[chn] = board167_time[chn][t] * TMath::Power(10,9);
                   break;
                }
                else if (board167_waveform[chn][t] < v_th_167) {
                   time_167[chn] = (board167_time[chn][t] + board167_time[chn][t-1])/2 * TMath::Power(10,9);
+                  break;
+               }
+            }
+            */
+            for (Int_t t=min_position_167; t>300; t--) { // LOOP ON SAMPLES OF WAVEFORM
+               if (board167_waveform[chn][t] > v_th_167) {
+                  time_167[chn] = (board167_time[chn][t] + board167_time[chn][t-1])/2  * TMath::Power(10,9);
                   break;
                }
             }
@@ -923,6 +972,7 @@ void rec::Loop()
             Double_t v_ampl_168;                               // V AMPLITUDE OF CHANNEL [mV]
             Double_t v_peak_168 = board168_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
             Double_t v_th_168;                                 // V THRESHOLD [mV]
+            Double_t min_position_168 = 0;
             Double_t time_168[16];                             // TIME OF WF OF CHANNEL [a.u.]
             Double_t delta_time_168;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_168[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
@@ -932,7 +982,10 @@ void rec::Loop()
             
             // V PEAK (MINIMUM)
             for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board168_waveform[chn][t] < v_peak_168) v_peak_168 = board168_waveform[chn][t];
+               if (t > 50 && board168_waveform[chn][t] < v_peak_168) {
+                  v_peak_168 = board168_waveform[chn][t];
+                  min_position_168 = t;
+               }
                // APPROX FIRST 1/3 OF 1024 SAMPLES
                if (t <= 150) voltage_168 =  voltage_168 + board168_waveform[chn][t];
             }
@@ -940,12 +993,12 @@ void rec::Loop()
             v_base_168 = voltage_168/140;                               // V BASELINE
             v_th_168 = v_base_168 - f_CFD * (v_base_168 - v_peak_168);  // V THRESHOLD
             v_ampl_168 = v_base_168 - v_peak_168;                       // V AMPLITUDE
-
             hist_v_ampl_168[chn]->Fill(v_ampl_168);
 
             
             // TIME OF CHANNEL
-            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+            /*
+            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
                if (board168_waveform[chn][t] == v_th_168) {
                   time_168[chn] = board168_time[chn][t]  * TMath::Power(10,9);
                   break;
@@ -957,6 +1010,15 @@ void rec::Loop()
                   //cout << "board168_time[chn][t-1] = " << board168_time[chn][t-1] << endl;
                }
             }
+            */
+            for (Int_t t=min_position_168; t>300; t--) { // LOOP ON SAMPLES OF WAVEFORM
+               if (board168_waveform[chn][t] > v_th_168) {
+                  time_168[chn] = (board168_time[chn][t] + board168_time[chn][t-1])/2  * TMath::Power(10,9);
+                  break;
+               }
+            }
+            
+            
 
             for (Int_t t=250; t<570; t++) q += v_base_168 - board168_waveform[chn][t];
             q_168[chn] = q;                                                // CHARGHE OF CHANNEL
@@ -1030,6 +1092,7 @@ void rec::Loop()
             Double_t v_ampl_158;                               // V AMPLITUDE OF CHANNEL [mV]
             Double_t v_peak_158 = board158_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
             Double_t v_th_158;                                 // V THRESHOLD [mV]
+            Double_t min_position_158 = 0;
             Double_t time_158[16];                             // TIME OF WF OF CHANNEL [a.u.]
             Double_t delta_time_158;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_158[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
@@ -1039,7 +1102,10 @@ void rec::Loop()
             
             // V PEAK (MINIMUM)
             for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board158_waveform[chn][t] < v_peak_158) v_peak_158 = board158_waveform[chn][t];
+               if (t > 50 && board158_waveform[chn][t] < v_peak_158) {
+                  v_peak_158 = board158_waveform[chn][t];
+                  min_position_158 = t;
+               }
                // APPROX FIRST 1/3 OF 1024 SAMPLES
                if (t <= 150) voltage_158 =  voltage_158 + board158_waveform[chn][t];
             }
@@ -1047,16 +1113,24 @@ void rec::Loop()
             v_base_158 = voltage_158/140;                               // V BASELINE
             v_th_158 = v_base_158 - f_CFD * (v_base_158 - v_peak_158);  // V THRESHOLD
             v_ampl_158 = v_base_158 - v_peak_158;                       // V AMPLITUDE
-
+            
             hist_v_ampl_158[chn]->Fill(v_ampl_158);
 
             // TIME OF CHANNEL
-            for (Int_t t=10; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+            /*
+            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
                if (board158_waveform[chn][t] == v_th_158) {
                   time_158[chn] = board158_time[chn][t]  * TMath::Power(10,9); 
                   break;
                }
                else if (board158_waveform[chn][t] < v_th_158) {
+                  time_158[chn] = (board158_time[chn][t] + board158_time[chn][t-1])/2  * TMath::Power(10,9);
+                  break;
+               }
+            }
+            */
+            for (Int_t t=min_position_158; t>300; t--) { // LOOP ON SAMPLES OF WAVEFORM
+               if (board158_waveform[chn][t] > v_th_158) {
                   time_158[chn] = (board158_time[chn][t] + board158_time[chn][t-1])/2  * TMath::Power(10,9);
                   break;
                }
