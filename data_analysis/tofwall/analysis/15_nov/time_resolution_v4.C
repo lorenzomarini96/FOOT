@@ -73,7 +73,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_v_ampl_165, "hist_v_ampl_165%d", chn);
       sprintf(title_v_ampl_165, "WD165 - V_{ampl} of chn%d", chn);
-      hist_v_ampl_165[chn] = new TH1F(name_v_ampl_165,title_v_ampl_165, 50, 0, 0.4);
+      hist_v_ampl_165[chn] = new TH1F(name_v_ampl_165,title_v_ampl_165, 40, 0, 0.4);
       hist_v_ampl_165[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
       hist_v_ampl_165[chn]->GetYaxis()->SetTitle("Entries");
       hist_v_ampl_165[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -90,7 +90,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_q_165, "hist_q_165%d", chn);
       sprintf(title_q_165, "WD165 - Q of chn%d", chn);
-      hist_q_165[chn] = new TH1F(name_q_165,title_q_165, 40, 0.0, 40);
+      hist_q_165[chn] = new TH1F(name_q_165,title_q_165, 20, 0.0, 40);
       hist_q_165[chn]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_165[chn]->GetYaxis()->SetTitle("Entries");
       hist_q_165[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -107,7 +107,7 @@ void rec::Loop()
    for (Int_t b=0; b<16; b++) {
       sprintf(name_q_bar_165, "hist_q_bar_165%d", b);
       sprintf(title_q_bar_165, "WD165 - Q of bar%d", b);
-      hist_q_bar_165[b] = new TH1F(name_q_bar_165,title_q_bar_165, 30, 0.0, 40);
+      hist_q_bar_165[b] = new TH1F(name_q_bar_165,title_q_bar_165, 20, 0.0, 40);
       hist_q_bar_165[b]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_bar_165[b]->GetYaxis()->SetTitle("Entries");
       hist_q_bar_165[b]->GetXaxis()->SetTitleSize(0.05);
@@ -160,7 +160,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_v_ampl_166, "hist_v_ampl_166%d", chn);
       sprintf(title_v_ampl_166, "WD166 - V_{ampl} of chn%d", chn);
-      hist_v_ampl_166[chn] = new TH1F(name_v_ampl_166,title_v_ampl_166, 50, 0, 0.4);
+      hist_v_ampl_166[chn] = new TH1F(name_v_ampl_166,title_v_ampl_166, 40, 0, 0.4);
       hist_v_ampl_166[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
       hist_v_ampl_166[chn]->GetYaxis()->SetTitle("Entries");
       hist_v_ampl_166[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -177,7 +177,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_q_166, "hist_q_166%d", chn);
       sprintf(title_q_166, "WD166 - Q of chn%d", chn);
-      hist_q_166[chn] = new TH1F(name_q_166,title_q_166, 40, 0.0, 40);
+      hist_q_166[chn] = new TH1F(name_q_166,title_q_166, 20, 0.0, 40);
       hist_q_166[chn]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_166[chn]->GetYaxis()->SetTitle("Entries");
       hist_q_166[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -194,7 +194,7 @@ void rec::Loop()
    for (Int_t b=0; b<16; b++) {
       sprintf(name_q_bar_166, "hist_q_bar_166%d", b);
       sprintf(title_q_bar_166, "WD166 - Q of bar%d", b);
-      hist_q_bar_166[b] = new TH1F(name_q_bar_166,title_q_bar_166, 30, 0.0, 40);
+      hist_q_bar_166[b] = new TH1F(name_q_bar_166,title_q_bar_166, 20, 0.0, 40);
       hist_q_bar_166[b]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_bar_166[b]->GetYaxis()->SetTitle("Entries");
       hist_q_bar_166[b]->GetXaxis()->SetTitleSize(0.05);
@@ -247,7 +247,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_v_ampl_170, "hist_v_ampl_170%d", chn);
       sprintf(title_v_ampl_170, "WD170 - V_{ampl} of chn%d", chn);
-      hist_v_ampl_170[chn] = new TH1F(name_v_ampl_170,title_v_ampl_170, 50, 0, 0.4);
+      hist_v_ampl_170[chn] = new TH1F(name_v_ampl_170,title_v_ampl_170, 40, 0, 0.4);
       hist_v_ampl_170[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
       hist_v_ampl_170[chn]->GetYaxis()->SetTitle("Entries");
       hist_v_ampl_170[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -264,7 +264,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_q_170, "hist_q_170%d", chn);
       sprintf(title_q_170, "WD170 - Q of chn%d", chn);
-      hist_q_170[chn] = new TH1F(name_q_170,title_q_170, 40, 0.0, 40);
+      hist_q_170[chn] = new TH1F(name_q_170,title_q_170, 20, 0.0, 40);
       hist_q_170[chn]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_170[chn]->GetYaxis()->SetTitle("Entries");
       hist_q_170[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -281,7 +281,7 @@ void rec::Loop()
    for (Int_t b=0; b<16; b++) {
       sprintf(name_q_bar_170, "hist_q_bar_170%d", b);
       sprintf(title_q_bar_170, "WD170 - Q of bar%d", b);
-      hist_q_bar_170[b] = new TH1F(name_q_bar_170,title_q_bar_170, 30, 0.0, 40);
+      hist_q_bar_170[b] = new TH1F(name_q_bar_170,title_q_bar_170, 20, 0.0, 40);
       hist_q_bar_170[b]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_bar_170[b]->GetYaxis()->SetTitle("Entries");
       hist_q_bar_170[b]->GetXaxis()->SetTitleSize(0.05);
@@ -334,7 +334,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_v_ampl_167, "hist_v_ampl_167%d", chn);
       sprintf(title_v_ampl_167, "WD167 - V_{ampl} of chn%d", chn);
-      hist_v_ampl_167[chn] = new TH1F(name_v_ampl_167,title_v_ampl_167, 50, 0, 0.4);
+      hist_v_ampl_167[chn] = new TH1F(name_v_ampl_167,title_v_ampl_167, 40, 0, 0.4);
       hist_v_ampl_167[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
       hist_v_ampl_167[chn]->GetYaxis()->SetTitle("Entries");
       hist_v_ampl_167[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -351,7 +351,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_q_167, "hist_q_167%d", chn);
       sprintf(title_q_167, "WD167 - Q of chn%d", chn);
-      hist_q_167[chn] = new TH1F(name_q_167,title_q_167, 40, 0.0, 40);
+      hist_q_167[chn] = new TH1F(name_q_167,title_q_167, 20, 0.0, 40);
       hist_q_167[chn]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_167[chn]->GetYaxis()->SetTitle("Entries");
       hist_q_167[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -368,7 +368,7 @@ void rec::Loop()
    for (Int_t b=0; b<16; b++) {
       sprintf(name_q_bar_167, "hist_q_bar_167%d", b);
       sprintf(title_q_bar_167, "WD167 - Q of bar%d", b);
-      hist_q_bar_167[b] = new TH1F(name_q_bar_167,title_q_bar_167, 30, 0.0, 40);
+      hist_q_bar_167[b] = new TH1F(name_q_bar_167,title_q_bar_167, 20, 0.0, 40);
       hist_q_bar_167[b]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_bar_167[b]->GetYaxis()->SetTitle("Entries");
       hist_q_bar_167[b]->GetXaxis()->SetTitleSize(0.05);
@@ -421,7 +421,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_v_ampl_168, "hist_v_ampl_168%d", chn);
       sprintf(title_v_ampl_168, "WD168 - V_{ampl} of chn%d", chn);
-      hist_v_ampl_168[chn] = new TH1F(name_v_ampl_168,title_v_ampl_165, 50, 0, 0.4);
+      hist_v_ampl_168[chn] = new TH1F(name_v_ampl_168,title_v_ampl_165, 40, 0, 0.4);
       hist_v_ampl_168[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
       hist_v_ampl_168[chn]->GetYaxis()->SetTitle("Entries");
       hist_v_ampl_168[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -438,7 +438,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_q_168, "hist_q_168%d", chn);
       sprintf(title_q_168, "WD168 - Q of chn%d", chn);
-      hist_q_168[chn] = new TH1F(name_q_168,title_q_168, 40, 0.0, 40);
+      hist_q_168[chn] = new TH1F(name_q_168,title_q_168, 20, 0.0, 40);
       hist_q_168[chn]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_168[chn]->GetYaxis()->SetTitle("Entries");
       hist_q_168[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -455,7 +455,7 @@ void rec::Loop()
    for (Int_t b=0; b<16; b++) {
       sprintf(name_q_bar_168, "hist_q_bar_168%d", b);
       sprintf(title_q_bar_168, "WD168 - Q of bar%d", b);
-      hist_q_bar_168[b] = new TH1F(name_q_bar_168,title_q_bar_168, 30, 0.0, 40);
+      hist_q_bar_168[b] = new TH1F(name_q_bar_168,title_q_bar_168, 20, 0.0, 40);
       hist_q_bar_168[b]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_bar_168[b]->GetYaxis()->SetTitle("Entries");
       hist_q_bar_168[b]->GetXaxis()->SetTitleSize(0.05);
@@ -510,7 +510,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_v_ampl_158, "hist_v_ampl_158%d", chn);
       sprintf(title_v_ampl_158, "WD158 - V_{ampl} of chn%d", chn);
-      hist_v_ampl_158[chn] = new TH1F(name_v_ampl_158,title_v_ampl_158, 50, 0, 0.4);
+      hist_v_ampl_158[chn] = new TH1F(name_v_ampl_158,title_v_ampl_158, 40, 0, 0.4);
       hist_v_ampl_158[chn]->GetXaxis()->SetTitle("V_ampl [mV]");
       hist_v_ampl_158[chn]->GetYaxis()->SetTitle("Entries");
       hist_v_ampl_158[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -527,7 +527,7 @@ void rec::Loop()
    for (Int_t chn=0; chn<16; chn++) {
       sprintf(name_q_158, "hist_q_158%d", chn);
       sprintf(title_q_158, "WD158 - Q of chn%d", chn);
-      hist_q_158[chn] = new TH1F(name_q_158,title_q_158, 40, 0.0, 40);
+      hist_q_158[chn] = new TH1F(name_q_158,title_q_158, 20, 0.0, 40);
       hist_q_158[chn]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_158[chn]->GetYaxis()->SetTitle("Entries");
       hist_q_158[chn]->GetXaxis()->SetTitleSize(0.05);
@@ -544,7 +544,7 @@ void rec::Loop()
    for (Int_t b=0; b<16; b++) {
       sprintf(name_q_bar_158, "hist_q_bar_158%d", b);
       sprintf(title_q_bar_158, "WD158 - Q of bar%d", b);
-      hist_q_bar_158[b] = new TH1F(name_q_bar_158,title_q_bar_158, 30, 0.0, 40);
+      hist_q_bar_158[b] = new TH1F(name_q_bar_158,title_q_bar_158, 20, 0.0, 40);
       hist_q_bar_158[b]->GetXaxis()->SetTitle("Q [a.u.]");
       hist_q_bar_158[b]->GetYaxis()->SetTitle("Entries");
       hist_q_bar_158[b]->GetXaxis()->SetTitleSize(0.05);
@@ -586,7 +586,7 @@ void rec::Loop()
 
       //cout << "\n*********************************************************************************************************************" << endl;
       //cout << "WaveDREAM ? " << endl;
-      //cout << left<<setw(15)<<"Event"<<left<<setw(15)<<"Chn"<<left<<setw(15)<<"v_baseV]"<<left<<setw(15)<<"v_peak[V]"<<left<<setw(15)<<"v_ampl[V]"<<left<<setw(15)<<"Q_L[a.u.]"<<left<<setw(15)<<"Q_R[a.u.]"<<left<<setw(15)<<"Qtot[a.u.]"<<left<<setw(15)<<endl;
+      //cout << left<<setw(15)<<"Event"<<left<<setw(15)<<"Chn"<<left<<setw(15)<<"v_base[V]"<<left<<setw(15)<<"sigma_v_base[V]"<<left<<setw(15)<<"v_peak[V]"<<left<<setw(15)<<"v_ampl[V]"<<left<<setw(15)<<"Q_L[a.u.]"<<left<<setw(15)<<"Q_R[a.u.]"<<left<<setw(15)<<"Qtot[a.u.]"<<left<<setw(15)<<endl;
       //cout << "*********************************************************************************************************************\n" << endl;
             
       // LOOP ON CHANNELS OF WAVEDREAM
@@ -650,24 +650,9 @@ void rec::Loop()
                   }
                }
             
-               // V BASELINE
-               //TH1F *wf_165[16];
-               //char name_wf_165[20];
-               //char title_wf_165[100];
+               // V BASELINE   
                TH1F *wf_165 = new TH1F("wf_165","wf_165", 30, 0.30, 0.60);
-               //TH1F *wf_165 = new TH1F("","", 30, 0.30, 0.60);
-               /*
-               for (Int_t t=10; t<250; t++) {
-                  sprintf(name_wf_165, "wd_165%d", chn);
-                  sprintf(title_wf_165,"wd_165%d", chn);
-                  wf_165[chn] = new TH1F(name_wf_165,title_wf_165, 30, 0.30, 0.60); //[V]
-                  wf_165[chn]->Fill(board165_waveform[chn][t]);
-               }
-               */
-
-               // V BASELINE
                for (Int_t t=10; t<250; t++) wf_165->Fill(board165_waveform[chn][t]);
-               
                v_base_165 = wf_165->GetMean();
                sigma_v_base_165 = wf_165->GetRMS();
 
@@ -678,8 +663,6 @@ void rec::Loop()
             
                // V THRESHOLD                                    
                v_th_165 = v_base_165 - f_CFD * (v_base_165 - v_peak_165);
-            
-               hist_v_ampl_165[chn]->Fill(v_ampl_165);
 
                // TIME/V START
                for (Int_t i=10; ; i++) {
@@ -723,27 +706,38 @@ void rec::Loop()
                // CHARGHE OF CHANNEL
                for (Int_t t=v_start_165; t<v_stop_165; t++) q += v_base_165 - board165_waveform[chn][t];
                q_165[chn] = q;                                                
-               hist_q_165[chn]->Fill(q_165[chn]);
    
                if (chn%2!=0) {
                   
                   // CHARGE OF BAR
                   q_bar_165[chn/2] = sqrt(q_165[chn] * q_165[chn-1]);
-                  hist_q_bar_165[chn/2]->Fill(q_bar_165[chn/2]);
-
                   // MEAN TIME OF BAR [ns];
                   mean_time_X = (time_165[chn] + time_165[chn-1])/2;               
-
                   // DELTA TIME OF BAR [ns]
                   delta_time_165 = (time_165[chn] - time_165[chn-1]);
+               }
                
-                  if (1){
-                  //if (delta_time_165 < 3.0 && delta_time_165 > -3.0) {
+               //***********************************************************************************************************
+               // FILL THE HISTOGRAM
+               if (v_ampl_165>0.010 && q_165[chn]>0.010 && q_bar_165[chn]>0.010 && delta_time_165>-3.0 && delta_time_165<3.0) {
+                  
+                  // V AMPLITUDE CHANNEL
+                  hist_v_ampl_165[chn]->Fill(v_ampl_165);
+                  // Q CHARGE CHANNEL
+                  hist_q_165[chn]->Fill(q_165[chn]);
+
+                  if (chn%2!=0) {
+
+                     // Q CHARGE BAR
+                     hist_q_bar_165[chn/2]->Fill(q_bar_165[chn/2]);
+                     // ∆T TIME CHANNELS
                      hist_delta_time_165[chn/2]->Fill(delta_time_165);
+                     // ∆T VS LOG(Q_L/Q_R)
                      hist_charge_time_165[chn/2]->Fill(log(q_165[chn]/q_165[chn-1]), delta_time_165);
                   }
-                  else mean_time_X = -1;
                }
+               else if (delta_time_165<-3.0 && delta_time_165>3.0) mean_time_X = -1;
+               //***********************************************************************************************************
 
                // BARS X TOFWALL
                if (chn==0)       bar_TOF_X = 0;
@@ -767,12 +761,10 @@ void rec::Loop()
                //--------------------------------------------------------
                // PRINT
                //--------------------------------------------------------
-               if (chn%2==0) cout << left<< setw(15) << jentry <<left<< setw(15) << ch <<left<< setw(15) << baseline <<left<< setw(15) << min <<left<< setw(15) << new_ampl[jentry][ch]<< setw(15) << charge[jentry][ch] <<left<< setw(15) <<"   " <<left<< setw(15) << "   " <<left<< setw(15) << endl;
+               //if (chn%2==0) cout << left<< setw(15) << jentry <<left<< setw(15) << ch <<left<< setw(15) << baseline <<left<< setw(15) << min <<left<< setw(15) << new_ampl[jentry][ch]<< setw(15) << charge[jentry][ch] <<left<< setw(15) <<"   " <<left<< setw(15) << "   " <<left<< setw(15) << endl;
                
-               else cout << left<< setw(15) << jentry <<left<< setw(15) << ch <<left<< setw(15) << baseline <<left<< setw(15) << min <<left<< setw(15) << new_ampl[jentry][ch]<< setw(15) << "   " <<left<< setw(15) << charge[jentry][ch] <<left<< setw(15) << q_bar_X_TOF[ch/2] <<left<< setw(15) << endl;
+               //else cout << left<< setw(15) << jentry <<left<< setw(15) << ch <<left<< setw(15) << baseline <<left<< setw(15) << min <<left<< setw(15) << new_ampl[jentry][ch]<< setw(15) << "   " <<left<< setw(15) << charge[jentry][ch] <<left<< setw(15) << q_bar_X_TOF[ch/2] <<left<< setw(15) << endl;
            
-         
-
 
                if (1) {
                   std::cout << "\n**************************"              << std::endl;
@@ -878,10 +870,7 @@ void rec::Loop()
             
                // V BASELINE
                TH1F *wf_166 = new TH1F("wf_166","wf_166", 30, 0.30, 0.60);
-               
-               // V BASELINE
                for (Int_t t=10; t<250; t++) wf_166->Fill(board166_waveform[chn][t]);
-               
                v_base_166 = wf_166->GetMean();
                sigma_v_base_166 = wf_166->GetRMS();
 
@@ -892,8 +881,6 @@ void rec::Loop()
             
                // V THRESHOLD                                    
                v_th_166 = v_base_166 - f_CFD * (v_base_166 - v_peak_166);
-            
-               hist_v_ampl_166[chn]->Fill(v_ampl_166);
 
                // TIME/V START
                for (Int_t i=10; ; i++) {
@@ -937,70 +924,92 @@ void rec::Loop()
                // CHARGHE OF CHANNEL
                for (Int_t t=v_start_166; t<v_stop_166; t++) q += v_base_166 - board166_waveform[chn][t];
                q_166[chn] = q;                                                
-               hist_q_166[chn]->Fill(q_166[chn]);
 
-               
-            if (chn%2!=0) {
-               q_bar_166[chn/2] = sqrt(q_166[chn] * q_166[chn-1]);         // CHARGE OF BAR
-               hist_q_bar_166[chn/2]->Fill(q_bar_166[chn/2]);
+               if (chn%2!=0) {
+                  q_bar_166[chn/2] = sqrt(q_166[chn] * q_166[chn-1]);            // CHARGE OF BAR
             
-               mean_time_166[chn/2] = (time_166[chn] + time_166[chn-1])/2;    // MEAN TIME OF BAR
-               if (chn<6) mean_time_X = (time_166[chn] + time_166[chn-1])/2;  // MEAN TIME OF BAR [ns];
-               else       mean_time_Y = (time_166[chn] + time_166[chn-1])/2;  // MEAN TIME OF BAR [ns];  // T_BAR = (T_L + T_R)/2
+                  mean_time_166[chn/2] = (time_166[chn] + time_166[chn-1])/2;    // MEAN TIME OF BAR
+                  if (chn<6) mean_time_X = (time_166[chn] + time_166[chn-1])/2;  // MEAN TIME OF BAR [ns];
+                  else       mean_time_Y = (time_166[chn] + time_166[chn-1])/2;  // MEAN TIME OF BAR [ns];  // T_BAR = (T_L + T_R)/2
 
-               delta_time_166 = (time_166[chn] - time_166[chn-1]);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
-               
-               if (1) {
-               //if (delta_time_166 < 3.0 && delta_time_166 > -3.0) {
-                  hist_delta_time_166[chn/2]->Fill(delta_time_166);
-                  hist_charge_time_166[chn/2]->Fill(log(q_166[chn]/q_166[chn-1]), delta_time_166);
+                  delta_time_166 = (time_166[chn] - time_166[chn-1]);            // DELTA TIME OF BAR
                }
-               else mean_time_X = -1, mean_time_Y = -1;
-            }
 
-            if (v_ampl_166 > 0.) { // REMEMBER THE ZEROSUPPRESSION
-               // BARS X TOFWALL
-               if (chn==0)       bar_TOF_X = 8;
-               else if (chn==1)  bar_TOF_X = 8;
-               else if (chn==2)  bar_TOF_X = 9;
-               else if (chn==3)  bar_TOF_X = 9;
-               else if (chn==4)  bar_TOF_X = 10;
-               else if (chn==5)  bar_TOF_X = 10;
+               //***********************************************************************************************************
+               // FILL THE HISTOGRAM
+               if (v_ampl_166>0.010 && q_166[chn]>0.010 && q_bar_166[chn]>0.010 && delta_time_166>-3.0 && delta_time_166<3.0) {
+                  
+                  // V AMPLITUDE CHANNEL
+                  hist_v_ampl_166[chn]->Fill(v_ampl_166);
+                  // Q CHARGE CHANNEL
+                  hist_q_166[chn]->Fill(q_166[chn]);
 
-               else if (chn==6)  bar_TOF_Y = 28;
-               else if (chn==7)  bar_TOF_Y = 28;
-               else if (chn==8)  bar_TOF_Y = 29;
-               else if (chn==9)  bar_TOF_Y = 29;
-               else if (chn==10) bar_TOF_Y = 30;
-               else if (chn==11) bar_TOF_Y = 30;
-            
-               if (0) {
-                  std::cout << "\n**************************"              << std::endl;
-                  std::cout << "\nWD 166"                                  << std::endl;
-                  std::cout << "\nEntry            = " << jentry           << std::endl;
-                  std::cout << "\nchn              = " << chn              << std::endl;
-                  std::cout << "\nmin_166          = " << min_166          << std::endl;
-                  std::cout << "\nmax_166          = " << max_166          << std::endl;
-                  std::cout << "\nv_base_166       = " << v_base_166       << std::endl;
-                  std::cout << "\nv_peak_166       = " << v_peak_166       << std::endl;
-                  std::cout << "\nmin_position_166 = " << min_position_166 << std::endl;
-                  std::cout << "\nv_th_166         = " << v_th_166         << std::endl;
-                  std::cout << "\ntime_166         = " << time_166[chn]    << std::endl;
-                  std::cout << "\nv_ampl_166       = " << v_ampl_166       << std::endl;
-                  std::cout << "\nq_166            = " << q_166[chn]       << std::endl;
-                  std::cout << "\nBar (X)          = " << bar_TOF_X        << std::endl;
-                  std::cout << "\nBar (Y)          = " << bar_TOF_Y        << std::endl;
                   if (chn%2!=0) {
-                     std::cout << "\n------------------------------------------" << std::endl;
-                     std::cout << "\nq_bar_166                                 = " << q_bar_166[chn/2]      << std::endl;
-                     //std::cout << "\nmean_time_166   = " << mean_time_166[chn/2]  << std::endl;
-                     std::cout << "time_166["<<chn<<"] - time_166["<<chn-1<<"]      = " << delta_time_166 << endl;
-                     std::cout << "mean_time_X [ns]                            = " << mean_time_X    << endl;
-                     std::cout << "mean_time_Y [ns]                            = " << mean_time_Y    << endl;
-                     std::cout << "\n------------------------------------------"   << std::endl;
+
+                     // Q CHARGE BAR
+                     hist_q_bar_166[chn/2]->Fill(q_bar_166[chn/2]);
+                     // ∆T TIME CHANNELS
+                     hist_delta_time_166[chn/2]->Fill(delta_time_166);
+                     // ∆T VS LOG(Q_L/Q_R)
+                     hist_charge_time_166[chn/2]->Fill(log(q_166[chn]/q_166[chn-1]), delta_time_166);
                   }
                }
-            } // END if (v_ampl_166 > 0.015)     
+               else if (delta_time_166<-3.0 && delta_time_166>3.0 && chn<6) mean_time_X = -1;
+               else if (delta_time_166<-3.0 && delta_time_166>3.0 && chn>6) mean_time_Y = -1;
+               //***********************************************************************************************************
+
+               if (v_ampl_166 > 0.) { // REMEMBER THE ZEROSUPPRESSION
+                  // BARS X TOFWALL
+                  if (chn==0)       bar_TOF_X = 8;
+                  else if (chn==1)  bar_TOF_X = 8;
+                  else if (chn==2)  bar_TOF_X = 9;
+                  else if (chn==3)  bar_TOF_X = 9;
+                  else if (chn==4)  bar_TOF_X = 10;
+                  else if (chn==5)  bar_TOF_X = 10;
+
+                  else if (chn==6)  bar_TOF_Y = 28;
+                  else if (chn==7)  bar_TOF_Y = 28;
+                  else if (chn==8)  bar_TOF_Y = 29;
+                  else if (chn==9)  bar_TOF_Y = 29;
+                  else if (chn==10) bar_TOF_Y = 30;
+                  else if (chn==11) bar_TOF_Y = 30;
+            
+               if (1) {
+                  std::cout << "\n**************************"              << std::endl;
+                  std::cout << "\nWD 166"                                  << std::endl;
+                  std::cout << "\nEntry                   = " << jentry           << std::endl;
+                  std::cout << "\nchn                     = " << chn              << std::endl;
+                  std::cout << "\nmin_166 [V]             = " << min_166          << std::endl;
+                  std::cout << "\nmax_166 [V]             = " << max_166          << std::endl;
+                  std::cout << "\n------------------------------------------" << std::endl;
+                  std::cout << "\nt_start_166      [ns]   = " << t_start_166  << std::endl;
+                  std::cout << "\nt_stop_166       [ns]   = " << t_stop_166   << std::endl;
+                  std::cout << "\nv_start_166      [V]    = " << v_start_166  << std::endl;
+                  std::cout << "\nv_stop_166       [V]    = " << v_stop_166   << std::endl;
+                  std::cout << "\nv_base_166       [V]    = " << v_base_166   << std::endl;
+                  std::cout << "\nsigma_v_base_166 [V]    = " << sigma_v_base_166 << std::endl;
+                  
+                  std::cout << "\nv_peak_166       [V]    = " << v_peak_166         << std::endl;
+                  std::cout << "\nt_peak_166       [ns]   = " << t_peak_166         << std::endl;
+                  std::cout << "\nv_ampl_166       [V]    = " << v_ampl_166         << std::endl;
+                  std::cout << "\nv_min_position_166      = " << v_min_position_166 << std::endl;
+                  std::cout << "\nv_th_166         [V]    = " << v_th_166           << std::endl;
+                  std::cout << "\ntime_166         [ns]   = " << time_166[chn]      << std::endl;
+                  std::cout << "\nq_166            [a.u.] = " << q_166[chn]         << std::endl;
+                  std::cout << "\nBar (X)                 = " << bar_TOF_X          << std::endl;
+                  std::cout << "\nBar (Y)                 = " << bar_TOF_Y          << std::endl;
+                     if (chn%2!=0) {
+                        std::cout << "\n------------------------------------------" << std::endl;
+                        std::cout << "\nq_bar_166                                 = " << q_bar_166[chn/2]      << std::endl;
+                        //std::cout << "\nmean_time_166   = " << mean_time_166[chn/2]  << std::endl;
+                        std::cout << "time_166["<<chn<<"] - time_166["<<chn-1<<"]      = " << delta_time_166 << endl;
+                        std::cout << "mean_time_X [ns]                            = " << mean_time_X    << endl;
+                        std::cout << "mean_time_Y [ns]                            = " << mean_time_Y    << endl;
+                        std::cout << "\n------------------------------------------"   << std::endl;
+                     }
+                  }
+               } // END if (v_ampl_166 > 0.015)     
+            } // END if (status == 1)
          } // END if (board166_hit[ch] == 1)
       } // END LOOP ON CHANNELS
 
@@ -1017,13 +1026,18 @@ void rec::Loop()
             Double_t max_170;                                  // V AMPLITUDE MAX OF CHANNEL [V]
             Double_t voltage_170 = 0.;                         
             Double_t v_base_170 = 0.;                          // V BASELINE (PEDESTAL) [V]
-            Double_t sigma_v_base_170 = 0.;
+            Double_t sigma_v_base_170 = 0.;                    // V BASELINE (PEDESTAL) [V]
             Double_t v_ampl_170;                               // V AMPLITUDE OF CHANNEL [V]
             Double_t v_peak_170 = board170_waveform[chn][300]; // V MINIMUM (PEAK) [V]
+            Double_t t_peak_170;
             Double_t v_th_170;                                 // V THRESHOLD [V]
-            Double_t min_position_170 = 0;
+            Double_t t_start_170;                              // TIME START OF SIGNAL [ns]
+            Double_t t_stop_170;                               // TIME STOP OF SIGNAL  [ns]
+            Double_t v_start_170;                              // V START OF SIGNAL [V]
+            Double_t v_stop_170;                               // V STOP OF SIGNAL  [V]
+            Double_t v_min_position_170 = 0;                   // POSITION OF V PEAK
             Double_t time_170[16];                             // TIME OF WF OF CHANNEL [a.u.]
-            Double_t delta_time_170;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t delta_time_170 = 0.;                      // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_170[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
             Double_t q = 0.;                                   // CHARGE [a.u.]
             Double_t q_170[16];                                // CHARGE OF CHANNEL [a.u.]
@@ -1041,7 +1055,7 @@ void rec::Loop()
                if (board170_waveform[chn][t] > max_170) max_170 = board170_waveform[chn][t];
             }
             
-            if (max_170 - min_170 > 0.95) { // 0.95 mV
+            if (max_170 - min_170 > 0.95) { // 0.95 V
                cout << "ATTENTION: OVERFLOW ARTIFACT!" << endl;
                status = 0; // NOISE
             }
@@ -1051,113 +1065,160 @@ void rec::Loop()
                status = 0; // NOISE
             }
             //*********************************************************************************
-            
-            // V PEAK (MINIMUM)
-            for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board170_waveform[chn][t] < v_peak_170) {
-                  v_peak_170 = board170_waveform[chn][t];
-                  min_position_170 = t;
+
+            if (status==1) {
+
+               // V PEAK (MINIMUM)
+               for (Int_t i=50; i<800; i++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board170_waveform[chn][i] < v_peak_170) {
+                     v_peak_170 = board170_waveform[chn][i];
+                     v_min_position_170 = i;
+                     t_peak_170 = board170_time[chn][i] * TMath::Power(10,9);
+                  }
                }
-            }
             
-            // V BASELINE (NEW METHOD)
-            TH1F *wf_170 = new TH1F("wf_170","wf_170", 30, 0.30, 0.60);
-            for (Int_t t=10; t<250; t++) {
-               wf_170->Fill(board170_waveform[chn][t]);
-            }
-            
-            v_base_170 = wf_170->GetMean();                             // V BASELINE
-            sigma_v_base_170 = wf_170->GetRMS();                        // RMS V BASELINE
-            v_ampl_170 = v_base_170 - v_peak_170;                       // V AMPLITUDE                                                         
-            v_th_170 = v_base_170 - f_CFD * (v_base_170 - v_peak_170);  // V THRESHOLD
-            
-            wf_170->SetDirectory(0); // remove an histogram from the gDirectory list
-
-            hist_v_ampl_170[chn]->Fill(v_ampl_170);
-
-            // TIME OF CHANNEL
-            /*
-            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               //cout << "board170_time[chn][t]" << board170_time[chn][t] << endl;
-               if (board170_waveform[chn][t] == v_th_170) {
-                  time_170[chn] = board170_time[chn][t] * TMath::Power(10,9);
-                  break;
-               }
-               else if (board170_waveform[chn][t] < v_th_170) {
-                  time_170[chn] = (board170_time[chn][t] + board170_time[chn][t-1])/2 * TMath::Power(10,9);
-                  break;
-               }
-            }
-            */
-            for (Int_t t=min_position_170; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board170_waveform[chn][t] > v_th_170) {
-                  time_170[chn] = (board170_time[chn][t] + board170_time[chn][t+1])/2  * TMath::Power(10,9);
-                  break;
-               }
-            }
-
-            for (Int_t t=250; t<570; t++) q += v_base_170 - board170_waveform[chn][t];
-            q_170[chn] = q;                                                // CHARGHE OF CHANNEL
-            hist_q_170[chn]->Fill(q_170[chn]);
-   
-            if (chn%2!=0) {
-               q_bar_170[chn/2] = sqrt(q_170[chn] * q_170[chn-1]);         // CHARGE OF BAR
-               hist_q_bar_170[chn/2]->Fill(q_bar_170[chn/2]);
-
-               mean_time_170[chn/2] = (time_170[chn] + time_170[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_X = (time_170[chn] + time_170[chn-1])/2;  // MEAN TIME OF BAR [ns];           // T_BAR = (T_L + T_R)/2
-
-               delta_time_170 = (time_170[chn] - time_170[chn-1]);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               // V BASELINE
+               TH1F *wf_170 = new TH1F("wf_170","wf_170", 30, 0.30, 0.60);
                
-               if (1) {
-               //if (delta_time_170 < 3.0 && delta_time_170 > -3.0) {
-                  hist_delta_time_170[chn/2]->Fill(delta_time_170);
-                  hist_charge_time_170[chn/2]->Fill(log(q_170[chn]/q_170[chn-1]), delta_time_170);
-               }
-               else mean_time_X = -1;
-            }
+               // V BASELINE
+               for (Int_t t=10; t<250; t++) wf_170->Fill(board170_waveform[chn][t]);
+               
+               v_base_170 = wf_170->GetMean();
+               sigma_v_base_170 = wf_170->GetRMS();
 
-            // BARS X TOFWALL
-            if (chn==0)       bar_TOF_X = 11;
-            else if (chn==1)  bar_TOF_X = 11;
-            else if (chn==2)  bar_TOF_X = 12;
-            else if (chn==3)  bar_TOF_X = 12;
-            else if (chn==4)  bar_TOF_X = 13;
-            else if (chn==5)  bar_TOF_X = 13;
-            else if (chn==6)  bar_TOF_X = 14;
-            else if (chn==7)  bar_TOF_X = 14;
-            else if (chn==8)  bar_TOF_X = 15;
-            else if (chn==9)  bar_TOF_X = 15;
-            else if (chn==10) bar_TOF_X = 16;
-            else if (chn==11) bar_TOF_X = 16;
-            else if (chn==12) bar_TOF_X = 17;
-            else if (chn==13) bar_TOF_X = 17;
-            else if (chn==14) bar_TOF_X = 18;
-            else if (chn==15) bar_TOF_X = 18;   
+               wf_170->SetDirectory(0); // remove an histogram from the gDirectory list
+               
+               // V AMPLITUDE
+               v_ampl_170 = v_base_170 - v_peak_170;                     
             
-            if (0) {
-               std::cout << "\n**************************"              << std::endl;
-               std::cout << "\nWD 170"                                  << std::endl;
-               std::cout << "\nEntry            = " << jentry           << std::endl;
-               std::cout << "\nchn              = " << chn              << std::endl;
-               std::cout << "\nmin_170          = " << min_170          << std::endl;
-               std::cout << "\nmax_170          = " << max_170          << std::endl;
-               std::cout << "\nv_base_170 [mV]  = " << v_base_170       << std::endl;
-               std::cout << "\nv_peak_170 [mV]  = " << v_peak_170       << std::endl;
-               std::cout << "\nv_ampl_170 [mV]  = " << v_ampl_170       << std::endl;
-               std::cout << "\nmin_position_170 = " << min_position_170 << std::endl;
-               std::cout << "\nv_th_170   [mV]  = " << v_th_170         << std::endl;
-               std::cout << "\ntime_170   [ns]  = " << time_170[chn]    << std::endl;
-               std::cout << "\nq_170            = " << q_170[chn]       << std::endl;
-               std::cout << "\nBar (X)          = " << bar_TOF_X        << std::endl;
+               // V THRESHOLD                                    
+               v_th_170 = v_base_170 - f_CFD * (v_base_170 - v_peak_170);
+         
+               // TIME/V START
+               for (Int_t i=10; ; i++) {
+                  if ((v_base_170 - board170_waveform[chn][i]) > 5 * sigma_v_base_170) {
+                     t_start_170 = board170_time[chn][i-1] * TMath::Power(10,9); //[ns]
+                     v_start_170 = i-1; // [V]
+                     break;
+                  }
+               }
+
+               // TIME/V STOP (v_min_position_170)
+               for (Int_t i=v_min_position_170; ; i++) {
+                  if ((v_base_170 - board170_waveform[chn][i]) < sigma_v_base_170) {
+                     t_stop_170 = board170_time[chn][i+1] * TMath::Power(10,9); //[ns]
+                     v_stop_170 = i+1; // [V]
+                     break;
+                  }
+               }
+
+               // TIME OF CHANNEL
+               /*
+               for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board170_waveform[chn][t] == v_th_170) {
+                     time_170[chn] = board170_time[chn][t] * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+                  else if (board170_waveform[chn][t] < v_th_170) {
+                     time_170[chn] = (board170_time[chn][t] + board170_time[chn][t-1])/2 * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+               }
+               */
+               // TIME OF CHANNEL
+               for (Int_t t=v_min_position_170; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board170_waveform[chn][t] > v_th_170) {
+                     time_170[chn] = (board170_time[chn][t] + board170_time[chn][t+1])/2 * TMath::Power(10,9);
+                     break;
+                  }
+               }
+
+               // CHARGHE OF CHANNEL
+               for (Int_t t=v_start_170; t<v_stop_170; t++) q += v_base_170 - board170_waveform[chn][t];
+               q_170[chn] = q;                                                
+   
                if (chn%2!=0) {
+                  q_bar_170[chn/2] = sqrt(q_170[chn] * q_170[chn-1]);         // CHARGE OF BAR
+
+                  mean_time_170[chn/2] = (time_170[chn] + time_170[chn-1])/2; // MEAN TIME OF BAR
+
+                  mean_time_X = (time_170[chn] + time_170[chn-1])/2;          // MEAN TIME OF BAR [ns];           // T_BAR = (T_L + T_R)/2
+
+                  delta_time_170 = (time_170[chn] - time_170[chn-1]);         // DELTA TIME OF BAR
+               }
+
+               //***********************************************************************************************************
+               // FILL THE HISTOGRAM
+               if (v_ampl_170>0.010 && q_170[chn]>0.010 && q_bar_170[chn]>0.010 && delta_time_170>-3.0 && delta_time_170<3.0) {
+                  
+                  // V AMPLITUDE CHANNEL
+                  hist_v_ampl_170[chn]->Fill(v_ampl_170);
+                  // Q CHARGE CHANNEL
+                  hist_q_170[chn]->Fill(q_170[chn]);
+
+                  if (chn%2!=0) {
+
+                     // Q CHARGE BAR
+                     hist_q_bar_170[chn/2]->Fill(q_bar_170[chn/2]);
+                     // ∆T TIME CHANNELS
+                     hist_delta_time_170[chn/2]->Fill(delta_time_170);
+                     // ∆T VS LOG(Q_L/Q_R)
+                     hist_charge_time_170[chn/2]->Fill(log(q_170[chn]/q_170[chn-1]), delta_time_170);
+                  }
+               }
+               else if (delta_time_170<-3.0 && delta_time_170>3.0) mean_time_X = -1;
+               //***********************************************************************************************************
+
+               // BARS X TOFWALL
+               if (chn==0)       bar_TOF_X = 11;
+               else if (chn==1)  bar_TOF_X = 11;
+               else if (chn==2)  bar_TOF_X = 12;
+               else if (chn==3)  bar_TOF_X = 12;
+               else if (chn==4)  bar_TOF_X = 13;
+               else if (chn==5)  bar_TOF_X = 13;
+               else if (chn==6)  bar_TOF_X = 14;
+               else if (chn==7)  bar_TOF_X = 14;
+               else if (chn==8)  bar_TOF_X = 15;
+               else if (chn==9)  bar_TOF_X = 15;
+               else if (chn==10) bar_TOF_X = 16;
+               else if (chn==11) bar_TOF_X = 16;
+               else if (chn==12) bar_TOF_X = 17;
+               else if (chn==13) bar_TOF_X = 17;
+               else if (chn==14) bar_TOF_X = 18;
+               else if (chn==15) bar_TOF_X = 18;   
+            
+               if (1) {
+                  std::cout << "\n**************************"              << std::endl;
+                  std::cout << "\nWD 170"                                  << std::endl;
+                  std::cout << "\nEntry                   = " << jentry           << std::endl;
+                  std::cout << "\nchn                     = " << chn              << std::endl;
+                  std::cout << "\nmin_170 [V]             = " << min_170          << std::endl;
+                  std::cout << "\nmax_170 [V]             = " << max_170          << std::endl;
                   std::cout << "\n------------------------------------------" << std::endl;
-                  //std::cout << "\ndelta_time_170  = " << delta_time_170        << std::endl;
-                  std::cout << "\nq_bar_170                                 = " << q_bar_170[chn/2]      << std::endl;
-                  //std::cout << "\nmean_time_170   = " << mean_time_170[chn/2]  << std::endl;
-                  std::cout << "time_170["<<chn<<"] - time_170["<<chn-1<<"]       = " << delta_time_170     << endl;
-                  std::cout << "mean_time_X [ns]                            = " << mean_time_X    << endl;
-                  std::cout << "\n------------------------------------------" << std::endl;
+                  std::cout << "\nt_start_170      [ns]   = " << t_start_170  << std::endl;
+                  std::cout << "\nt_stop_170       [ns]   = " << t_stop_170   << std::endl;
+                  std::cout << "\nv_start_170      [V]    = " << v_start_170  << std::endl;
+                  std::cout << "\nv_stop_170       [V]    = " << v_stop_170   << std::endl;
+                  std::cout << "\nv_base_170       [V]    = " << v_base_170   << std::endl;
+                  std::cout << "\nsigma_v_base_170 [V]    = " << sigma_v_base_170 << std::endl;
+                  
+                  std::cout << "\nv_peak_170       [V]    = " << v_peak_170         << std::endl;
+                  std::cout << "\nt_peak_170       [ns]   = " << t_peak_170         << std::endl;
+                  std::cout << "\nv_ampl_170       [V]    = " << v_ampl_170         << std::endl;
+                  std::cout << "\nv_min_position_170      = " << v_min_position_170 << std::endl;
+                  std::cout << "\nv_th_170         [V]    = " << v_th_170           << std::endl;
+                  std::cout << "\ntime_170         [ns]   = " << time_170[chn]      << std::endl;
+                  std::cout << "\nq_170            [a.u.] = " << q_170[chn]         << std::endl;
+                  std::cout << "\nBar (X)                 = " << bar_TOF_X          << std::endl;
+                  if (chn%2!=0) {
+                     std::cout << "\n------------------------------------------" << std::endl;
+                     //std::cout << "\ndelta_time_170  = " << delta_time_170        << std::endl;
+                     std::cout << "\nq_bar_170                                 = " << q_bar_170[chn/2]      << std::endl;
+                     //std::cout << "\nmean_time_170   = " << mean_time_170[chn/2]  << std::endl;
+                     std::cout << "time_170["<<chn<<"] - time_170["<<chn-1<<"]       = " << delta_time_170     << endl;
+                     std::cout << "mean_time_X [ns]                            = " << mean_time_X    << endl;
+                     std::cout << "\n------------------------------------------" << std::endl;
+                  }
                }
             }           
          } // END if (board170_hit[ch] == 1)
@@ -1175,14 +1236,19 @@ void rec::Loop()
             Double_t min_167;                                  // V AMPLITUDE MIN OF CHANNEL [V]
             Double_t max_167;                                  // V AMPLITUDE MAX OF CHANNEL [V]
             Double_t voltage_167 = 0.;                         
-            Double_t v_base_167 = 0.;                          // V BASELINE (PEDESTAL) [mV]
-            Double_t sigma_v_base_167 = 0.;
-            Double_t v_ampl_167;                               // V AMPLITUDE OF CHANNEL [mV]
-            Double_t v_peak_167 = board167_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
-            Double_t v_th_167;                                 // V THRESHOLD [mV]
-            Double_t min_position_167 = 0;
+            Double_t v_base_167 = 0.;                          // V BASELINE (PEDESTAL) [V]
+            Double_t sigma_v_base_167 = 0.;                    // V BASELINE (PEDESTAL) [V]
+            Double_t v_ampl_167;                               // V AMPLITUDE OF CHANNEL [V]
+            Double_t v_peak_167 = board167_waveform[chn][300]; // V MINIMUM (PEAK) [V]
+            Double_t t_peak_167;
+            Double_t v_th_167;                                 // V THRESHOLD [V]
+            Double_t t_start_167;                              // TIME START OF SIGNAL [ns]
+            Double_t t_stop_167;                               // TIME STOP OF SIGNAL  [ns]
+            Double_t v_start_167;                              // V START OF SIGNAL [V]
+            Double_t v_stop_167;                               // V STOP OF SIGNAL  [V]
+            Double_t v_min_position_167 = 0;                   // POSITION OF V PEAK
             Double_t time_167[16];                             // TIME OF WF OF CHANNEL [a.u.]
-            Double_t delta_time_167;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t delta_time_167 = 0.;                      // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_167[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
             Double_t q = 0.;                                   // CHARGE [a.u.]
             Double_t q_167[16];                                // CHARGE OF CHANNEL [a.u.]
@@ -1200,7 +1266,7 @@ void rec::Loop()
                if (board167_waveform[chn][t] > max_167) max_167 = board167_waveform[chn][t];
             }
             
-            if (max_167 - min_167 > 0.95) { // 0.95 mV
+            if (max_167 - min_167 > 0.95) { // 0.95 V
                cout << "ATTENTION: OVERFLOW ARTIFACT!" << endl;
                status = 0; // NOISE
             }
@@ -1209,119 +1275,166 @@ void rec::Loop()
                cout << "ATTENTION: NOISE!" << endl;
                status = 0; // NOISE
             }
-            //*********************************************************************************   
-                     
-            // V PEAK (MINIMUM)
-            for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board167_waveform[chn][t] < v_peak_167) {
-                  v_peak_167 = board167_waveform[chn][t];
-                  min_position_167 = t;
-               }
-            }
-            
-            // V BASELINE (NEW METHOD)
-            TH1F *wf_167 = new TH1F("wf_167","wf_167", 30, 0.30, 0.60);
-            for (Int_t t=10; t<250; t++) {
-               wf_167->Fill(board167_waveform[chn][t]);
-            }
-            
-            v_base_167 = wf_167->GetMean();                             // V BASELINE
-            sigma_v_base_167 = wf_167->GetRMS();                        // RMS V BASELINE
-            v_ampl_167 = v_base_167 - v_peak_167;                       // V AMPLITUDE                                                         
-            v_th_167 = v_base_167 - f_CFD * (v_base_167 - v_peak_167);  // V THRESHOLD
-            
-            wf_167->SetDirectory(0); // remove an histogram from the gDirectory list
+            //*********************************************************************************
 
-            hist_v_ampl_167[chn]->Fill(v_ampl_167);
+            if (status==1) {
 
-            // TIME OF CHANNEL
-            /*
-            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board167_waveform[chn][t] == v_th_167) {
-                  time_167[chn] = board167_time[chn][t] * TMath::Power(10,9);
-                  break;
+               // V PEAK (MINIMUM)
+               for (Int_t i=50; i<800; i++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board167_waveform[chn][i] < v_peak_167) {
+                     v_peak_167 = board167_waveform[chn][i];
+                     v_min_position_167 = i;
+                     t_peak_167 = board167_time[chn][i] * TMath::Power(10,9);
+                  }
                }
-               else if (board167_waveform[chn][t] < v_th_167) {
-                  time_167[chn] = (board167_time[chn][t] + board167_time[chn][t-1])/2 * TMath::Power(10,9);
-                  break;
-               }
-            }
-            */
-            for (Int_t t=min_position_167; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board167_waveform[chn][t] > v_th_167) {
-                  time_167[chn] = (board167_time[chn][t] + board167_time[chn][t+1])/2  * TMath::Power(10,9);
-                  break;
-               }
-            }
-
-            for (Int_t t=250; t<570; t++) q += v_base_167 - board167_waveform[chn][t];
-            q_167[chn] = q;                                                // CHARGHE OF CHANNEL
-            hist_q_167[chn]->Fill(q_167[chn]);
-   
-            if (chn%2!=0) {
-               q_bar_167[chn/2] = sqrt(q_167[chn] * q_167[chn-1]);         // CHARGE OF BAR
-               hist_q_bar_167[chn/2]->Fill(q_bar_167[chn/2]);
-
-               mean_time_167[chn/2] = (time_167[chn] + time_167[chn-1])/2;  // MEAN TIME OF BAR
-               if (chn<2) mean_time_X = (time_167[chn] + time_167[chn-1])/2;  // MEAN TIME OF BAR [ns];
-               else       mean_time_Y = (time_167[chn] + time_167[chn-1])/2;  // MEAN TIME OF BAR [ns]; // T_BAR = (T_L + T_R)/2
             
-               delta_time_167 = (time_167[chn] - time_167[chn-1]);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               // V BASELINE
+               TH1F *wf_167 = new TH1F("wf_167","wf_167", 30, 0.30, 0.60);
                
-               if (1) {
-               //if (delta_time_167 < 3.0 && delta_time_167 > -3.0) {
-                  hist_delta_time_167[chn/2]->Fill(delta_time_167);
-                  hist_charge_time_167[chn/2]->Fill(log(q_167[chn]/q_167[chn-1]), delta_time_167);
-               }
-               else mean_time_X = -1, mean_time_Y = -1;
-            }
+               // V BASELINE
+               for (Int_t t=10; t<250; t++) wf_167->Fill(board167_waveform[chn][t]);
+               
+               v_base_167 = wf_167->GetMean();
+               sigma_v_base_167 = wf_167->GetRMS();
 
-            // BAR X TOFWALL
-            if      (chn==0) bar_TOF_X = 19;
-            else if (chn==1) bar_TOF_X = 19;
-
-            // BARS Y TOFWALL
-            else if (chn==2)  bar_TOF_Y = 20;
-            else if (chn==3)  bar_TOF_Y = 20;
-            else if (chn==4)  bar_TOF_Y = 21;
-            else if (chn==5)  bar_TOF_Y = 21;
-            else if (chn==6)  bar_TOF_Y = 22;
-            else if (chn==7)  bar_TOF_Y = 22;
-            else if (chn==8)  bar_TOF_Y = 23;
-            else if (chn==9)  bar_TOF_Y = 23;
-            else if (chn==10) bar_TOF_Y = 24;
-            else if (chn==11) bar_TOF_Y = 24;
-            else if (chn==12) bar_TOF_Y = 25;
-            else if (chn==13) bar_TOF_Y = 25;
-            else if (chn==14) bar_TOF_Y = 26;
-            else if (chn==15) bar_TOF_Y = 26;
+               wf_167->SetDirectory(0); // remove an histogram from the gDirectory list
+               
+               // V AMPLITUDE
+               v_ampl_167 = v_base_167 - v_peak_167;                     
             
-            if (0) {
-               std::cout << "\n**************************"              << std::endl;
-               std::cout << "\nWD 167"                                  << std::endl;
-               std::cout << "\nEntry            = " << jentry           << std::endl;
-               std::cout << "\nchn              = " << chn              << std::endl;
-               std::cout << "\nmin_167          = " << min_167          << std::endl;
-               std::cout << "\nmax_167          = " << max_167          << std::endl;
-               std::cout << "\nv_base_167 [mV]  = " << v_base_167       << std::endl;
-               std::cout << "\nv_peak_167 [mV]  = " << v_peak_167       << std::endl;
-               std::cout << "\nv_ampl_167 [mV]  = " << v_ampl_167       << std::endl;
-               std::cout << "\nmin_position_167 = " << min_position_167 << std::endl;
-               std::cout << "\nv_th_167   [mV]  = " << v_th_167         << std::endl;
-               std::cout << "\ntime_167   [ns]  = " << time_167[chn]    << std::endl;
-               std::cout << "\nq_167            = " << q_167[chn]       << std::endl;
-               std::cout << "\nBar (X)          = " << bar_TOF_X        << std::endl;
-               std::cout << "\nBar (Y)          = " << bar_TOF_Y        << std::endl;
-               if (chn%2!=0) {
-                  std::cout << "\n------------------------------------------" << std::endl;
-                  std::cout << "\nq_bar_167                                 = " << q_bar_167[chn/2] << std::endl;
-                  //std::cout << "\nmean_time_167   = " << mean_time_167[chn/2]  << std::endl;
-                  std::cout << "time_167["<<chn<<"] - time_167["<<chn-1<<"]        = " << delta_time_167   << endl;
-                  std::cout << "mean_time_X [ns]                            = " << mean_time_X      << endl;
-                  std::cout << "mean_time_Y [ns]                            = " << mean_time_Y      << endl;
-                  std::cout << "\n------------------------------------------" << std::endl;
+               // V THRESHOLD                                    
+               v_th_167 = v_base_167 - f_CFD * (v_base_167 - v_peak_167);
+
+               // TIME/V START
+               for (Int_t i=10; ; i++) {
+                  if ((v_base_167 - board167_waveform[chn][i]) > 5 * sigma_v_base_167) {
+                     t_start_167 = board167_time[chn][i-1] * TMath::Power(10,9); //[ns]
+                     v_start_167 = i-1; // [V]
+                     break;
+                  }
                }
-            }           
+
+               // TIME/V STOP (v_min_position_167)
+               for (Int_t i=v_min_position_167; ; i++) {
+                  if ((v_base_167 - board167_waveform[chn][i]) < sigma_v_base_167) {
+                     t_stop_167 = board167_time[chn][i+1] * TMath::Power(10,9); //[ns]
+                     v_stop_167 = i+1; // [V]
+                     break;
+                  }
+               }
+
+               // TIME OF CHANNEL
+               /*
+               for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board167_waveform[chn][t] == v_th_167) {
+                     time_167[chn] = board167_time[chn][t] * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+                  else if (board167_waveform[chn][t] < v_th_167) {
+                     time_167[chn] = (board167_time[chn][t] + board167_time[chn][t-1])/2 * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+               }
+               */
+               // TIME OF CHANNEL
+               for (Int_t t=v_min_position_167; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board167_waveform[chn][t] > v_th_167) {
+                     time_167[chn] = (board167_time[chn][t] + board167_time[chn][t+1])/2 * TMath::Power(10,9);
+                     break;
+                  }
+               }
+
+               // CHARGHE OF CHANNEL
+               for (Int_t t=v_start_167; t<v_stop_167; t++) q += v_base_167 - board167_waveform[chn][t];
+               q_167[chn] = q;                                                
+   
+               if (chn%2!=0) {
+                  q_bar_167[chn/2] = sqrt(q_167[chn] * q_167[chn-1]);            // CHARGE OF BAR
+                  
+                  if (chn<2) mean_time_X = (time_167[chn] + time_167[chn-1])/2;  // MEAN TIME OF BAR [ns];
+                  else       mean_time_Y = (time_167[chn] + time_167[chn-1])/2;  // MEAN TIME OF BAR [ns]; // T_BAR = (T_L + T_R)/2
+            
+                  delta_time_167 = (time_167[chn] - time_167[chn-1]);            // DELTA TIME OF BAR
+               }
+
+               //***********************************************************************************************************
+               // FILL THE HISTOGRAM
+               if (v_ampl_167>0.010 && q_167[chn]>0.01 && q_bar_167[chn]>0.01 && delta_time_167>-3.0 && delta_time_167<3.0) {
+                  
+                  // V AMPLITUDE CHANNEL
+                  hist_v_ampl_167[chn]->Fill(v_ampl_167);
+                  // Q CHARGE CHANNEL
+                  hist_q_167[chn]->Fill(q_167[chn]);
+
+                  if (chn%2!=0) {
+
+                     // Q CHARGE BAR
+                     hist_q_bar_167[chn/2]->Fill(q_bar_167[chn/2]);
+                     // ∆T TIME CHANNELS
+                     hist_delta_time_167[chn/2]->Fill(delta_time_167);
+                     // ∆T VS LOG(Q_L/Q_R)
+                     hist_charge_time_167[chn/2]->Fill(log(q_167[chn]/q_167[chn-1]), delta_time_167);
+                  }
+               }
+               else if (delta_time_167<-3.0 && delta_time_167>3.0 && chn<2) mean_time_X = -1;
+               else if (delta_time_167<-3.0 && delta_time_167>3.0 && chn>2) mean_time_Y = -1;
+               //***********************************************************************************************************
+
+               // BAR X TOFWALL
+               if      (chn==0) bar_TOF_X = 19;
+               else if (chn==1) bar_TOF_X = 19;
+
+               // BARS Y TOFWALL
+               else if (chn==2)  bar_TOF_Y = 20;
+               else if (chn==3)  bar_TOF_Y = 20;
+               else if (chn==4)  bar_TOF_Y = 21;
+               else if (chn==5)  bar_TOF_Y = 21;
+               else if (chn==6)  bar_TOF_Y = 22;
+               else if (chn==7)  bar_TOF_Y = 22;
+               else if (chn==8)  bar_TOF_Y = 23;
+               else if (chn==9)  bar_TOF_Y = 23;
+               else if (chn==10) bar_TOF_Y = 24;
+               else if (chn==11) bar_TOF_Y = 24;
+               else if (chn==12) bar_TOF_Y = 25;
+               else if (chn==13) bar_TOF_Y = 25;
+               else if (chn==14) bar_TOF_Y = 26;
+               else if (chn==15) bar_TOF_Y = 26;
+            
+               if (1) {
+                  std::cout << "\n**************************"              << std::endl;
+                  std::cout << "\nWD 167"                                  << std::endl;
+                  std::cout << "\nEntry                   = " << jentry           << std::endl;
+                  std::cout << "\nchn                     = " << chn              << std::endl;
+                  std::cout << "\nmin_167 [V]             = " << min_167          << std::endl;
+                  std::cout << "\nmax_167 [V]             = " << max_167          << std::endl;
+                  std::cout << "\n------------------------------------------" << std::endl;
+                  std::cout << "\nt_start_167      [ns]   = " << t_start_167  << std::endl;
+                  std::cout << "\nt_stop_167       [ns]   = " << t_stop_167   << std::endl;
+                  std::cout << "\nv_start_167      [V]    = " << v_start_167  << std::endl;
+                  std::cout << "\nv_stop_167       [V]    = " << v_stop_167   << std::endl;
+                  std::cout << "\nv_base_167       [V]    = " << v_base_167   << std::endl;
+                  std::cout << "\nsigma_v_base_167 [V]    = " << sigma_v_base_167 << std::endl;
+                  
+                  std::cout << "\nv_peak_167       [V]    = " << v_peak_167         << std::endl;
+                  std::cout << "\nt_peak_167       [ns]   = " << t_peak_167         << std::endl;
+                  std::cout << "\nv_ampl_167       [V]    = " << v_ampl_167         << std::endl;
+                  std::cout << "\nv_min_position_167      = " << v_min_position_167 << std::endl;
+                  std::cout << "\nv_th_167         [V]    = " << v_th_167           << std::endl;
+                  std::cout << "\ntime_167         [ns]   = " << time_167[chn]      << std::endl;
+                  std::cout << "\nq_167            [a.u.] = " << q_167[chn]         << std::endl;
+                  std::cout << "\nBar (X)                 = " << bar_TOF_X          << std::endl;
+                  std::cout << "\nBar (Y)                 = " << bar_TOF_Y          << std::endl;
+                  if (chn%2!=0) {
+                     std::cout << "\n------------------------------------------" << std::endl;
+                     std::cout << "\nq_bar_167                                 = " << q_bar_167[chn/2] << std::endl;
+                     //std::cout << "\nmean_time_167   = " << mean_time_167[chn/2]  << std::endl;
+                     std::cout << "time_167["<<chn<<"] - time_167["<<chn-1<<"]        = " << delta_time_167   << endl;
+                     std::cout << "mean_time_X [ns]                            = " << mean_time_X      << endl;
+                     std::cout << "mean_time_Y [ns]                            = " << mean_time_Y      << endl;
+                     std::cout << "\n------------------------------------------" << std::endl;
+                  }
+               }   
+            } // END if (status == 1)        
          } // END if (board167_hit[ch] == 1)
       } // END LOOP ON CHANNELS
 
@@ -1337,14 +1450,19 @@ void rec::Loop()
             Double_t min_168;                                  // V AMPLITUDE MIN OF CHANNEL [V]
             Double_t max_168;                                  // V AMPLITUDE MAX OF CHANNEL [V]
             Double_t voltage_168 = 0.;                         
-            Double_t v_base_168 = 0.;                          // V BASELINE (PEDESTAL) [mV]
-            Double_t sigma_v_base_168 = 0.;
-            Double_t v_ampl_168;                               // V AMPLITUDE OF CHANNEL [mV]
-            Double_t v_peak_168 = board168_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
-            Double_t v_th_168;                                 // V THRESHOLD [mV]
-            Double_t min_position_168 = 0;
+            Double_t v_base_168 = 0.;                          // V BASELINE (PEDESTAL) [V]
+            Double_t sigma_v_base_168 = 0.;                    // V BASELINE (PEDESTAL) [V]
+            Double_t v_ampl_168;                               // V AMPLITUDE OF CHANNEL [V]
+            Double_t v_peak_168 = board168_waveform[chn][300]; // V MINIMUM (PEAK) [V]
+            Double_t t_peak_168;
+            Double_t v_th_168;                                 // V THRESHOLD [V]
+            Double_t t_start_168;                              // TIME START OF SIGNAL [ns]
+            Double_t t_stop_168;                               // TIME STOP OF SIGNAL  [ns]
+            Double_t v_start_168;                              // V START OF SIGNAL [V]
+            Double_t v_stop_168;                               // V STOP OF SIGNAL  [V]
+            Double_t v_min_position_168 = 0;                   // POSITION OF V PEAK
             Double_t time_168[16];                             // TIME OF WF OF CHANNEL [a.u.]
-            Double_t delta_time_168;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t delta_time_168 = 0.;                      // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_168[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
             Double_t q = 0.;                                   // CHARGE [a.u.]
             Double_t q_168[16];                                // CHARGE OF CHANNEL [a.u.]
@@ -1362,7 +1480,7 @@ void rec::Loop()
                if (board168_waveform[chn][t] > max_168) max_168 = board168_waveform[chn][t];
             }
             
-            if (max_168 - min_168 > 0.95) { // 0.95 mV
+            if (max_168 - min_168 > 0.95) { // 0.95 V
                cout << "ATTENTION: OVERFLOW ARTIFACT!" << endl;
                status = 0; // NOISE
             }
@@ -1371,118 +1489,164 @@ void rec::Loop()
                cout << "ATTENTION: NOISE!" << endl;
                status = 0; // NOISE
             }
-            //*********************************************************************************   
+            //*********************************************************************************
 
-            // V PEAK (MINIMUM)
-            for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board168_waveform[chn][t] < v_peak_168) {
-                  v_peak_168 = board168_waveform[chn][t];
-                  min_position_168 = t;
-               }
-            }
-            
-            // V BASELINE (NEW METHOD)
-            TH1F *wf_168 = new TH1F("wf_168","wf_168", 30, 0.30, 0.60);
-            for (Int_t t=10; t<250; t++) {
-               wf_168->Fill(board168_waveform[chn][t]);
-            }
-            
-            v_base_168 = wf_168->GetMean();                             // V BASELINE
-            sigma_v_base_168 = wf_168->GetRMS();                        // RMS V BASELINE
-            v_ampl_168 = v_base_168 - v_peak_168;                       // V AMPLITUDE                                                         
-            v_th_168 = v_base_168 - f_CFD * (v_base_168 - v_peak_168);  // V THRESHOLD
-            
-            wf_168->SetDirectory(0); // remove an histogram from the gDirectory list
+            if (status==1) {
 
-            hist_v_ampl_168[chn]->Fill(v_ampl_168);
-
+               // V PEAK (MINIMUM)
+               for (Int_t i=50; i<800; i++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board168_waveform[chn][i] < v_peak_168) {
+                     v_peak_168 = board168_waveform[chn][i];
+                     v_min_position_168 = i;
+                     t_peak_168 = board168_time[chn][i] * TMath::Power(10,9);
+                  }
+               }
             
-            // TIME OF CHANNEL
-            /*
-            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board168_waveform[chn][t] == v_th_168) {
-                  time_168[chn] = board168_time[chn][t]  * TMath::Power(10,9);
-                  break;
-               }
-               else if (board168_waveform[chn][t] < v_th_168) {
-                  time_168[chn] = (board168_time[chn][t] + board168_time[chn][t-1])/2  * TMath::Power(10,9);
-                  break;
-                  //cout << "board168_time[chn][t] = " << board168_time[chn][t] << endl;
-                  //cout << "board168_time[chn][t-1] = " << board168_time[chn][t-1] << endl;
-               }
-            }
-            */
-            for (Int_t t=min_position_168; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board168_waveform[chn][t] > v_th_168) {
-                  time_168[chn] = (board168_time[chn][t] + board168_time[chn][t+1])/2  * TMath::Power(10,9);
-                  break;
-               }
-            }                        
-
-            for (Int_t t=250; t<570; t++) q += v_base_168 - board168_waveform[chn][t];
-            q_168[chn] = q;                                                // CHARGHE OF CHANNEL
-            hist_q_168[chn]->Fill(q_168[chn]);
-   
-            if (chn%2!=0) {
-               q_bar_168[chn/2] = sqrt(q_168[chn] * q_168[chn-1]);         // CHARGE OF BAR
-               hist_q_bar_168[chn/2]->Fill(q_bar_168[chn/2]);
-         
-               mean_time_168[chn/2] = (time_168[chn] + time_168[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_Y = (time_168[chn] + time_168[chn-1])/2;  // MEAN TIME OF BAR [ns]
-            
-               delta_time_168 = (time_168[chn] - time_168[chn-1]);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               // V BASELINE
+               TH1F *wf_168 = new TH1F("wf_168","wf_168", 30, 0.30, 0.60);
                
-               if (1) {
-               //if (delta_time_168 < 3.0 && delta_time_168 > -3.0) {
-                  hist_delta_time_168[chn/2]->Fill(delta_time_168);
-                  hist_charge_time_168[chn/2]->Fill(log(q_168[chn]/q_168[chn-1]), delta_time_168);
-               }
-               else mean_time_Y = -1;
-            }
+               // V BASELINE
+               for (Int_t t=10; t<250; t++) wf_168->Fill(board168_waveform[chn][t]);
+               
+               v_base_168 = wf_168->GetMean();
+               sigma_v_base_168 = wf_168->GetRMS();
 
-            // BARS Y TOFWALL
-            if (chn==0)       bar_TOF_Y = 27;
-            else if (chn==1)  bar_TOF_Y = 27;
-            else if (chn==2)  bar_TOF_Y = 31;
-            else if (chn==3)  bar_TOF_Y = 31;
-            else if (chn==4)  bar_TOF_Y = 32;
-            else if (chn==5)  bar_TOF_Y = 32;
-            else if (chn==6)  bar_TOF_Y = 33;
-            else if (chn==7)  bar_TOF_Y = 33;
-            else if (chn==8)  bar_TOF_Y = 34;
-            else if (chn==9)  bar_TOF_Y = 34;
-            else if (chn==10) bar_TOF_Y = 35;
-            else if (chn==11) bar_TOF_Y = 35;
-            else if (chn==12) bar_TOF_Y = 36;
-            else if (chn==13) bar_TOF_Y = 36;
-            else if (chn==14) bar_TOF_Y = 37;
-            else if (chn==15) bar_TOF_Y = 37;
+               wf_168->SetDirectory(0); // remove an histogram from the gDirectory list
+               
+               // V AMPLITUDE
+               v_ampl_168 = v_base_168 - v_peak_168;
             
-            if (0) {
-               std::cout << "\n**************************"              << std::endl;
-               std::cout << "\nWD 168"                                  << std::endl;
-               std::cout << "\nEntry            = " << jentry           << std::endl;
-               std::cout << "\nchn              = " << chn              << std::endl;
-               std::cout << "\nmin_168          = " << min_168          << std::endl;
-               std::cout << "\nmax_168          = " << max_168          << std::endl;
-               std::cout << "\nv_base_168 [mV]  = " << v_base_168       << std::endl;
-               std::cout << "\nv_peak_168 [mV]  = " << v_peak_168       << std::endl;
-               std::cout << "\nv_ampl_168 [mV]  = " << v_ampl_168       << std::endl;
-               std::cout << "\nmin_position_168 = " << min_position_168 << std::endl;
-               std::cout << "\nv_th_168   [mV]  = " << v_th_168         << std::endl;
-               std::cout << "\ntime_168   [ns]  = " << time_168[chn]    << std::endl;
-               std::cout << "\nq_168            = " << q_168[chn]       << std::endl;
-               std::cout << "\nBar (Y)          = " << bar_TOF_Y        << std::endl;
-               if (chn%2!=0) {
-                  std::cout << "\n------------------------------------------" << std::endl;
-                  //std::cout << "\ndelta_time_168  = " << delta_time_168        << std::endl;
-                  std::cout << "\nq_bar_168                                       = " << q_bar_168[chn/2] << std::endl;
-                  //std::cout << "\nmean_time_168   = " << mean_time_168[chn/2]  << std::endl;
-                  std::cout << "time_168["<<chn<<"] - time_168["<<chn-1<<"]  [ns]      = " << delta_time_168  << endl;
-                  std::cout << "mean_time_Y [ns]                             [ns] = " << mean_time_Y     << endl;
-                  std::cout << "\n------------------------------------------" << std::endl;
+               // V THRESHOLD                                    
+               v_th_168 = v_base_168 - f_CFD * (v_base_168 - v_peak_168);
+
+               // TIME/V START
+               for (Int_t i=10; ; i++) {
+                  if ((v_base_168 - board168_waveform[chn][i]) > 5 * sigma_v_base_168) {
+                     t_start_168 = board168_time[chn][i-1] * TMath::Power(10,9); //[ns]
+                     v_start_168 = i-1; // [V]
+                     break;
+                  }
                }
-            }           
+
+               // TIME/V STOP (v_min_position_168)
+               for (Int_t i=v_min_position_168; ; i++) {
+                  if ((v_base_168 - board168_waveform[chn][i]) < sigma_v_base_168) {
+                     t_stop_168 = board168_time[chn][i+1] * TMath::Power(10,9); //[ns]
+                     v_stop_168 = i+1; // [V]
+                     break;
+                  }
+               }
+
+               // TIME OF CHANNEL
+               /*
+               for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board168_waveform[chn][t] == v_th_168) {
+                     time_168[chn] = board168_time[chn][t] * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+                  else if (board168_waveform[chn][t] < v_th_168) {
+                     time_168[chn] = (board168_time[chn][t] + board168_time[chn][t-1])/2 * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+               }
+               */
+               // TIME OF CHANNEL
+               for (Int_t t=v_min_position_168; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board168_waveform[chn][t] > v_th_168) {
+                     time_168[chn] = (board168_time[chn][t] + board168_time[chn][t+1])/2 * TMath::Power(10,9);
+                     break;
+                  }
+               }
+
+               // CHARGHE OF CHANNEL
+               for (Int_t t=v_start_168; t<v_stop_168; t++) q += v_base_168 - board168_waveform[chn][t];
+               q_168[chn] = q;                                                
+               hist_q_168[chn]->Fill(q_168[chn]);
+
+   
+               if (chn%2!=0) {
+                  q_bar_168[chn/2] = sqrt(q_168[chn] * q_168[chn-1]);          // CHARGE OF BAR
+         
+                  mean_time_168[chn/2] = (time_168[chn] + time_168[chn-1])/2;  // MEAN TIME OF BAR
+                  mean_time_Y = (time_168[chn] + time_168[chn-1])/2;           // MEAN TIME OF BAR [ns]
+            
+                  delta_time_168 = (time_168[chn] - time_168[chn-1]);          // DELTA TIME OF BAR
+               }
+
+               //***********************************************************************************************************
+               // FILL THE HISTOGRAM
+               if (v_ampl_168>0.010 && q_168[chn]>0.01 && q_bar_168[chn]>0.01 && delta_time_168>-3.0 && delta_time_168<3.0) {
+                  
+                  // V AMPLITUDE CHANNEL
+                  hist_v_ampl_168[chn]->Fill(v_ampl_168);
+                  // Q CHARGE CHANNEL
+                  hist_q_168[chn]->Fill(q_168[chn]);
+
+                  if (chn%2!=0) {
+
+                     // Q CHARGE BAR
+                     hist_q_bar_168[chn/2]->Fill(q_bar_168[chn/2]);
+                     // ∆T TIME CHANNELS
+                     hist_delta_time_168[chn/2]->Fill(delta_time_168);
+                     // ∆T VS LOG(Q_L/Q_R)
+                     hist_charge_time_168[chn/2]->Fill(log(q_168[chn]/q_168[chn-1]), delta_time_168);
+                  }
+               }
+               else if (delta_time_168<-3.0 && delta_time_168>3.0) mean_time_Y = -1;
+               //***********************************************************************************************************
+
+               // BARS Y TOFWALL
+               if (chn==0)       bar_TOF_Y = 27;
+               else if (chn==1)  bar_TOF_Y = 27;
+               else if (chn==2)  bar_TOF_Y = 31;
+               else if (chn==3)  bar_TOF_Y = 31;
+               else if (chn==4)  bar_TOF_Y = 32;
+               else if (chn==5)  bar_TOF_Y = 32;
+               else if (chn==6)  bar_TOF_Y = 33;
+               else if (chn==7)  bar_TOF_Y = 33;
+               else if (chn==8)  bar_TOF_Y = 34;
+               else if (chn==9)  bar_TOF_Y = 34;
+               else if (chn==10) bar_TOF_Y = 35;
+               else if (chn==11) bar_TOF_Y = 35;
+               else if (chn==12) bar_TOF_Y = 36;
+               else if (chn==13) bar_TOF_Y = 36;
+               else if (chn==14) bar_TOF_Y = 37;
+               else if (chn==15) bar_TOF_Y = 37;
+            
+               if (1) {
+                  std::cout << "\n**************************"              << std::endl;
+                  std::cout << "\nWD 168"                                  << std::endl;
+                  std::cout << "\nEntry                   = " << jentry           << std::endl;
+                  std::cout << "\nchn                     = " << chn              << std::endl;
+                  std::cout << "\nmin_168 [V]             = " << min_168          << std::endl;
+                  std::cout << "\nmax_168 [V]             = " << max_168          << std::endl;
+                  std::cout << "\n------------------------------------------" << std::endl;
+                  std::cout << "\nt_start_168      [ns]   = " << t_start_168  << std::endl;
+                  std::cout << "\nt_stop_168       [ns]   = " << t_stop_168   << std::endl;
+                  std::cout << "\nv_start_168      [V]    = " << v_start_168  << std::endl;
+                  std::cout << "\nv_stop_168       [V]    = " << v_stop_168   << std::endl;
+                  std::cout << "\nv_base_168       [V]    = " << v_base_168   << std::endl;
+                  std::cout << "\nsigma_v_base_168 [V]    = " << sigma_v_base_168 << std::endl;
+                  
+                  std::cout << "\nv_peak_168       [V]    = " << v_peak_168         << std::endl;
+                  std::cout << "\nt_peak_168       [ns]   = " << t_peak_168         << std::endl;
+                  std::cout << "\nv_ampl_168       [V]    = " << v_ampl_168         << std::endl;
+                  std::cout << "\nv_min_position_168      = " << v_min_position_168 << std::endl;
+                  std::cout << "\nv_th_168         [V]    = " << v_th_168           << std::endl;
+                  std::cout << "\ntime_168         [ns]   = " << time_168[chn]      << std::endl;
+                  std::cout << "\nq_168            [a.u.] = " << q_168[chn]         << std::endl;
+                  std::cout << "\nBar (Y)                 = " << bar_TOF_Y          << std::endl;
+                  if (chn%2!=0) {
+                     std::cout << "\n------------------------------------------" << std::endl;
+                     //std::cout << "\ndelta_time_168  = " << delta_time_168        << std::endl;
+                     std::cout << "\nq_bar_168                                       = " << q_bar_168[chn/2] << std::endl;
+                     //std::cout << "\nmean_time_168   = " << mean_time_168[chn/2]  << std::endl;
+                     std::cout << "time_168["<<chn<<"] - time_168["<<chn-1<<"]  [ns]      = " << delta_time_168  << endl;
+                     std::cout << "mean_time_Y [ns]                             [ns] = " << mean_time_Y     << endl;
+                     std::cout << "\n------------------------------------------" << std::endl;
+                  }
+               }
+            } // END if (status == 1)
          } // END if (board168_hit[ch] == 1)
       } // END LOOP ON CHANNELS
 
@@ -1498,14 +1662,19 @@ void rec::Loop()
             Double_t min_158;                                  // V AMPLITUDE MIN OF CHANNEL [V]
             Double_t max_158;                                  // V AMPLITUDE MAX OF CHANNEL [V]
             Double_t voltage_158 = 0.;                         
-            Double_t v_base_158 = 0.;                          // V BASELINE (PEDESTAL) [mV]
-            Double_t sigma_v_base_158 = 0.;
-            Double_t v_ampl_158;                               // V AMPLITUDE OF CHANNEL [mV]
-            Double_t v_peak_158 = board158_waveform[chn][300]; // V MINIMUM (PEAK) [mV]
-            Double_t v_th_158;                                 // V THRESHOLD [mV]
-            Double_t min_position_158 = 0;
+            Double_t v_base_158 = 0.;                          // V BASELINE (PEDESTAL) [V]
+            Double_t sigma_v_base_158 = 0.;                    // V BASELINE (PEDESTAL) [V]
+            Double_t v_ampl_158;                               // V AMPLITUDE OF CHANNEL [V]
+            Double_t v_peak_158 = board158_waveform[chn][300]; // V MINIMUM (PEAK) [V]
+            Double_t t_peak_158;
+            Double_t v_th_158;                                 // V THRESHOLD [V]
+            Double_t t_start_158;                              // TIME START OF SIGNAL [ns]
+            Double_t t_stop_158;                               // TIME STOP OF SIGNAL  [ns]
+            Double_t v_start_158;                              // V START OF SIGNAL [V]
+            Double_t v_stop_158;                               // V STOP OF SIGNAL  [V]
+            Double_t v_min_position_158 = 0;                   // POSITION OF V PEAK
             Double_t time_158[16];                             // TIME OF WF OF CHANNEL [a.u.]
-            Double_t delta_time_158;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            Double_t delta_time_158 = 0.;                      // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             Double_t mean_time_158[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
             Double_t q = 0.;                                   // CHARGE [a.u.]
             Double_t q_158[16];                                // CHARGE OF CHANNEL [a.u.]
@@ -1523,7 +1692,7 @@ void rec::Loop()
                if (board158_waveform[chn][t] > max_158) max_158 = board158_waveform[chn][t];
             }
             
-            if (max_158 - min_158 > 0.95) { // 0.95 mV
+            if (max_158 - min_158 > 0.95) { // 0.95 V
                cout << "ATTENTION: OVERFLOW ARTIFACT!" << endl;
                status = 0; // NOISE
             }
@@ -1532,102 +1701,151 @@ void rec::Loop()
                cout << "ATTENTION: NOISE!" << endl;
                status = 0; // NOISE
             }
-            //*********************************************************************************   
+            //*********************************************************************************
 
-            // V PEAK (MINIMUM)
-            for (Int_t t=10; t<800; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (t > 50 && board158_waveform[chn][t] < v_peak_158) {
-                  v_peak_158 = board158_waveform[chn][t];
-                  min_position_158 = t;
-               }
-            }
-            
-            // V BASELINE (NEW METHOD)
-            TH1F *wf_158 = new TH1F("wf_158","wf_158", 30, 0.30, 0.60);
-            for (Int_t t=10; t<250; t++) {
-               wf_158->Fill(board158_waveform[chn][t]);
-            }
-            
-            v_base_158 = wf_158->GetMean();                             // V BASELINE
-            sigma_v_base_158 = wf_158->GetRMS();                        // RMS V BASELINE
-            v_ampl_158 = v_base_158 - v_peak_158;                       // V AMPLITUDE                                                         
-            v_th_158 = v_base_158 - f_CFD * (v_base_158 - v_peak_158);  // V THRESHOLD
-            wf_158->SetDirectory(0); // remove an histogram from the gDirectory list
-            hist_v_ampl_158[chn]->Fill(v_ampl_158);
+            if (status==1) {
 
-            // TIME OF CHANNEL
-            /*
-            for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board158_waveform[chn][t] == v_th_158) {
-                  time_158[chn] = board158_time[chn][t]  * TMath::Power(10,9); 
-                  break;
+               // V PEAK (MINIMUM)
+               for (Int_t i=50; i<800; i++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board158_waveform[chn][i] < v_peak_158) {
+                     v_peak_158 = board158_waveform[chn][i];
+                     v_min_position_158 = i;
+                     t_peak_158 = board158_time[chn][i] * TMath::Power(10,9);
+                  }
                }
-               else if (board158_waveform[chn][t] < v_th_158) {
-                  time_158[chn] = (board158_time[chn][t] + board158_time[chn][t-1])/2  * TMath::Power(10,9);
-                  break;
-               }
-            }
-            */
-            for (Int_t t=min_position_158; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
-               if (board158_waveform[chn][t] > v_th_158) {
-                  time_158[chn] = (board158_time[chn][t] + board158_time[chn][t+1])/2  * TMath::Power(10,9);
-                  break;
-               }
-            }
-
-            for (Int_t t=250; t<570; t++) q += v_base_158 - board158_waveform[chn][t];
-            q_158[chn] = q;                                                // CHARGHE OF CHANNEL
-            hist_q_158[chn]->Fill(q_158[chn]);
-   
-            if (chn%2!=0) {
-               q_bar_158[chn/2] = sqrt(q_158[chn] * q_158[chn-1]);         // CHARGE OF BAR
-               hist_q_bar_158[chn/2]->Fill(q_bar_158[chn/2]);
             
-               mean_time_158[chn/2] = (time_158[chn] + time_158[chn-1])/2;  // MEAN TIME OF BAR
-               mean_time_Y = (time_158[chn] + time_158[chn-1])/2;  // MEAN TIME OF BAR [ns];
-            
-               delta_time_158 = (time_158[chn] - time_158[chn-1]);   // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               // V BASELINE
+               TH1F *wf_158 = new TH1F("wf_158","wf_158", 30, 0.30, 0.60);
                
-               if (1) {
-               //if (delta_time_158 < 3.0 && delta_time_158 > -3.0) {
-                  hist_delta_time_158[chn/2]->Fill(delta_time_158);
-                  //hist_charge_time_158[chn/2]->Fill(log(q_158[chn]/q_158[chn-1]), delta_time_158);
-               }
-               else mean_time_Y = -1;
-            }
-            
+               // V BASELINE
+               for (Int_t t=10; t<250; t++) wf_158->Fill(board158_waveform[chn][t]);
+               
+               v_base_158 = wf_158->GetMean();
+               sigma_v_base_158 = wf_158->GetRMS();
 
-            // BARS Y TOFWALL
-            if (chn==0)      bar_TOF_Y = 38;
-            else if (chn==1) bar_TOF_Y = 38;
-            else if (chn==2) bar_TOF_Y = 39;
-            else if (chn==3) bar_TOF_Y = 39;
+               wf_158->SetDirectory(0); // remove an histogram from the gDirectory list
+               
+               // V AMPLITUDE
+               v_ampl_158 = v_base_158 - v_peak_158;
             
-            if (0) {
-               std::cout << "\n**************************"              << std::endl;
-               std::cout << "\nWD 158"                                  << std::endl;
-               std::cout << "\nEntry            = " << jentry           << std::endl;
-               std::cout << "\nchn              = " << chn              << std::endl;
-               std::cout << "\nmin_158          = " << min_158          << std::endl;
-               std::cout << "\nmax_158          = " << max_158          << std::endl;
-               std::cout << "\nv_base_158 [mV]  = " << v_base_158       << std::endl;
-               std::cout << "\nv_peak_158 [mV]  = " << v_peak_158       << std::endl;
-               std::cout << "\nv_ampl_158 [mV]  = " << v_ampl_158       << std::endl;
-               std::cout << "\nmin_position_158 = " << min_position_158 << std::endl;
-               std::cout << "\nv_th_158   [mV]  = " << v_th_158         << std::endl;
-               std::cout << "\ntime_158   [ns]  = " << time_158[chn]    << std::endl;
-               std::cout << "\nq_158            = " << q_158[chn]       << std::endl;
-               std::cout << "\nBar (Y)          = " << bar_TOF_Y        << std::endl;
-               if (chn%2!=0) {
-                  std::cout << "\n------------------------------------------" << std::endl;
-                  //std::cout << "\ndelta_time_158  = " << delta_time_158        << std::endl;
-                  std::cout << "\nq_bar_158                                   = " << q_bar_158[chn/2]  << std::endl;
-                  //std::cout << "\nmean_time_158   = " << mean_time_158[chn/2]  << std::endl;
-                  std::cout << "\ntime_158["<<chn<<"] - time_158["<<chn-1<<"]      = " << delta_time_158    << endl;
-                  std::cout << "\nmean_time_Y [ns]                            = " << mean_time_Y       << endl;
-                  std::cout << "\n------------------------------------------" << std::endl;
+               // V THRESHOLD                                    
+               v_th_158 = v_base_158 - f_CFD * (v_base_158 - v_peak_158);
+
+               // TIME/V START
+               for (Int_t i=10; ; i++) {
+                  if ((v_base_158 - board158_waveform[chn][i]) > 5 * sigma_v_base_158) {
+                     t_start_158 = board158_time[chn][i-1] * TMath::Power(10,9); //[ns]
+                     v_start_158 = i-1; // [V]
+                     break;
+                  }
                }
-            }           
+
+               // TIME/V STOP (v_min_position_168)
+               for (Int_t i=v_min_position_158; ; i++) {
+                  if ((v_base_158 - board158_waveform[chn][i]) < sigma_v_base_158) {
+                     t_stop_158 = board158_time[chn][i+1] * TMath::Power(10,9); //[ns]
+                     v_stop_158 = i+1; // [V]
+                     break;
+                  }
+               }
+
+               // TIME OF CHANNEL
+               /*
+               for (Int_t t=335; t<900; t++) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board158_waveform[chn][t] == v_th_158) {
+                     time_158[chn] = board158_time[chn][t] * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+                  else if (board158_waveform[chn][t] < v_th_158) {
+                     time_158[chn] = (board158_time[chn][t] + board158_time[chn][t-1])/2 * TMath::Power(10,9); // [ns]
+                     break;
+                  }
+               }
+               */
+               // TIME OF CHANNEL
+               for (Int_t t=v_min_position_158; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
+                  if (board158_waveform[chn][t] > v_th_158) {
+                     time_158[chn] = (board158_time[chn][t] + board158_time[chn][t+1])/2 * TMath::Power(10,9);
+                     break;
+                  }
+               }
+
+               // CHARGHE OF CHANNEL
+               for (Int_t t=v_start_158; t<v_stop_158; t++) q += v_base_158 - board158_waveform[chn][t];
+               q_158[chn] = q;                                                
+               
+               if (chn%2!=0) {
+                  q_bar_158[chn/2] = sqrt(q_158[chn] * q_158[chn-1]);         // CHARGE OF BAR
+            
+                  mean_time_158[chn/2] = (time_158[chn] + time_158[chn-1])/2; // MEAN TIME OF BAR
+
+                  mean_time_Y = (time_158[chn] + time_158[chn-1])/2;          // MEAN TIME OF BAR [ns];
+            
+                  delta_time_158 = (time_158[chn] - time_158[chn-1]);         // DELTA TIME OF BAR (x10^9 to convert time from [s] in [ns])
+               }
+            
+               //***********************************************************************************************************
+               // FILL THE HISTOGRAM
+               if (v_ampl_158>0.010 && q_158[chn]>0.01 && q_bar_158[chn]>0.10 && delta_time_158>-3.0 && delta_time_158<3.0) {
+                  
+                  // V AMPLITUDE CHANNEL
+                  hist_v_ampl_158[chn]->Fill(v_ampl_158);
+                  // Q CHARGE CHANNEL
+                  hist_q_158[chn]->Fill(q_158[chn]);
+
+                  if (chn%2!=0) {
+
+                     // Q CHARGE BAR
+                     hist_q_bar_158[chn/2]->Fill(q_bar_158[chn/2]);
+                     // ∆T TIME CHANNELS
+                     hist_delta_time_158[chn/2]->Fill(delta_time_158);
+                     // ∆T VS LOG(Q_L/Q_R)
+                     //hist_charge_time_158[chn/2]->Fill(log(q_158[chn]/q_158[chn-1]), delta_time_158);
+                  }
+               }
+               else if (delta_time_158<-3.0 && delta_time_158>3.0) mean_time_Y = -1;
+               //***********************************************************************************************************
+
+               // BARS Y TOFWALL
+               if (chn==0)      bar_TOF_Y = 38;
+               else if (chn==1) bar_TOF_Y = 38;
+               else if (chn==2) bar_TOF_Y = 39;
+               else if (chn==3) bar_TOF_Y = 39;
+            
+               if (1) {
+                  std::cout << "\n**************************"              << std::endl;
+                  std::cout << "\nWD 158"                                  << std::endl;
+                  std::cout << "\nEntry                   = " << jentry           << std::endl;
+                  std::cout << "\nchn                     = " << chn              << std::endl;
+                  std::cout << "\nmin_158 [V]             = " << min_158          << std::endl;
+                  std::cout << "\nmax_158 [V]             = " << max_158          << std::endl;
+                  std::cout << "\n------------------------------------------" << std::endl;
+                  std::cout << "\nt_start_158      [ns]   = " << t_start_158  << std::endl;
+                  std::cout << "\nt_stop_158       [ns]   = " << t_stop_158   << std::endl;
+                  std::cout << "\nv_start_158      [V]    = " << v_start_158  << std::endl;
+                  std::cout << "\nv_stop_158       [V]    = " << v_stop_158   << std::endl;
+                  std::cout << "\nv_base_158       [V]    = " << v_base_158   << std::endl;
+                  std::cout << "\nsigma_v_base_158 [V]    = " << sigma_v_base_158 << std::endl;
+                  
+                  std::cout << "\nv_peak_158       [V]    = " << v_peak_158         << std::endl;
+                  std::cout << "\nt_peak_158       [ns]   = " << t_peak_158         << std::endl;
+                  std::cout << "\nv_ampl_158       [V]    = " << v_ampl_158         << std::endl;
+                  std::cout << "\nv_min_position_158      = " << v_min_position_158 << std::endl;
+                  std::cout << "\nv_th_158         [V]    = " << v_th_158           << std::endl;
+                  std::cout << "\ntime_158         [ns]   = " << time_158[chn]      << std::endl;
+                  std::cout << "\nq_158            [a.u.] = " << q_158[chn]         << std::endl;
+                  std::cout << "\nBar (Y)                 = " << bar_TOF_Y          << std::endl;
+                  if (chn%2!=0) {
+                     std::cout << "\n------------------------------------------" << std::endl;
+                     //std::cout << "\ndelta_time_158  = " << delta_time_158        << std::endl;
+                     std::cout << "\nq_bar_158                                   = " << q_bar_158[chn/2]  << std::endl;
+                     //std::cout << "\nmean_time_158   = " << mean_time_158[chn/2]  << std::endl;
+                     std::cout << "\ntime_158["<<chn<<"] - time_158["<<chn-1<<"]      = " << delta_time_158    << endl;
+                     std::cout << "\nmean_time_Y [ns]                            = " << mean_time_Y       << endl;
+                     std::cout << "\n------------------------------------------" << std::endl;
+                  }
+               }   
+            } // END if (status == 1)        
          } // END if (board158_hit[ch] == 1)
       } // END LOOP ON CHANNELS
 
@@ -1645,29 +1863,6 @@ void rec::Loop()
          cout << "mean_time_Y - mean_time_X = " << mean_time_Y << "-" << mean_time_X << " = " << mean_time_Y - mean_time_X << endl;
          cout << "*******************************************************" << endl;
       }
-      /*
-      if (mean_time_Y - mean_time_X > 20) {
-         cout << "\nEntrie" << jentry << endl;
-         cout << "∆T = " << mean_time_Y - mean_time_X << endl;
-      }
-      */
-
-      /*
-      if (mean_time_X > -1 && mean_time_Y > -1) {
-
-         Double_t errore_t[80];
-         Double_t errore = 0;
-
-         hist_mean_time->Fill(mean_time_Y - mean_time_X);
-         if(mean_time_Y - mean_time_X > 20) {
-            errore_t[errore] = jentry;
-            cout << jentry << endl;
-            errore++;
-
-         }
-      */
-
-      
    } // END LOOP ON ENTRIES
 
    //============================================================================================================================
