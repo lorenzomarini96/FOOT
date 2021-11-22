@@ -27,11 +27,19 @@ void rec::Loop()
    	// HISTOGRAM
    	TH2D *hist = new TH2D("hist", "Hit-map", 20, -0.5, 19.5, 20, 19.5, 39.5);
    	TH1D *hist_project = new TH1D("hist_project", "Hit-map XY projections", 40, -0.5, 39.5);
-
+	
+	//------------------------------
+   	// HIST FOR TIME RESOLUTION
+   	//------------------------------
+   	TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = #bar{T}_{front} - #bar{T}_{rear}", 50, -15.0, 15.0);
+   
    	// INITIALIZE ARRAY
    	Int_t Bar_TOF_X[20];
    	Int_t Bar_TOF_Y[20];
    	Int_t Bar_TOF[40];
+
+	Int_t Time_Bar_TOF_X[20];
+   	Int_t Time_Bar_TOF_Y[20];
    
    	// LOOP ON ENTRIES
    	for (Long64_t jentry=0; jentry<nentries/2; jentry++) 
@@ -44,11 +52,65 @@ void rec::Loop()
       	memset(Bar_TOF_X, 0, 20*sizeof(Int_t));
       	memset(Bar_TOF_Y, 0, 20*sizeof(Int_t));
       	memset(Bar_TOF,   0, 40*sizeof(Int_t));
+
+		memset(Time_Bar_TOF_X, 0, 20*sizeof(Int_t));
+      	memset(Time_Bar_TOF_Y, 0, 20*sizeof(Int_t));
       
       	Int_t status = 1;
 
       	//**************************************
       	// WD 165 - X VIEW (BAR 0 TO 7)
+      	
+		// LOOP ON CHANNELS OF WAVEDREAM
+      	for (Int_t chn=0; chn<12; chn++) 
+      	{
+       		status = 1;
+			
+			//****************************************************************************************
+			// 1° CHECK SIGNAL
+        	// FIND MIN AND MAX OF WAVEFORM
+        	Double_t min_165 = board165_waveform[chn][100]; // V AMPLITUDE MIN OF CHANNEL [V]
+        	Double_t max_165 = board165_waveform[chn][100]; // V AMPLITUDE MAX OF CHANNEL [V]
+            
+        	for (Int_t i=100; i<900; i++)
+        	{ // LOOP ON SAMPLES OF WAVEFORM
+           		if (board165_waveform[chn][i] < min_165) min_165 = board165_waveform[chn][i];
+           		if (board165_waveform[chn][i] > max_165) max_165 = board165_waveform[chn][i];
+        	}
+            
+			if (max_165 - min_165 > 0.95) status = 0;  // NOISE
+            
+        	if (max_165 - min_165 < 0.010) status = 0; // REMEMBER ZEROSUPPRESSION
+               
+        	if (status==0) board165_hit[ch] = 0;
+			//***************************************************************************************
+
+	        if (board165_hit[chn] == 1 && board165_hit[chn+1] == 1)
+			{
+            	// INITIALIZE VALUES
+            	Double_t voltage_165;                         
+            	Double_t v_base_165;                               // V BASELINE (PEDESTAL) [V]
+            	Double_t sigma_v_base_165;                         // V BASELINE (PEDESTAL) [V]
+            	Double_t v_ampl_165;                               // V AMPLITUDE OF CHANNEL [V]
+            	Double_t v_peak_165 = board165_waveform[chn][300]; // V MINIMUM (PEAK) [V]
+            	Double_t t_peak_165;                               // TIME CORRESPONDING TO PEAK
+            	Double_t v_th_165;                                 // V THRESHOLD [V]
+            	Double_t t_start_165;                              // TIME START OF SIGNAL [ns]
+            	Double_t t_stop_165;                               // TIME STOP OF SIGNAL  [ns]
+            	Double_t i_start_165;                              // V START OF SIGNAL [V]
+            	Double_t i_stop_165;                               // V STOP OF SIGNAL  [V]
+            	Double_t i_min_position_165 = 0;                   // POSITION OF V PEAK
+            	Double_t time_165[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            	Double_t delta_time_165;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
+            	Double_t mean_time_165[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+            	Double_t q = 0.;                                   // CHARGE [a.u.]
+            	Double_t q_165[16];                                // CHARGE OF CHANNEL [a.u.]
+            	Double_t q_bar_165[8];                             // CHARGE OF CHARGE [a.u.]
+	
+				// CONTINUA DA QUI! ...
+			} // END if (board165_hit[chn] == 1 && board165_hit[chn+1] == 1)
+      	} // END CHANNEL LOOP
+
       
       	for(int b=0; b<8; ++b)
       	{
@@ -347,6 +409,17 @@ void rec::Loop()
 			if (Bar_TOF[b] == 0) continue;
 			hist_project->Fill(b);
       	}
+		
+		// FILL THE HISTOGRAM ∆T
+      	for (int i=0; i<20; ++i)
+      		{
+				if (Time_Bar_TOF_X[i] == 0) continue;
+            	for (int j=0; j<20; j++)
+	    		{
+	      			if (Time_Bar_TOF_Y[j] == 0) continue;
+	      			//hist->Fill(i, 20+j);
+	    		}
+       		}
 
       
    	} // END LOOP ON ENTRIES
@@ -379,4 +452,20 @@ void rec::Loop()
    	hist_project->Draw("TEXT0 hist");
    	//c2->SaveAs("hitmap_hist_XY_proj.pdf");
    	//hfile.Write();
+
+
+	//------------------------------
+   	// HIST DELTA MEAN TIME
+   	//------------------------------
+   	TCanvas *c_delta_mean_time = new TCanvas("c_delta_mean_time", "c_delta_mean_time", 1200, 1200);
+   	c_delta_mean_time->SetTickx();
+   	c_delta_mean_time->SetTicky();
+   	c_delta_mean_time->SetLeftMargin(0.15);
+   	hist_mean_time->GetXaxis()->SetTitle("#DeltaT_{TOFwall} [ns]");
+   	hist_mean_time->SetFillColor(38);
+   	hist_mean_time->GetYaxis()->SetTitle("Counts");
+   	hist_mean_time->Fit("gaus", "Q");
+   	hist_mean_time->Draw();
+
+   	//c_delta_mean_time->SaveAs("delta_mean_time.pdf");
 }
