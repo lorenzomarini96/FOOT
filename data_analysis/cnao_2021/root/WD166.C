@@ -30,7 +30,12 @@ void rec::Loop()
    TH1D *hist_project = new TH1D("hist_project", "Hit-map XY projections", 40, -0.5, 39.5);
 
 
-
+   	//------------------------------
+   	// HIST FOR TIME RESOLUTION
+   	//------------------------------
+   	//TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = (#frac{T_L + T_R}{2})_{front} - (#frac{T_L + T_R}{2})_{rear}", 40, -30.0, 30.0);
+   	TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = #bar{T}_{front} - #bar{T}_{rear}", 50, -15.0, 15.0);
+   
 
    	//============================================================================================================================
    	// WAVEDREAM 166 - X VIEW (BAR 8 TO 10); Y VIEW (BAR 28 to 30)
@@ -45,20 +50,18 @@ void rec::Loop()
    	char title_charge_time_166[100];
 
    	for (Int_t b=0; b<6; b++) 
-	{
-      	//sprintf(name_charge_time_166, "hist_charge_time_166_bar%d", b);
-     	//sprintf(title_charge_time_166, "WD166 - Log(Q_L/Q_R) vs (t_L - t_R) b%d", x_bar);
+	{	
 		if (b<3)
 		{
-			int x_bar = b+3;
+			int x_bar = b+8;
 		    sprintf(name_charge_time_166, "hist_charge_time_166_bar%d", b);
-      		sprintf(title_charge_time_166, "WD166 - Log(Q_L/Q_R) vs (t_L - t_R) b%d", x_bar);
+      		sprintf(title_charge_time_166, "Bar %d", x_bar);
 		}
 		else
 		{
-			int y_bar = b+23;
+			int y_bar = b+25;
 			sprintf(name_charge_time_166, "hist_charge_time_166_bar%d", y_bar);
-      		sprintf(title_charge_time_166, "WD166 - Log(Q_L/Q_R) vs (t_L - t_R) b%d", y_bar);
+      		sprintf(title_charge_time_166, "Bar %d", y_bar);
 		}
       	hist_charge_time_166[b] = new TH2D(name_charge_time_166,title_charge_time_166, 50, -2.0, 2.0, 50, -5.0, 5.0);
       	hist_charge_time_166[b]->GetXaxis()->SetTitle("Log(Q_L/Q_R)");
@@ -92,18 +95,16 @@ void rec::Loop()
 	{
 		if (b<3)
 		{
-			int x_bar = b+3;
+			int x_bar = b+8;
 		    sprintf(name_q_bar_166, "hist_q_bar_166%d", x_bar);
-      		sprintf(title_q_bar_166, "Q Bar%d", x_bar);
+      		sprintf(title_q_bar_166, "Bar%d", x_bar);
 		}
 		else
 		{
-			int y_bar = b+23;
+			int y_bar = b+25;
 			sprintf(name_q_bar_166, "hist_q_bar_166%d", y_bar);
-      		sprintf(title_q_bar_166, "Q Bar%d", y_bar);
+      		sprintf(title_q_bar_166, "Bar%d", y_bar);
 		}
-      	//sprintf(name_q_bar_166, "hist_q_bar_166%d", b);
-      	//sprintf(title_q_bar_166, "WD166 - Q of bar%d", b);
       	hist_q_bar_166[b] = new TH1F(name_q_bar_166,title_q_bar_166, 60, 0, 20);
       	hist_q_bar_166[b]->GetXaxis()->SetTitle("Q [a.u.]");
       	hist_q_bar_166[b]->GetYaxis()->SetTitle("Entries");
@@ -144,6 +145,9 @@ void rec::Loop()
    Int_t Bar_TOF_Y[20];
    Int_t Bar_TOF[40];
    Double_t f_CFD = 0.3;         // FRACTION FOR COMPUTE THE TIME
+   Double_t Time_Bar_TOF_X[20];
+   Double_t Time_Bar_TOF_Y[20];
+   Double_t mean_time_166[8];
 
 
    // LOOP ON ENTRIES
@@ -154,9 +158,11 @@ void rec::Loop()
       	nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       	// INIT VALUES
-      	memset(Bar_TOF_X, 0, 20*sizeof(Int_t));
-      	memset(Bar_TOF_Y, 0, 20*sizeof(Int_t));
-      	memset(Bar_TOF,   0, 40*sizeof(Int_t));
+      	memset(Bar_TOF_X,      0, 20*sizeof(Int_t));
+      	memset(Bar_TOF_Y,      0, 20*sizeof(Int_t));
+      	memset(Bar_TOF,        0, 40*sizeof(Int_t));
+		memset(Time_Bar_TOF_X, 0, 20*sizeof(Int_t)); // O sizeof(Double_t)?
+		memset(Time_Bar_TOF_Y, 0, 20*sizeof(Int_t)); // O sizeof(Double_t)?
       
      	Int_t status = 1; 
 
@@ -201,6 +207,7 @@ void rec::Loop()
             	Double_t time_166[16];                             // TIME OF WF OF CHANNEL [a.u.]
             	Double_t delta_time_166;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
             	Double_t mean_time_166[8];                         // MEAN TIME OF L AND R CHANNELS [a.u.]
+				Double_t mean_time;
             	Double_t q = 0.;                                   // CHARGE [a.u.]
             	Double_t q_166[16];                                // CHARGE OF CHANNEL [a.u.]
             	Double_t q_bar_166[8];                             // CHARGE OF CHARGE [a.u.]
@@ -252,7 +259,7 @@ void rec::Loop()
                 	// CHARGE OF BAR
                 	q_bar_166[chn/2] = sqrt(q_166[chn] * q_166[chn-1]);
                 	// MEAN TIME OF BAR [ns];
-                	//mean_time_X = (time_166[chn] + time_166[chn-1])/2;               
+                	mean_time_166[chn/2] = (time_166[chn] + time_166[chn-1])/2;
                 	// DELTA TIME OF BAR [ns]
                 	delta_time_166 = time_166[chn] - time_166[chn-1];
                	}
@@ -308,312 +315,330 @@ void rec::Loop()
 			} // END if (board166_hit[chn] == 1 && board166_hit[chn+1] == 1)
       	} // END CHANNEL LOOP
 
-      //**************************************
-	  // HITMAP
-	  //**************************************
+      	//**************************************
+	  	// HITMAP
+	  	//**************************************
 
-      // WD 165 - X VIEW (BAR 0 TO 7)
+      	// WD 165 - X VIEW (BAR 0 TO 7)
       
-      for(int b=0; b<8; ++b)
-      {
-         if(board165_hit[2*b] && board165_hit[2*b+1])
-         {
-	    if(b==0)
-	    {
-	      Bar_TOF_X[0] = 1;
-	      Bar_TOF[0]   = 1;
-	    }
-            else if(b==1)
-	    {
-	      Bar_TOF_X[1] = 1;
-	      Bar_TOF[1]   = 1;
-	    }
-            else if(b==2)
-	    {
-	      Bar_TOF_X[2] = 1;
-	      Bar_TOF[2]   = 1;
-	    }
-            else if(b==3)
-	    {
-	      Bar_TOF_X[3] = 1;
-	      Bar_TOF[3]   = 1;
-	    }
-            else if(b==4)
-	    {
-	      Bar_TOF_X[4] = 1;
-	      Bar_TOF[4]   = 1;
-	    }
-            else if(b==5)
-	    {
-	      Bar_TOF_X[5] = 1;
-	      Bar_TOF[5]   = 1;
-	    }
-            else if(b==6)
-	    {
-	      Bar_TOF_X[6] = 1;
-	      Bar_TOF[6]   = 1;
-	    }
-            else if(b==7)
-	    {
-	      Bar_TOF_X[7] = 1;
-	      Bar_TOF[7]   = 1;
-	    }
-         }
-      }
+      	for(int b=0; b<8; ++b)
+      	{
+         	if(board165_hit[2*b] && board165_hit[2*b+1])
+    		{
+	    		if(b==0)
+	    		{
+	      			Bar_TOF_X[0] = 1;
+	      			Bar_TOF[0]   = 1;
+	    		}
+            	else if(b==1)
+	    		{
+	      			Bar_TOF_X[1] = 1;
+	      			Bar_TOF[1]   = 1;
+	    		}
+            	else if(b==2)
+	    		{
+	      			Bar_TOF_X[2] = 1;
+	      			Bar_TOF[2]   = 1;
+	    		}
+            	else if(b==3)
+	    		{
+	      			Bar_TOF_X[3] = 1;
+	      			Bar_TOF[3]   = 1;
+	    		}
+            	else if(b==4)
+	    		{
+	      			Bar_TOF_X[4] = 1;
+	      			Bar_TOF[4]   = 1;
+	    		}
+            	else if(b==5)
+	    		{
+	      			Bar_TOF_X[5] = 1;
+	      			Bar_TOF[5]   = 1;
+	    		}
+            	else if(b==6)
+	    		{
+	      			Bar_TOF_X[6] = 1;
+	      			Bar_TOF[6]   = 1;
+	    		}
+            	else if(b==7)
+	    		{
+	      			Bar_TOF_X[7] = 1;
+	      			Bar_TOF[7]   = 1;
+	    		}
+         	}
+      	}
       
-      //**************************************
-      // WAVEDREAM 166 - X VIEW (BAR 8 TO 10); Y VIEW (BAR 28 to 30)
+      	//**************************************
+      	// WAVEDREAM 166 - X VIEW (BAR 8 TO 10); Y VIEW (BAR 28 to 30)
       
-      // LOOP ON CHANNELS OF WAVEDREAM
-      for (Int_t ch=0; ch<12; ch++) 
-      {
-       	status = 1;
-	// 1° CHECK SIGNAL
-        // FIND MIN AND MAX OF WAVEFORM
-        Double_t min_166 = board166_waveform[ch][100]; // V AMPLITUDE MIN OF CHANNEL [V]
-        Double_t max_166 = board166_waveform[ch][100]; // V AMPLITUDE MAX OF CHANNEL [V]
+      	// LOOP ON CHANNELS OF WAVEDREAM
+      	for (Int_t ch=0; ch<12; ch++) 
+      	{
+       		status = 1;
+			// 1° CHECK SIGNAL
+        	// FIND MIN AND MAX OF WAVEFORM
+        	Double_t min_166 = board166_waveform[ch][100]; // V AMPLITUDE MIN OF CHANNEL [V]
+        	Double_t max_166 = board166_waveform[ch][100]; // V AMPLITUDE MAX OF CHANNEL [V]
             
-        for (Int_t t=100; t<900; t++) 
-        { // LOOP ON SAMPLES OF WAVEFORM
-           if (board166_waveform[ch][t] < min_166) min_166 = board166_waveform[ch][t];
-           if (board166_waveform[ch][t] > max_166) max_166 = board166_waveform[ch][t];
-        }
+        	for (Int_t t=100; t<900; t++) 
+        	{ // LOOP ON SAMPLES OF WAVEFORM
+           		if (board166_waveform[ch][t] < min_166) min_166 = board166_waveform[ch][t];
+           		if (board166_waveform[ch][t] > max_166) max_166 = board166_waveform[ch][t];
+        	}
             
-	if (max_166 - min_166 > 0.95) status = 0;  // NOISE
+			if (max_166 - min_166 > 0.95) status = 0;  // NOISE
             
-        if (max_166 - min_166 < 0.010) status = 0; // REMEMBER ZEROSUPPRESSION
+        	if (max_166 - min_166 < 0.010) status = 0; // REMEMBER ZEROSUPPRESSION
                
-        if (status==0) board166_hit[ch] = 0;
+        	if (status==0) board166_hit[ch] = 0;
       
-      } // CHANNEL LOOP
+    	} // CHANNEL LOOP
    
-      for(int b=0; b<6; ++b)
-      {
-         if(board166_hit[2*b] && board166_hit[2*b+1])
-         {
-	   if(b==0)
-	   {
-	     Bar_TOF_X[8]  = 1;
-	     Bar_TOF[8]    = 1;
-	   }
-	   else if(b==1)
-	   {
-	     Bar_TOF_X[9]  = 1;
-	     Bar_TOF[9]    = 1;
-	   } 
-	   else if(b==2)
-	   {
-	     Bar_TOF_X[10] = 1;
-	     Bar_TOF[10]   = 1;
-	   }	   
-	   if(b==3)
-	   {
-	     Bar_TOF_Y[8]  = 1;
-	     Bar_TOF[28]   = 1;
-	   }
-	   else if(b==4)
-	   {
-	     Bar_TOF_Y[9]  = 1;
-	     Bar_TOF[29]  = 1;
-	   }
-	   else if(b==5)
-	   {
-	     Bar_TOF_Y[10] = 1;
-	     Bar_TOF[30]   = 1;
-	   }
-         }
-      }
+      	for(int b=0; b<6; ++b)
+      	{
+        	if(board166_hit[2*b] && board166_hit[2*b+1])
+         	{
+	   			if(b==0)
+	   			{
+	     			Bar_TOF_X[8]  = 1;
+	     			Bar_TOF[8]    = 1;
+					Time_Bar_TOF_X[8] = mean_time_166[0];
+	   			}
+	   			else if(b==1)
+	   			{
+	     			Bar_TOF_X[9]  = 1;
+	     			Bar_TOF[9]    = 1;
+					Time_Bar_TOF_X[9] = mean_time_166[1];
+	   			} 
+	   			else if(b==2)
+	   			{
+	     			Bar_TOF_X[10] = 1;
+	     			Bar_TOF[10]   = 1;
+					Time_Bar_TOF_X[10] = mean_time_166[2];
+	   			}	   
+	   			if(b==3)
+	   			{
+	     			Bar_TOF_Y[8]  = 1;
+	     			Bar_TOF[28]   = 1;
+					Time_Bar_TOF_Y[8] = mean_time_166[3];
+	   			}
+	   			else if(b==4)
+	   			{
+	     			Bar_TOF_Y[9]  = 1;
+	     			Bar_TOF[29]  = 1;
+					Time_Bar_TOF_Y[9] = mean_time_166[4];
+	   			}
+	   			else if(b==5)
+	   			{
+	     			Bar_TOF_Y[10] = 1;
+	     			Bar_TOF[30]   = 1;
+					Time_Bar_TOF_Y[10] = mean_time_166[5];
+	   			}
+         	}
+      	}
    
-      //**************************************
-      // WD 170 - X VIEW (BAR 11 TO 18)
+      	//**************************************
+      	// WD 170 - X VIEW (BAR 11 TO 18)
 
-      for(int b=0; b<8; ++b)
-      {
-         if(board170_hit[2*b] && board170_hit[2*b+1])
-         {
-	   if(b==0)
-	   {
-	     Bar_TOF_X[11] = 1;
-	     Bar_TOF[11]   = 1;
-	   }
-	   else if(b==1)
-	   {
-	     Bar_TOF_X[12] = 1;
-	     Bar_TOF[12]   = 1;
-	   }
-	   else if(b==2)
-	   {
-	     Bar_TOF_X[13] = 1;
-	     Bar_TOF[13]   = 1;
-	   }
-	   else if(b==3)
-	   {
-	     Bar_TOF_X[14] = 1;
-	     Bar_TOF[14]   = 1;
-	   }
-	   else if(b==4)
-	   {
-	     Bar_TOF_X[15] = 1;
-	     Bar_TOF[15]   = 1;
-	   }
-	   else if(b==5)
-	   {
-	     Bar_TOF_X[16] = 1;
-	     Bar_TOF[16]   = 1;
-	   }
-	   else if(b==6)
-	   {
-	     Bar_TOF_X[17] = 1;
-	     Bar_TOF[17]   = 1;
-	   }
-	   else if(b==7)
-	   {
-	     Bar_TOF_X[18] = 1;
-	     Bar_TOF[18]   = 1;
-	   }
-	 }
-      }
+      	for(int b=0; b<8; ++b)
+      	{
+        	if(board170_hit[2*b] && board170_hit[2*b+1])
+         	{
+	   			if(b==0)
+	   			{
+	     			Bar_TOF_X[11] = 1;
+	     			Bar_TOF[11]   = 1;
+	   			}
+	   			else if(b==1)
+	   			{
+	     			Bar_TOF_X[12] = 1;
+	     			Bar_TOF[12]   = 1;
+	   			}
+	   			else if(b==2)
+	   			{
+	     			Bar_TOF_X[13] = 1;
+	     			Bar_TOF[13]   = 1;
+	   			}
+	   			else if(b==3)
+	   			{
+	     			Bar_TOF_X[14] = 1;
+	     			Bar_TOF[14]   = 1;
+	   			}
+	   			else if(b==4)
+	   			{
+	     			Bar_TOF_X[15] = 1;
+	     			Bar_TOF[15]   = 1;
+	   			}
+	   			else if(b==5)
+	   			{
+	     			Bar_TOF_X[16] = 1;
+	     			Bar_TOF[16]   = 1;
+	   			}
+	   			else if(b==6)
+	   			{
+	     			Bar_TOF_X[17] = 1;
+	     			Bar_TOF[17]   = 1;
+	   			}
+	   			else if(b==7)
+	   			{
+	     			Bar_TOF_X[18] = 1;
+	     			Bar_TOF[18]   = 1;
+	   			}
+	 		}
+    	}
    
-      //**************************************
-      // WD 167 - X VIEW (BAR 19); Y VIEW (BAR 20 TO 26)
+      	//**************************************
+      	// WD 167 - X VIEW (BAR 19); Y VIEW (BAR 20 TO 26)
 
-      for(int b=0; b<8; ++b)
-      {
-         if(board167_hit[2*b] && board167_hit[2*b+1])
-         {
-	   if(b==0)
-	   {
-	     Bar_TOF_X[19] = 1;
-	     Bar_TOF[19]   = 1;
-	   }
-	   else if(b==1)
-	   {
-	     Bar_TOF_Y[0] = 1;
-	     Bar_TOF[20]  = 1;
-	   }
-	   else if(b==2)
-	   {
-	     Bar_TOF_Y[1] = 1;
-	     Bar_TOF[21]  = 1;
-	   }
-	   else if(b==3)
-	   {
-	     Bar_TOF_Y[2] = 1;
-	     Bar_TOF[22]  = 1;
-	   }
-	   else if(b==4)
-	   {
-	     Bar_TOF_Y[3] = 1;
-	     Bar_TOF[23]  = 1;
-	   }
-	   else if(b==5)
-	   {
-	     Bar_TOF_Y[4] = 1;
-	     Bar_TOF[24]  = 1;
-	   }
-	   else if(b==6)
-	   {
-	     Bar_TOF_Y[5] = 1;
-	     Bar_TOF[25]  = 1;
-	   }
-	   else if(b==7)
-	   {
-	     Bar_TOF_Y[6] = 1;
-	     Bar_TOF[26]  = 1;
-	   }
-	 }
-      }
+      	for(int b=0; b<8; ++b)
+      	{
+        	if(board167_hit[2*b] && board167_hit[2*b+1])
+         	{
+	   			if(b==0)
+	   			{
+	     			Bar_TOF_X[19] = 1;
+	     			Bar_TOF[19]   = 1;
+	   			}
+	   			else if(b==1)
+	   			{
+	     			Bar_TOF_Y[0] = 1;
+	     			Bar_TOF[20]  = 1;
+	   			}
+	   			else if(b==2)
+	   			{
+	     			Bar_TOF_Y[1] = 1;
+	     			Bar_TOF[21]  = 1;
+	   			}
+	   			else if(b==3)
+	   			{
+	     			Bar_TOF_Y[2] = 1;
+	     			Bar_TOF[22]  = 1;
+	   			}
+	   			else if(b==4)
+	   			{
+	     			Bar_TOF_Y[3] = 1;
+	     			Bar_TOF[23]  = 1;
+	   			}
+	   			else if(b==5)
+	   			{
+	     			Bar_TOF_Y[4] = 1;
+	     			Bar_TOF[24]  = 1;
+	   			}
+	   			else if(b==6)
+	   			{
+	     			Bar_TOF_Y[5] = 1;
+	     			Bar_TOF[25]  = 1;
+	   			}
+	  	 		else if(b==7)
+	   			{
+	     			Bar_TOF_Y[6] = 1;
+	     			Bar_TOF[26]  = 1;
+	   			}
+	 		}
+      	}
 
-      //**************************************
-      // WD 168 - Y VIEW (BAR 27 AND 31 TO 37)
+      	//**************************************
+      	// WD 168 - Y VIEW (BAR 27 AND 31 TO 37)
 
-      for(int b=0; b<8; ++b)
-      {
-         if(board168_hit[2*b] && board168_hit[2*b+1])
-         {
-	   if(b==0)
-	   {
-	     Bar_TOF_Y[7]  = 1;
-	     Bar_TOF[27]   = 1;
-	   }
-	   else if(b==1)
-	   {
-	     Bar_TOF_Y[11] = 1;
-	     Bar_TOF[31]   = 1;
-	   }
-	   else if(b==2)
-	   {
-	     Bar_TOF_Y[12] = 1;
-	     Bar_TOF[32]   = 1;
-	   }
-	   else if(b==3)
-	   {
-	     Bar_TOF_Y[13] = 1;
-	     Bar_TOF[33]   = 1;
-	   }
-	   else if(b==4)
-	   {
-	     Bar_TOF_Y[14] = 1;
-	     Bar_TOF[34]   = 1;
-	   }
-	   else if(b==5)
-	   {
-	     Bar_TOF_Y[15] = 1;
-	     Bar_TOF[35]   = 1;
-	   }
-	   else if(b==6)
-	   {
-	     Bar_TOF_Y[16] = 1;
-	     Bar_TOF[36]   = 1;
-	   }
-	   else if(b==7)
-	   {
-	     Bar_TOF_Y[17] = 1;
-	     Bar_TOF[37]   = 1;
-	   }
-         }
-      }
+      	for(int b=0; b<8; ++b)
+      	{
+        	if(board168_hit[2*b] && board168_hit[2*b+1])
+         	{
+	   			if(b==0)
+	   			{
+	     			Bar_TOF_Y[7]  = 1;
+	     			Bar_TOF[27]   = 1;
+	   			}
+	   			else if(b==1)
+	  			{
+	     			Bar_TOF_Y[11] = 1;
+	     			Bar_TOF[31]   = 1;
+	   			}
+	   			else if(b==2)
+	   			{
+	     			Bar_TOF_Y[12] = 1;
+	     			Bar_TOF[32]   = 1;
+	   			}
+	   			else if(b==3)
+	   			{
+	     			Bar_TOF_Y[13] = 1;
+	     			Bar_TOF[33]   = 1;
+	   			}
+	   			else if(b==4)
+	   			{
+	     			Bar_TOF_Y[14] = 1;
+	     			Bar_TOF[34]   = 1;
+	   			}
+	   			else if(b==5)
+	   			{
+	     			Bar_TOF_Y[15] = 1;
+	     			Bar_TOF[35]   = 1;
+	   			}
+	   			else if(b==6)
+	   			{
+	     			Bar_TOF_Y[16] = 1;
+	     			Bar_TOF[36]   = 1;
+	   			}
+	   			else if(b==7)
+	   			{
+	     			Bar_TOF_Y[17] = 1;
+	     			Bar_TOF[37]   = 1;
+	   			}
+         	}
+      	}
 
-      //**************************************
-      // WD 158 - Y VIEW (BAR 38 TO 39)
+      	//**************************************
+      	// WD 158 - Y VIEW (BAR 38 TO 39)
 
-      for(int b=0; b<2; ++b)
-      {
-         if(board158_hit[2*b] && board158_hit[2*b+1])
-         {
-	   if(b==0)
-	   {
-	     Bar_TOF_Y[18] = 1;
-	     Bar_TOF[38]   = 1;
-	   }
-	   else if(b==1)
-	   {
-	     Bar_TOF_Y[19] = 1;
-	     Bar_TOF[39]   = 1;
-	   }
-         }
-      }
+      	for(int b=0; b<2; ++b)
+      	{
+        	if(board158_hit[2*b] && board158_hit[2*b+1])
+         	{
+	   			if(b==0)
+	   			{
+	     			Bar_TOF_Y[18] = 1;
+	     			Bar_TOF[38]   = 1;
+	   			}
+	   			else if(b==1)
+	   			{
+	     			Bar_TOF_Y[19] = 1;
+	     			Bar_TOF[39]   = 1;
+	   			}
+        	}
+    	}
 
-      // FILL THE HISTOGRAM 2D
-      for (int i=0; i<20; ++i)
-      {
-	if (Bar_TOF_X[i] == 0) continue;
+      	// FILL THE HISTOGRAM 2D
+      	for (int i=0; i<20; ++i)
+      	{
+			if (Bar_TOF_X[i] == 0) continue;
             for (int j=0; j<20; j++)
-	    {
-	      if (Bar_TOF_Y[j] == 0) continue;
-	      hist->Fill(i, 20+j);
-	    }
-       }
+	    	{
+	      		if (Bar_TOF_Y[j] == 0) continue;
+	      			hist->Fill(i, 20+j);
+	    	}
+       	}
 
-      // FILL THE HISTOGRAM 1D
-      for (int b=0; b<40; b++)
-      {
-	if (Bar_TOF[b] == 0) continue;
-	hist_project->Fill(b);
-      }
+      	// FILL THE HISTOGRAM 1D
+      	for (int b=0; b<40; b++)
+      	{
+			if (Bar_TOF[b] == 0) continue;
+			hist_project->Fill(b);
+      	}
+
+      	// FILL THE HISTOGRAM DELTA TIME
+      	for (int i=0; i<20; ++i)
+      	{
+			if (Time_Bar_TOF_X[i] == 0) continue;
+            for (int j=0; j<20; j++)
+	    	{
+	      		if (Time_Bar_TOF_Y[j] == 0) continue;
+				hist_mean_time->Fill(Time_Bar_TOF_X[i] - Time_Bar_TOF_Y[20+j]);
+	    	}
+       	}
+
 
       
-   } // END LOOP ON ENTRIES
+   	} // END LOOP ON ENTRIES
 
    // CANVAS
    TCanvas *c1 = new TCanvas("c1", "hitmap",600,600);
@@ -627,7 +652,7 @@ void rec::Loop()
    hist->GetZaxis()->SetTitle("# hits");
    c1->SetLogz();
    hist->Draw("colz TEXT0 SAME");
-   //c1->SaveAs("hitmap_hist2d.pdf");
+   c1->SaveAs("figures/hitmap_hist2d.pdf");
    
 
    TCanvas *c2 = new TCanvas("c2", "hitmap_projection",600,600);
@@ -639,7 +664,22 @@ void rec::Loop()
    c2->SetLogy();
    hist_project->SetNdivisions(20,"X");
    hist_project->Draw("TEXT0 hist");
-   //c2->SaveAs("hitmap_hist_XY_proj.pdf");
+   c2->SaveAs("figures/hitmap_hist_XY_proj.pdf");
+
+
+   	//------------------------------
+   	// HIST DELTA MEAN TIME
+   	//------------------------------
+   	TCanvas *c_delta_mean_time = new TCanvas("c_delta_mean_time", "c_delta_mean_time", 1200, 1200);
+   	c_delta_mean_time->cd(1);
+   	c_delta_mean_time->SetTickx();
+   	c_delta_mean_time->SetTicky();
+   	c_delta_mean_time->SetLeftMargin(0.15);
+   	hist_mean_time->GetXaxis()->SetTitle("#DeltaT_{TOFwall} [ns]");
+   	hist_mean_time->SetFillColor(38);
+   	hist_mean_time->GetYaxis()->SetTitle("Counts");
+   	//hist_mean_time->Fit("gaus", "Q");
+   	hist_mean_time->Draw();
 
 
 	//==================================================================================
@@ -648,8 +688,9 @@ void rec::Loop()
    	//------------------------------
    	// CHARGHE BAR WD166
    	//------------------------------
-   	for (int b=0; b<6; b++) {  
-      	TString canvas_title_q_bar_166 = Form("c_q_bar_166%d", b); 
+   	for (int b=0; b<6; b++) 
+	{  
+    	TString canvas_title_q_bar_166 = Form("c_q_bar_166%d", b); 
       	TCanvas *c_q_bar_166 = new TCanvas(canvas_title_q_bar_166, canvas_title_q_bar_166, 600, 600);
 		/*
 		if (b<3)
@@ -665,34 +706,33 @@ void rec::Loop()
 			TCanvas *c_q_bar_166 = new TCanvas(canvas_title_q_bar_166, canvas_title_q_bar_166, 600, 600);
 		}
 		*/
-      	c_q_bar_166->SetTickx();
-      	c_q_bar_166->SetTicky();
-      	c_q_bar_166->SetLeftMargin(0.15);
+		c_q_bar_166->SetTickx();
+		c_q_bar_166->SetTicky();
+		c_q_bar_166->SetLeftMargin(0.15);
 		c_q_bar_166->SetLogy();
-
-      	//hist_q_bar_166[b]->SetMarkerStyle(20);
-      	hist_q_bar_166[b]->SetMarkerStyle(kFullCircle);
-      	hist_q_bar_166[b]->SetMarkerColor(kBlack);
+		//hist_q_bar_166[b]->SetMarkerStyle(20);
+		hist_q_bar_166[b]->SetMarkerStyle(kFullCircle);
+		hist_q_bar_166[b]->SetMarkerColor(kBlack);
 		hist_q_bar_166[b]->SetNdivisions(20,"X");
-      	hist_q_bar_166[b]->Draw();
-   	}
+		hist_q_bar_166[b]->Draw();
+		c_q_bar_166->SaveAs("figures/"+canvas_title_q_bar_166+".pdf");
+	}
 
    	//------------------------------
    	// LOG(Q_L/Q_R) VS (T_L - T_R)
    	//------------------------------
    	for (int b=0; b<6; b++) 
-	{	/*
+	{	
+		/*
 		if (b<3)
 		{
 			int x_bar = b+3;
 			TString canvas_title_q_vs_t_166 = Form("c_q_vs_t_166%d", x_bar); 	
-			TString canvas_title_q_vs_t_166 = Form("c_q_vs_t_166%d", x_bar); 
 		}
 		else
 		{
 			int y_bar = b+23;
-			TString canvas_title_q_vs_t_166 = Form("c_q_vs_t_166%d", y_bar); 	
-			TString canvas_title_q_vs_t_166 = Form("c_q_vs_t_166%d", y_bar); 
+			TString canvas_title_q_vs_t_166 = Form("c_q_vs_t_166%d", y_bar);
 		}
 		*/
 		TString canvas_title_q_vs_t_166 = Form("c_q_vs_t_166%d", b); 
@@ -700,11 +740,11 @@ void rec::Loop()
       	c_q_vs_t_166->SetTickx();
       	c_q_vs_t_166->SetTicky();
 		c_q_vs_t_166->SetLogz();
+		c_q_vs_t_166->SetGrid();
       	hist_charge_time_166[b]->GetXaxis()->SetTitle("log(Q_L/Q_R)");
       	hist_charge_time_166[b]->GetYaxis()->SetTitle("(t_L - t_R) [ns]");
 		hist_charge_time_166[b]->Draw();
 		hist_charge_time_166[b]->Draw("colz");
+		c_q_vs_t_166->SaveAs("figures/"+canvas_title_q_vs_t_166+".pdf");
    	}
-
-
 }
