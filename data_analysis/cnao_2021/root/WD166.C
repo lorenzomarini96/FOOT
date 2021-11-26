@@ -23,7 +23,7 @@ void rec::Loop()
    //FILE .ROOT TO SAVE HISTOGRAM
    //TFile hfile("hitmap_hist.root", "RECREATE");
    
-   //gStyle->SetOptStat(0);
+   gStyle->SetOptFit(10111);
 
    // HISTOGRAM
    TH2D *hist = new TH2D("hist", "Hit-map", 20, -0.5, 19.5, 20, 19.5, 39.5);
@@ -33,8 +33,7 @@ void rec::Loop()
    	//------------------------------
    	// HIST FOR TIME RESOLUTION
    	//------------------------------
-   	//TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = (#frac{T_L + T_R}{2})_{front} - (#frac{T_L + T_R}{2})_{rear}", 40, -30.0, 30.0);
-   	TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = #bar{T}_{front} - #bar{T}_{rear}", 50, -15.0, 15.0);
+   	TH1D *hist_mean_time = new TH1D("hist_mean_time", "#DeltaT_{TW} = #bar{T}_{front} - #bar{T}_{rear}", 50, -0.5, 0.5);
    
 
    	//============================================================================================================================
@@ -145,13 +144,13 @@ void rec::Loop()
    Int_t Bar_TOF_Y[20];
    Int_t Bar_TOF[40];
    Double_t f_CFD = 0.3;         // FRACTION FOR COMPUTE THE TIME
-   Double_t Time_Bar_TOF_X[20];
-   Double_t Time_Bar_TOF_Y[20];
+   //Double_t Time_Bar_TOF_X[20];
+   //Double_t Time_Bar_TOF_Y[20];
    Double_t mean_time_166[8];
 
 
    // LOOP ON ENTRIES
-   for (Long64_t jentry=0; jentry<nentries; jentry++) 
+   for (Long64_t jentry=0; jentry<nentries; jentry++)
    {
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
@@ -161,8 +160,11 @@ void rec::Loop()
       	memset(Bar_TOF_X,      0, 20*sizeof(Int_t));
       	memset(Bar_TOF_Y,      0, 20*sizeof(Int_t));
       	memset(Bar_TOF,        0, 40*sizeof(Int_t));
-		memset(Time_Bar_TOF_X, 0, 20*sizeof(Int_t)); // O sizeof(Double_t)?
-		memset(Time_Bar_TOF_Y, 0, 20*sizeof(Int_t)); // O sizeof(Double_t)?
+		//memset(Time_Bar_TOF_X, 0, 20*sizeof(Int_t)); // O sizeof(Double_t)?
+		//memset(Time_Bar_TOF_Y, 0, 20*sizeof(Int_t)); // O sizeof(Double_t)?
+
+		Double_t Mean_Time_Bar_9_X = 0;
+   		Double_t Mean_Time_Bar_8_Y = 0;
       
      	Int_t status = 1; 
 
@@ -194,6 +196,9 @@ void rec::Loop()
 			{
             	// INITIALIZE VALUES
             	Double_t voltage_166;                         
+				Double_t voltage_fit[4];                           // ARRAY OF VOLTAGE TO MAKE FIT (TIME RESOLUTION)
+				Double_t a_fit;
+				Double_t b_fit;
             	Double_t v_base_166;                               // V BASELINE (PEDESTAL) [V]
             	Double_t sigma_v_base_166;                         // V BASELINE (PEDESTAL) [V]
             	Double_t v_ampl_166;                               // V AMPLITUDE OF CHANNEL [V]
@@ -211,6 +216,7 @@ void rec::Loop()
             	Double_t q = 0.;                                   // CHARGE [a.u.]
             	Double_t q_166[16];                                // CHARGE OF CHANNEL [a.u.]
             	Double_t q_bar_166[8];                             // CHARGE OF CHARGE [a.u.]
+			
 
 				// V BASELINE   
                	TH1F *wf_166 = new TH1F("wf_166","wf_166", 30, 0.30, 0.60);
@@ -244,12 +250,31 @@ void rec::Loop()
 				}
                	q_166[chn] = q;
 				
+				// DATA TO FIT
+			
+				Int_t n = 5;
 
                	// TIME OF CHANNEL
                	for (Int_t t=i_min_position_166; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
                   	if (board166_waveform[chn][t] > v_th_166) 
 					{
-                     	time_166[chn] = (board166_time[chn][t] + board166_time[chn][t+1])/2 * TMath::Power(10,9); // SVILUPPARE UN METODO PIU' RAFFINATO
+						TF1 *f_fit = new TF1("f_fit", "pol1", board166_time[chn][t-2], board166_time[chn][t+2]); // Range board166_waveform[chn][t-2], board166_waveform[chn][t+2]
+						
+
+						Double_t v_data_fit[5] = {board166_waveform[chn][t-2], board166_waveform[chn][t-1], board166_waveform[chn][t] ,board166_waveform[chn][t+1], board166_waveform[chn][t+2]};
+						Double_t t_data_fit[5] = {board166_time[chn][t-2], board166_time[chn][t-1], board166_time[chn][t] ,board166_time[chn][t+1], board166_time[chn][t+2]};
+						
+						TGraph *gr = new TGraph(n,t_data_fit, v_data_fit);
+						gr->Fit("f_fit","Qr");						
+						a_fit = f_fit->GetParameter(1);
+						b_fit = f_fit->GetParameter(0);
+
+						time_166[chn] = (v_th_166 - b_fit)/a_fit * TMath::Power(10,9);
+
+						delete f_fit;
+						delete gr;
+
+                     	//time_166[chn] = (board166_time[chn][t] + board166_time[chn][t+1])/2 * TMath::Power(10,9); // SVILUPPARE UN METODO PIU' RAFFINATO
                      	break;
                   	}
                	}
@@ -263,6 +288,9 @@ void rec::Loop()
                 	// DELTA TIME OF BAR [ns]
                 	delta_time_166 = time_166[chn] - time_166[chn-1];
                	}
+
+				if (chn==3) Mean_Time_Bar_9_X = (time_166[3] + time_166[2])/2;
+				else if (chn==7) Mean_Time_Bar_8_Y = (time_166[7] + time_166[6])/2;
 
                	//***********************************************************************************************************
                	// FILL THE HISTOGRAM
@@ -282,6 +310,9 @@ void rec::Loop()
                   	}
                	}
                	//else if (delta_time_166<-5.0 && delta_time_166>5.0) mean_time_X = -1;
+
+				//if (Mean_Time_Bar_9_X>0 && Mean_Time_Bar_8_Y>0 && q_bar_166[chn/2]>10) hist_mean_time->Fill(Mean_Time_Bar_8_Y - Mean_Time_Bar_9_X);
+				if (Mean_Time_Bar_9_X>0 && Mean_Time_Bar_8_Y>0) hist_mean_time->Fill(Mean_Time_Bar_9_X - Mean_Time_Bar_8_Y);
                //***********************************************************************************************************
 
 				if (0) 
@@ -311,6 +342,8 @@ void rec::Loop()
                      	//std::cout << "mean_time_X WD165 [ns]                      = " << mean_time_X                    << endl;
                      	std::cout << "\n------------------------------------------" << std::endl;
                   	}
+					std::cout << "\nMean_Time_Bar_9_X        [ns] = " << Mean_Time_Bar_9_X << std::endl;
+					std::cout << "\nMean_Time_Bar_8_Y        [ns] = " << Mean_Time_Bar_8_Y << std::endl;
                	}
 			} // END if (board166_hit[chn] == 1 && board166_hit[chn+1] == 1)
       	} // END CHANNEL LOOP
@@ -402,37 +435,37 @@ void rec::Loop()
 	   			{
 	     			Bar_TOF_X[8]  = 1;
 	     			Bar_TOF[8]    = 1;
-					Time_Bar_TOF_X[8] = mean_time_166[0];
+					//Time_Bar_TOF_X[8] = mean_time_166[0];
 	   			}
 	   			else if(b==1)
 	   			{
 	     			Bar_TOF_X[9]  = 1;
 	     			Bar_TOF[9]    = 1;
-					Time_Bar_TOF_X[9] = mean_time_166[1];
+					//Time_Bar_TOF_X[9] = mean_time_166[1];
 	   			} 
 	   			else if(b==2)
 	   			{
 	     			Bar_TOF_X[10] = 1;
 	     			Bar_TOF[10]   = 1;
-					Time_Bar_TOF_X[10] = mean_time_166[2];
+					//Time_Bar_TOF_X[10] = mean_time_166[2];
 	   			}	   
 	   			if(b==3)
 	   			{
 	     			Bar_TOF_Y[8]  = 1;
 	     			Bar_TOF[28]   = 1;
-					Time_Bar_TOF_Y[8] = mean_time_166[3];
+					//Time_Bar_TOF_Y[8] = mean_time_166[3];
 	   			}
 	   			else if(b==4)
 	   			{
 	     			Bar_TOF_Y[9]  = 1;
 	     			Bar_TOF[29]  = 1;
-					Time_Bar_TOF_Y[9] = mean_time_166[4];
+					//Time_Bar_TOF_Y[9] = mean_time_166[4];
 	   			}
 	   			else if(b==5)
 	   			{
 	     			Bar_TOF_Y[10] = 1;
 	     			Bar_TOF[30]   = 1;
-					Time_Bar_TOF_Y[10] = mean_time_166[5];
+					//Time_Bar_TOF_Y[10] = mean_time_166[5];
 	   			}
          	}
       	}
@@ -626,15 +659,15 @@ void rec::Loop()
       	}
 
       	// FILL THE HISTOGRAM DELTA TIME
-      	for (int i=0; i<20; ++i)
-      	{
-			if (Time_Bar_TOF_X[i] == 0) continue;
-            for (int j=0; j<20; j++)
-	    	{
-	      		if (Time_Bar_TOF_Y[j] == 0) continue;
-				hist_mean_time->Fill(Time_Bar_TOF_X[i] - Time_Bar_TOF_Y[20+j]);
-	    	}
-       	}
+      	//for (int i=0; i<20; ++i)
+      	//{
+		//	if (Time_Bar_TOF_X[i] == 0) continue;
+        //    for (int j=0; j<20; j++)
+	    //	{
+	    //  		if (Time_Bar_TOF_Y[j] == 0) continue;
+		//		hist_mean_time->Fill(Time_Bar_TOF_X[i] - Time_Bar_TOF_Y[20+j]);
+	    //	}
+       	//}
 
 
       
@@ -670,17 +703,19 @@ void rec::Loop()
    	//------------------------------
    	// HIST DELTA MEAN TIME
    	//------------------------------
+	
    	TCanvas *c_delta_mean_time = new TCanvas("c_delta_mean_time", "c_delta_mean_time", 1200, 1200);
    	c_delta_mean_time->cd(1);
    	c_delta_mean_time->SetTickx();
    	c_delta_mean_time->SetTicky();
    	c_delta_mean_time->SetLeftMargin(0.15);
-   	hist_mean_time->GetXaxis()->SetTitle("#DeltaT_{TOFwall} [ns]");
+   	hist_mean_time->GetXaxis()->SetTitle("#DeltaT_{TOFwall} bar9 Y/X[ns]");
    	hist_mean_time->SetFillColor(38);
    	hist_mean_time->GetYaxis()->SetTitle("Counts");
-   	//hist_mean_time->Fit("gaus", "Q");
+   	hist_mean_time->Fit("gaus", "Q");
    	hist_mean_time->Draw();
-
+	c_delta_mean_time->SaveAs("figures/delta_mean_time.pdf");
+	
 
 	//==================================================================================
    	// WAVEDREAM 166 - X VIEW (BAR 0 TO 7)
