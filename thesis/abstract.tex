@@ -1,3 +1,9 @@
-\begin{abstract}
-QUI VA SCRITTO L'ABSTRACT.
-\end{abstract}
+\newenvironment{abstract}%
+    {\cleardoublepage\thispagestyle{empty}\null\vfill\begin{center}%
+    \bfseries\abstractname\end{center}}%
+    {\vfill\null}
+        \begin{abstract}
+        This is the abstract.
+        \end{abstract}
+
+
