@@ -1,0 +1,84 @@
+%*******************************************************************
+% MAIN1
+%*******************************************************************
+
+\documentclass[a4paper,titlepage]{book}
+
+%--------------------------------------------
+% USEPACKAGES
+%--------------------------------------------
+\input{usepackages.tex}
+
+\begin{document}
+
+%--------------------------------------------
+% FRONTESPIZION
+%--------------------------------------------
+\input{frontespizio.tex}
+% pdflatex [file].tex
+% pdflatex [file-frn].tex
+% pdflatex [file].tex
+
+    %--------------------------------------------
+    % DEDICA
+    %--------------------------------------------
+    %\input{dedica.tex}
+
+    %--------------------------------------------
+    % ABSTRACT
+    %--------------------------------------------
+    \input{abstract.tex}
+
+    %--------------------------------------------
+    % INDICI
+    %--------------------------------------------
+    \tableofcontents
+    \listoffigures
+    \listoftables
+
+
+    %--------------------------------------------
+    % CAP 1
+    %--------------------------------------------
+    \input{cap1.tex}
+        %--------------------------------------------
+        \input{section1.tex}
+            \input{subsection1.tex}
+            \input{subsection1.tex}
+        \input{section1.tex}
+            \input{subsection1.tex}
+        \input{section1.tex}
+            \input{subsection1.tex}
+        %--------------------------------------------
+
+
+    %--------------------------------------------
+    % CAP 2
+    %--------------------------------------------
+    \input{cap2.tex}
+
+
+
+
+
+
+
+
+
+
+
+%--------------------------------------------
+% BIBLIOGRAPHY
+%--------------------------------------------
+\bibliographystyle{alpha}
+\bibliography{biblio}
+% pdflatex [filename].tex
+% bibtex [filename]
+% pdflatex [filename].tex
+% pdflatex [filename].tex
+% https://tex.stackexchange.com/questions/450863/using-bibtex-with-pdflatex
+
+%--------------------------------------------
+% END
+%--------------------------------------------
+\end{document}
