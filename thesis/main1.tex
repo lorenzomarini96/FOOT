@@ -36,47 +36,79 @@
     \listoffigures
     \listoftables
 
+    %--------------------------------------------
+    % CAP 1 - CHARGE PARTICLE THERAPHY
+    %--------------------------------------------
+    \input{cap1/1_cpt.tex}
+        \input{cap1/1_1_phyis_cpt.tex}
+            \input{cap1/1_1_1_e_loss.tex}
+            \input{cap1/1_1_1_multi_scatter.tex}
+            \input{cap1/1_1_1_nucl_interact.tex}
+            \input{cap1/1_1_1_range.tex}
+        \input{cap1/1_1_radiobio.tex}
+            \input{cap1/1_1_1_dose_depo.tex}
+            \input{cap1/1_1_1_dna_damage.tex}
+            \input{cap1/1_1_1_let.tex}
+            \input{cap1/1_1_1_surv_model.tex}
+            \input{cap1/1_1_1_rbe.tex}
+        \input{cap1/1_1_thesis_obiect.tex}
 
     %--------------------------------------------
-    % CAP 1
+    % CAP 2 - THE FOOT EXPERIMENT
     %--------------------------------------------
-    \input{cap1.tex}
-        %--------------------------------------------
-        \input{section1.tex}
-            \input{subsection1.tex}
-            \input{subsection1.tex}
-        \input{section1.tex}
-            \input{subsection1.tex}
-        \input{section1.tex}
-            \input{subsection1.tex}
-        %--------------------------------------------
-
+    \input{cap2/2_foot_exp.tex}
+        \input{cap2/2_2_measure_strat.tex}
+        \input{cap2/2_2_exp_setup.tex}
+            \input{cap2/2_2_2_upstream.tex}
+            \input{cap2/2_2_2_tracking.tex}
+            \input{cap2/2_2_2_downstram.tex}
+        \input{cap2/2_2_current_status.tex}
 
     %--------------------------------------------
-    % CAP 2
+    % CAP 3 - MATERIALS AND METHODS
     %--------------------------------------------
-    \input{cap2.tex}
+    \input{cap3/3_materials_methods.tex}
+        \input{cap3/3_3_overview.tex}
+        \input{cap3/3_3_detecotr_system.tex}
+            \input{cap3/3_3_3_sc.tex}
+            \input{cap3/3_3_3_tofwall.tex}
+            \input{cap3/3_3_3_wavedaq.tex}
+        \input{cap3/3_3_trigger_update.tex}
+        \input{cap3/3_3_3_wd_calibration.tex}
+        \input{cap3/3_3_data_taking.tex}
+            \input{cap3/3_3_3_cnao_setup.tex}
+        \input{cap3/3_3_data_processing.tex}
+            \input{cap3/3_3_3_sc_analysis.tex}
+            \input{cap3/3_3_3_tofwall_analysis.tex}
+            \input{cap3/3_3_3_clock_analysis.tex}
+            \input{cap3/3_3_3_time_resolution.tex}
+            \input{cap3/3_3_3_time_of_flight.tex}
+            \input{cap3/3_3_3_charge_evaluation.tex}
+            \input{cap3/3_3_3_energy_evaluation.tex}
 
+    %--------------------------------------------
+    % CAP 4 - RESULT AND DISCUSSION
+    %--------------------------------------------
+    \input{cap4/4_results_cnao.tex}
+        \input{cap4/4_4_trigger_efficency.tex}
+        \input{cap4/4_4_charge_reconstruction.tex}
 
-
-
-
-
-
-
-
-
-
-%--------------------------------------------
-% BIBLIOGRAPHY
-%--------------------------------------------
-\bibliographystyle{alpha}
-\bibliography{biblio}
-% pdflatex [filename].tex
-% bibtex [filename]
-% pdflatex [filename].tex
-% pdflatex [filename].tex
-% https://tex.stackexchange.com/questions/450863/using-bibtex-with-pdflatex
+    %--------------------------------------------
+    % APPENDIX
+    %--------------------------------------------
+    \appendix
+    \input{appendix/a_birk_low.tex}
+    
+    %--------------------------------------------
+    % BIBLIOGRAPHY
+    %--------------------------------------------
+    \bibliographystyle{alpha}
+    \bibliography{biblio}
+    % pdflatex [filename].tex
+    % bibtex [filename]
+    % pdflatex [filename].tex
+    % pdflatex [filename].tex
+    % https://tex.stackexchange.com/questions/450863/using-bibtex-with-pdflatex
 
 %--------------------------------------------
 % END
