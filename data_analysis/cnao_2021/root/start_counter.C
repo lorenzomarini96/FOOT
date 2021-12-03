@@ -16,16 +16,27 @@ void rec::Loop()
 {
    	if (fChain == 0) return;
 
-   	//------------------------------
-   	// HIST FOR TIME RESOLUTION
-   	//------------------------------
-   	TH1D *hist_time_SC = new TH1D("hist_time_SC", "#DeltaT_{SC} = {T}_{chnL} - {T}_{chnR}", 50, -0.5, 0.5);
+	gStyle->SetOptFit(10111);
 
+   	// HISTOGRAMS DELTA TIME SC
+   	TH1F *hist_time_SC[8];
+   	char name_delta_time_SC[20];
+   	char title_delta_time_SC[100];
+
+   	for (Int_t b=0; b<4; b++) 
+	{
+      	sprintf(name_delta_time_SC,"h_delta_time_166%d", b);
+      	sprintf(title_delta_time_SC,"#DeltaT  bar%d", b);
+     	hist_time_SC[b] = new TH1F(name_delta_time_SC,title_delta_time_SC, 50, -2.0, 2.0); // [ns]
+      	hist_time_SC[b]->GetXaxis()->SetTitle("#DeltaT [ns]");
+      	hist_time_SC[b]->GetYaxis()->SetTitle("Entries");
+   	}
 
    	Long64_t nentries = fChain->GetEntriesFast();
    	Long64_t nbytes = 0, nb = 0;
    	Double_t f_CFD = 0.3;
-	Int_t status = 1; 
+	//Int_t status = 1; 
+	Int_t status[8];
    
    	// LOOP ON ENTRIES
    	for (Long64_t jentry=0; jentry<nentries; jentry++)
@@ -37,7 +48,7 @@ void rec::Loop()
       	// LOOP ON CHANNELS OF WAVEDREAM
       	for (Int_t chn=0; chn<8; chn++)
       	{	
-       		status = 1;
+       		status[chn] = 1;
 			
 			// 1° CHECK SIGNAL
         	// FIND MIN AND MAX OF WAVEFORM
@@ -50,17 +61,16 @@ void rec::Loop()
            		if (board173_waveform[chn][t] > max_SC) max_SC = board173_waveform[chn][t];
         	}
             
-			if (max_SC - min_SC > 0.95) status = 0;  // NOISE
+			if (max_SC - min_SC > 0.95) status[chn] = 0;  // NOISE
             
-        	if (max_SC - min_SC < 0.010) status = 0; // NOISE
+        	if (max_SC - min_SC < 0.010) status[chn] = 0; // NOISE
                
-        	if (status==0) board173_hit[chn] = 0;
+        	if (status[chn]==0) board173_hit[chn] = 0;
 
-	        if (board173_hit[chn] == 1)
+	        if (board173_hit[chn]==1)
 			{
             	// INITIALIZE VALUES
             	Double_t voltage_SC;                         
-				Double_t voltage_fit[4];                           // ARRAY OF VOLTAGE TO MAKE FIT (TIME RESOLUTION)
 				Double_t a_fit;
 				Double_t b_fit;
             	Double_t v_base_SC;                               // V BASELINE (PEDESTAL) [V]
@@ -73,9 +83,8 @@ void rec::Loop()
             	Double_t i_start_SC;                              // V START OF SIGNAL[V]
             	Double_t i_stop_SC;                               // V STOP OF SIGNAL [V]
             	Double_t i_min_position_SC;                       // POSITION OF V PEAK
-            	Double_t time_SC[16];                             // TIME OF WF OF CHANNEL [a.u.]
+            	Double_t time_SC[8];                             // TIME OF WF OF CHANNEL [a.u.]
             	Double_t delta_time_SC;                           // ∆ TIME OF WF OF CHANNEL L AND R [a.u.]
-				Double_t mean_time;
             	
 
 				// V BASELINE   
@@ -107,7 +116,8 @@ void rec::Loop()
 				Int_t n = 5;
 
                	// TIME OF CHANNEL (CFD algorithm)
-               	for (Int_t t=i_min_position_SC; ; t--) { // LOOP ON SAMPLES OF WAVEFORM
+               	for (Int_t t=i_min_position_SC; ; t--) 
+				{ // LOOP ON SAMPLES OF WAVEFORM
                   	if (board173_waveform[chn][t] > v_th_SC) 
 					{
 						TF1 *f_fit = new TF1("f_fit", "pol1", board173_time[chn][t-2], board173_time[chn][t+2]);
@@ -126,42 +136,37 @@ void rec::Loop()
 						delete gr;
                      	break;
                   	}
-				if (chn%2!=0)
-				{
-                	// MEAN TIME OF BAR [ns];
-                	//mean_time_SC[chn/2] = (time_SC[chn] + time_SC[chn-1])/2;
-                	// DELTA TIME OF BAR [ns]
-                	delta_time_SC = time_SC[chn] - time_SC[chn-1];
-               	}
+				}
 
+				// DELTA TIME OF BAR [ns]
+				if (chn%2!=0 && status[chn]==1 && status[chn-1]==1) delta_time_SC = time_SC[chn] - time_SC[chn-1];
+				
                	// FILL THE HISTOGRAM
                	if (v_ampl_SC>0.010 && delta_time_SC>-10.0 && delta_time_SC<10.0)
 				{  	             
 					// ∆T TIME CHANNELS 	
-					//if (chn%2!=0) hist_time_SC[chn/2]->Fill(delta_time_SC);
-					if (chn%2!=0) hist_time_SC->Fill(delta_time_SC);
+					if (chn%2!=0) hist_time_SC[chn/2]->Fill(delta_time_SC);
                	}
-				}
-				if (1) 
+
+				if (0) 
 				{
-                	std::cout << "\n**************************"                 << std::endl;
                 	std::cout << "\nStart Counter"                              << std::endl;
                   	std::cout << "\nEntry               = " << jentry           << std::endl;
                   	std::cout << "\nchn                 = " << chn              << std::endl;
-                  	std::cout << "\nmin [V]             = " << min_SC           << std::endl;
-                  	std::cout << "\nmax [V]             = " << max_SC           << std::endl;
-                  	std::cout << "\n------------------------------------------" << std::endl;
-                  	std::cout << "\nv_base       [V]    = " << v_base_SC        << std::endl;
-                  	std::cout << "\nsigma_v_base [V]    = " << sigma_v_base_SC  << std::endl;
-                  	std::cout << "\nv_peak       [V]    = " << v_peak_SC        << std::endl;
-                  	std::cout << "\nt_peak       [ns]   = " << t_peak_SC        << std::endl;
-                  	std::cout << "\nv_ampl       [V]    = " << v_ampl_SC        << std::endl;
-                  	std::cout << "\nv_th         [V]    = " << v_th_SC          << std::endl;
+                  	//std::cout << "\nmin [V]             = " << min_SC           << std::endl;
+                  	//std::cout << "\nmax [V]             = " << max_SC           << std::endl;
+                  	//std::cout << "\n------------------------------------------" << std::endl;
+                  	//std::cout << "\nv_base       [V]    = " << v_base_SC        << std::endl;
+                  	//std::cout << "\nsigma_v_base [V]    = " << sigma_v_base_SC  << std::endl;
+                  	//std::cout << "\nv_peak       [V]    = " << v_peak_SC        << std::endl;
+                  	//std::cout << "\nt_peak       [ns]   = " << t_peak_SC        << std::endl;
+                  	//std::cout << "\nv_ampl       [V]    = " << v_ampl_SC        << std::endl;
+                  	//std::cout << "\nv_th         [V]    = " << v_th_SC          << std::endl;
                   	std::cout << "\ntime         [ns]   = " << time_SC[chn]     << std::endl;
                   	if (chn%2!=0) 
 					{
                      	std::cout << "\n------------------------------------------"     << std::endl;
-                     	std::cout << "time_166["<<chn<<"] - time_166["<<chn-1<<"]   = " << delta_time_SC << endl;
+                     	std::cout << "time["<<chn<<"] - time["<<chn-1<<"]   = " << delta_time_SC << endl;
                     	std::cout << "\n------------------------------------------"     << std::endl;
                   	}
                	}
@@ -172,17 +177,22 @@ void rec::Loop()
    	//------------------------------
    	// HIST DELTA MEAN TIME
    	//------------------------------
-	
-   	TCanvas *delta_time_SC = new TCanvas("delta_time_SC", "delta_time_SC", 1200, 1200);
-   	delta_time_SC->SetTickx();
-   	delta_time_SC->SetTicky();
-   	delta_time_SC->SetLeftMargin(0.15);
+   	   	
+   	for (int b=0; b<4; b++) 
+	{  
+    	TString canvas_title = Form("delta_time_SC%d", b); 
+      	TCanvas *delta_time_SC = new TCanvas(canvas_title, canvas_title, 600, 600);
+   		//TCanvas *delta_time_SC = new TCanvas("delta_time_SC", "delta_time_SC", 1200, 1200);
+   		delta_time_SC->SetTickx();
+   		delta_time_SC->SetTicky();
+   		delta_time_SC->SetLeftMargin(0.15);
 
-   	hist_time_SC->GetXaxis()->SetTitle("#DeltaT_{SC} = {T}_{chnL} - {T}_{chnR} [ns]");
-   	hist_time_SC->SetFillColor(38);
-   	hist_time_SC->GetYaxis()->SetTitle("Counts");
-   	//hist_time_SC->Fit("gaus", "Q");
-   	hist_time_SC->Draw();
-	//delta_time_SC->SaveAs("figures/delta_mean_time.pdf");
+   		hist_time_SC[b]->GetXaxis()->SetTitle("#DeltaT_{SC} = T_{chnL} - T_{chnR} [ns]");
+   		hist_time_SC[b]->SetFillColor(38);
+   		hist_time_SC[b]->GetYaxis()->SetTitle("Counts");
+   		hist_time_SC[b]->Fit("gaus", "Q");
+   		hist_time_SC[b]->Draw();
+		//delta_time_SC[b]->SaveAs("figures/delta_mean_time.pdf");
+	}
 	 
 }
