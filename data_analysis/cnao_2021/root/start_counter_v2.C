@@ -19,7 +19,7 @@ void rec::Loop()
 	gStyle->SetOptFit(10111);
 
    	// HISTOGRAMS DELTA TIME SC
-   	TH1F *hist_time_SC = new TH1F("Time SC","Time SC", 100, 90, 110.0); // [ns]
+   	TH1F *hist_time_SC = new TH1F("Time SC","Time SC", 200, 80, 130.0); // [ns]
 
    	Long64_t nentries = fChain->GetEntriesFast();
    	Long64_t nbytes = 0, nb = 0;
@@ -137,6 +137,9 @@ void rec::Loop()
 				//cout << "counter            = " << counter << endl; 	
 				counter += 1;
 
+				// MEAN TIME OF SC
+				time_mean_SC = time_sum_SC/counter;
+
 				if (1) 
 				{
                 	std::cout << "\nStart Counter"                              << std::endl;
@@ -151,20 +154,18 @@ void rec::Loop()
                   	std::cout << "\nt_peak       [ns]   = " << t_peak_SC        << std::endl;
                 	std::cout << "\nv_ampl       [V]    = " << v_ampl_SC        << std::endl;
                   	std::cout << "\nv_th         [V]    = " << v_th_SC          << std::endl;
-                  	std::cout << "\ntime         [ns]   = " << time_SC[chn]     << std::endl;
+                 	std::cout << "\ntime         [ns]   = " << time_SC[chn]     << std::endl;
+					cout << "********************************************************" << endl;
+					cout << "counter            = " << counter      << endl; 	
+					cout << "time_sum_SC [ns]   = " << time_sum_SC  << endl;
+					cout << "time_mean_SC [ns]  = " << time_mean_SC << endl; 
+					cout << "********************************************************" << endl;
 				}
-
-				// MEAN TIME OF SC
-				time_mean_SC = time_sum_SC/counter;
-				cout << "********************************************************" << endl;
-				cout << "counter            = " << counter      << endl; 	
-				cout << "time_sum_SC [ns]   = " << time_sum_SC  << endl;
-				cout << "time_mean_SC [ns]  = " << time_mean_SC << endl; 
-				cout << "********************************************************" << endl;
-			}
-			if (time_mean_SC>0) hist_time_SC->Fill(time_mean_SC);
-		}
-
+			} // END if (board173_hit[chn]==1)	
+			//if (time_mean_SC>0) hist_time_SC->Fill(time_mean_SC);
+		} // END LOOP ON CHANNELS OF WAVEDREAM
+		if (time_mean_SC>0) hist_time_SC->Fill(time_mean_SC);
+		
    	} // END LOOP ON ENTRIES
 
    	//------------------------------
