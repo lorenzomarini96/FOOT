@@ -25,14 +25,14 @@ void rec::Loop()
    	//------------------------------
    	// HIST FOR TIME RESOLUTION
    	//------------------------------
-   	TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 100, 19.5, 21.5); // [ns]
+   	TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 100, 19., 21.5); // [ns]
    
 
    	Double_t f_CFD = 0.3;         // FRATION FOR COMPUTE TIME
 	Int_t status[8];
    
   	// LOOP ON ENTRIES
-  	for (Long64_t jentry=0; jentry<nentries; jentry++)
+  	for (Long64_t jentry=0; jentry<nentries/10; jentry++)
    	{
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
@@ -332,21 +332,23 @@ void rec::Loop()
 			} // END if (board173_hit[chn]==1)	
 		} // END LOOP ON CHANNELS OF WAVEDREAM
 
-		//if (Mean_Time_Bar_9_X > 0. && Mean_Time_Bar_9_Y > 0. && time_mean_SC > 0.)
-		if (0)
+		if (Mean_Time_Bar_9_X > 0. && Mean_Time_Bar_9_Y > 0. && time_mean_SC > 0.)
 		{
 			time_TOF = time_TW - time_mean_SC;
 			hist_TOF->Fill(time_TOF);
 
-			cout << "********************************************************" << endl;
-			cout << "START COUNTER" << endl;
-			cout << "time_mean_SC [ns]  = " << time_mean_SC << endl; 
-			cout << "-------------------------------------------------------------\n" << endl;
-			cout << "TOFWALL" << endl;
-			cout << "time_TW [ns]  = " << time_TW << endl;
-			cout << "\n-------------------------------------------------------------\n" << endl;
-			cout << "time_TOF = time_TW - time_mean_SC = " << time_TW << " - " << time_mean_SC << " = " << time_TOF << endl;
-			cout << "********************************************************" << endl;
+			if (0)
+			{
+				cout << "********************************************************" << endl;
+				cout << "START COUNTER" << endl;
+				cout << "time_mean_SC [ns]  = " << time_mean_SC << endl; 
+				cout << "-------------------------------------------------------------\n" << endl;
+				cout << "TOFWALL" << endl;
+				cout << "time_TW [ns]  = " << time_TW << endl;
+				cout << "\n-------------------------------------------------------------\n" << endl;
+				cout << "time_TOF = time_TW - time_mean_SC = " << time_TW << " - " << time_mean_SC << " = " << time_TOF << endl;
+				cout << "********************************************************" << endl;
+			}
 		}
 		/*
 		if (time_mean_SC > 0. && time_TW > 0. )
