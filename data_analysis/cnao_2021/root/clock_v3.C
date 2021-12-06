@@ -31,65 +31,85 @@ void rec::Loop()
       	if (ientry < 0) break;
       	nb = fChain->GetEntry(jentry);   nbytes += nb;
 		
-		Int_t n_points = 0; // number of points for graphs.
 
 		// START COUNTER
-      	Int_t chn_SC_CLK = 16;	
-		Double_t delta_voltage_SC_CLK = 0.;
+		Int_t n_points_SC = 0; // number of points for graphs.
+      	Int_t chn_SC_CLK = 16;
 		Double_t voltage_SC_CLK_NC[1023]; // No correction
 		Double_t voltage_SC_CLK[1023];
 		Double_t time_SC_CLK[1023];
-		Double_t min_SC_CLK;
-		Double_t max_SC_CLK;
-		
+				
 		Int_t enablesum = 0;
 
+		// TOF-WALL
+		Int_t n_points_TW = 0; // number of points for graphs.
+		Int_t chn_TW_CLK = 16;	
+		Double_t voltage_TW_CLK_NC[1023]; // No correction
+		Double_t voltage_TW_CLK[1023];
+		Double_t time_TW_CLK[1023];
+		
+
+		// START-COUNTER
 		for (Int_t i=1; i<1023; i++)     
 		{
 			voltage_SC_CLK[i]    = board173_waveform[chn_SC_CLK][i]; // Final Amplitude
 			voltage_SC_CLK_NC[i] = board173_waveform[chn_SC_CLK][i]; // Amplitude Not Corrected
-			time_SC_CLK[i]       = board173_time[chn_SC_CLK][i] * TMath::Power(10,9); // * TMath::Power(10,9);
-		
-			if (voltage_SC_CLK_NC[i] - voltage_SC_CLK_NC[i-1] >  0.6) enablesum -= 1;
-			if (voltage_SC_CLK_NC[i] - voltage_SC_CLK_NC[i-1] < -0.6) enablesum += 1;
+			time_SC_CLK[i]       = board173_time[chn_SC_CLK][i] * TMath::Power(10,9);
 
-			voltage_SC_CLK[i] = voltage_SC_CLK_NC[i] + enablesum; // sommo 1V
+			if (voltage_SC_CLK_NC[i] - voltage_SC_CLK_NC[i-1] >  0.5) enablesum -= 1;
+			if (voltage_SC_CLK_NC[i] - voltage_SC_CLK_NC[i-1] < -0.5) enablesum += 1;
+			if (1)
+			{
+				voltage_SC_CLK[i] = voltage_SC_CLK_NC[i] + enablesum; // sommo 1V
+				n_points_SC += 1;
+			}
 
-			if (voltage_SC_CLK[i]>-0.3) cout << "??????????" << endl;
-
-			n_points += 1;
-			//cout << "∆V                     [V] = "     << voltage_SC_CLK_NC[i] - voltage_SC_CLK_NC[i-1]  << endl;
-			//cout << "voltage_SC_CLK["<<i<<"]    [V] = " << voltage_SC_CLK[i]    << endl;
-			//cout << "voltage_SC_CLK_NC["<<i<<"] [V] = " << voltage_SC_CLK_NC[i] << endl;
-			//cout << "time_SC_CLK["<<i<<"]       [s] = " << time_SC_CLK[i]       << endl;
-			//cout << "enablesum                   = "    << enablesum            << endl;
-			//cout << "\n----------------------------------------------------\n"  << endl;
 		}
 
-		TGraph *gr1 = new TGraph(n_points, time_SC_CLK, voltage_SC_CLK);
+
+		enablesum = 0;
+
+		// TOF-WALL
+		for (Int_t i=1; i<1023; i++)     
+		{
+			voltage_TW_CLK[i]    = board166_waveform[chn_TW_CLK][i]; // Final Amplitude
+			voltage_TW_CLK_NC[i] = board166_waveform[chn_TW_CLK][i]; // Amplitude Not Corrected
+			time_TW_CLK[i]       = board166_time[chn_TW_CLK][i] * TMath::Power(10,9);
+
+			if (voltage_TW_CLK_NC[i] - voltage_TW_CLK_NC[i-1] >  0.5) enablesum -= 1;
+			if (voltage_TW_CLK_NC[i] - voltage_TW_CLK_NC[i-1] < -0.5) enablesum += 1;
+			voltage_TW_CLK[i] = voltage_TW_CLK_NC[i] + enablesum; // sommo 1V
+			n_points_TW += 1;
+		}
+
+		TGraph *gr1 = new TGraph(n_points_SC, time_SC_CLK, voltage_SC_CLK);
 		gr1->GetXaxis()->SetTitle("Time [ns]");
 		gr1->GetYaxis()->SetTitle("Amplitude [V]");
 		gr1->SetLineColor(4);
+		gr1->GetXaxis()->SetRangeUser(-20., 350);
+		gr1->GetYaxis()->SetRangeUser(-0.75, -0.3);
 
 		
-		TGraph *gr2 = new TGraph(n_points, time_SC_CLK, voltage_SC_CLK_NC);
+		TGraph *gr2 = new TGraph(n_points_TW, time_TW_CLK, voltage_TW_CLK);
 		gr2->GetXaxis()->SetTitle("Time [ns]");
 		gr2->GetYaxis()->SetTitle("Amplitude [V]");
 		gr2->SetLineColor(2);
+		gr2->GetXaxis()->SetRangeUser(-20., 350);
+		gr2->GetYaxis()->SetRangeUser(-0.53, -0.3);
 		
 		TCanvas *c1 = new TCanvas("c1"," ", 800,800);
 		c1->SetTickx();
    		c1->SetTicky();
    		c1->SetLeftMargin(0.15);
 		gr1->Draw("AC");
-
 		
 		TCanvas *c2 = new TCanvas("c2"," ", 800,800);
 		c2->SetTickx();
    		c2->SetTicky();
    		c2->SetLeftMargin(0.15);
 		gr2->Draw("AC");
-		
+
+
 		TCanvas *c3 = new TCanvas("c3"," ", 800,800);
 		gr1->Draw("AC");
 		gr2->Draw("CP");   		
