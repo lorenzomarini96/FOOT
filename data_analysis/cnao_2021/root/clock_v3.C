@@ -85,17 +85,19 @@ void rec::Loop()
 		TGraph *gr1 = new TGraph(n_points_SC, time_SC_CLK, voltage_SC_CLK);
 		gr1->GetXaxis()->SetTitle("Time [ns]");
 		gr1->GetYaxis()->SetTitle("Amplitude [V]");
+		gr1->SetTitle(" ");
 		gr1->SetLineColor(4);
 		gr1->GetXaxis()->SetRangeUser(-20., 350);
-		gr1->GetYaxis()->SetRangeUser(-0.75, -0.3);
+		gr1->GetYaxis()->SetRangeUser(-0.75, -0.2);
 
 		
 		TGraph *gr2 = new TGraph(n_points_TW, time_TW_CLK, voltage_TW_CLK);
 		gr2->GetXaxis()->SetTitle("Time [ns]");
 		gr2->GetYaxis()->SetTitle("Amplitude [V]");
+		gr2->SetTitle(" ");
 		gr2->SetLineColor(2);
 		gr2->GetXaxis()->SetRangeUser(-20., 350);
-		gr2->GetYaxis()->SetRangeUser(-0.53, -0.3);
+		gr2->GetYaxis()->SetRangeUser(-0.75, -0.2);
 		
 		TCanvas *c1 = new TCanvas("c1"," ", 800,800);
 		c1->SetTickx();
@@ -111,8 +113,17 @@ void rec::Loop()
 
 
 		TCanvas *c3 = new TCanvas("c3"," ", 800,800);
+		c3->SetLeftMargin(0.15);
+		c3->SetTickx();
+   		c3->SetTicky();
 		gr1->Draw("AC");
-		gr2->Draw("CP");   		
+		gr2->Draw("CP");
+		auto legend = new TLegend(0.1, 0.7, 0.44, 0.9);
+   		//legend->SetHeader("Clock signals","C"); // option "C" allows to center the header
+   		legend->AddEntry(gr1,"Start Counter","l");
+   		legend->AddEntry(gr2,"Tof-wall","l");
+   		legend->Draw();   		
+
 		
 	}
 
