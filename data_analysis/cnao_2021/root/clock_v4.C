@@ -54,22 +54,31 @@ void rec::Loop()
 		Double_t time_SC_CLK[1023];
 
 		// CLOCK ANALYSIS
-		Double_t min_SC_CLK;            // V AMPLITUDE MIN OF CHANNEL [V]
-		Double_t max_SC_CLK;            // V AMPLITUDE MIN OF CHANNEL [V]
-		Double_t phi_SC_CLK;		    // 
-		Double_t zero_SC_CLK;           // MEAN OF MAX AND MIN VALUES OF WF
-		Double_t ZeroCrossingPoint[20]; // ZERO CROSSING POINT ON THE RISING EDGES OF WF [ns]
-		Int_t N_SC_CLK; 			    // NUMBER OF CLOCK CYCLES
+		Double_t min_SC_CLK;                  // V AMPLITUDE MIN OF CHANNEL [V]
+		Double_t max_SC_CLK;                  // V AMPLITUDE MIN OF CHANNEL [V]
+		Double_t a_fit_SC_CLK;
+		Double_t sigma_a_fit_SC_CLK;
+		Double_t b_fit_SC_CLK;
+		Double_t sigma_b_fit_SC_CLK;
+		Double_t phi_SC_CLK;		     
+		Double_t zero_SC_CLK;                 // MEAN OF MAX AND MIN VALUES OF WF
+		Double_t ZeroCrossingPoint[27];       // ZERO CROSSING POINT ON THE RISING EDGES OF WF [ns]
+		Double_t sigma_ZeroCrossingPoint[27]; // ERROR ON ZERO CROSSING POINT [ns]
+		Double_t N_SC_CLK[27];			      // NUMBER OF CLOCK CYCLES
+		Double_t sigma_N_SC_CLK[27];	      // ERROR ON NUMBER OF CLOCK
+		Int_t n_point_SC_phi = 27;
 		
 				
 		//*********************************************************
 		// START-COUNTER
 		//*********************************************************
 
+		//---------------------------------------------------------
 		// 1) CORRECTION OF WF
+		//---------------------------------------------------------
 		Int_t enablesum = 0;
 
-		for (Int_t i=1; i<1023; i++)     
+		for (Int_t i=0; i<1023; i++)     
 		{
 			voltage_SC_CLK[i]    = board173_waveform[chn_SC_CLK][i]; // Final Amplitude
 			voltage_SC_CLK_NC[i] = board173_waveform[chn_SC_CLK][i]; // Amplitude Not Corrected
@@ -80,13 +89,21 @@ void rec::Loop()
 
 			voltage_SC_CLK[i] = voltage_SC_CLK_NC[i] + enablesum; // sommo 1V
 			n_points_SC += 1;
+			
+			
+			//cout << "\n----------------------------------------------------------------------------------------" << endl;
+			//cout << left<<setw(10)<<"i"<<left<<setw(20)<<"voltage_SC_CLK [V]"<<left<<setw(20)<<"time_SC_CLK [ns]"<<left<<setw(20)<<endl;
+			//cout << left<<setw(10)<<i<<left<<setw(20)<<voltage_SC_CLK[i]<<left<<setw(20)<<time_SC_CLK[i]<<left<<setw(20)<<endl;
+			//cout << "\n----------------------------------------------------------------------------------------" << endl;
 		}
 
+		//---------------------------------------------------------
         // 2) FIND MIN AND MAX OF WAVEFORM
+		//---------------------------------------------------------
         min_SC_CLK = voltage_SC_CLK[100]; // V AMPLITUDE MIN OF CHANNEL [V]
         max_SC_CLK = voltage_SC_CLK[100]; // V AMPLITUDE MAX OF CHANNEL [V]
             
-        for (Int_t i=10; i<900; i++)
+        for (Int_t i=0; i<1000; i++)
         { 		
 			// LOOP ON SAMPLES OF WAVEFORM
            	if (voltage_SC_CLK[i] < min_SC_CLK) min_SC_CLK = voltage_SC_CLK[chn_SC_CLK];
@@ -94,46 +111,81 @@ void rec::Loop()
 		}
 
 		zero_SC_CLK = (min_SC_CLK + max_SC_CLK)/2;
-		cout << "zero_SC_CLK = " << zero_SC_CLK << endl;
 
+
+		//---------------------------------------------------------
 		// 3) ZERO CROSSING POINT
-		for (Int_t j=0; j<20; j++)
-		{
-        	for (Int_t i=100; i<1000; i++) 
+		//---------------------------------------------------------
+		for (Int_t j=0; j<30; j++)
+		{	
+        	for (Int_t i=0; i<1000; i++) 
 			{ 	
             	if (voltage_SC_CLK[i] > zero_SC_CLK)
 				{
-					TF1 *f_fit_SC_CLK = new TF1("f_fit_SC_CLK", "pol1", voltage_SC_CLK[i-2], voltage_SC_CLK[i+2]);
+					TF1 *f_fit_SC_CLK = new TF1("f_fit_SC_CLK", "pol1", time_SC_CLK[i-2], time_SC_CLK[i+2]);
 				
 					Int_t n = 5;  // NUMBER OF POINTS FOR THE GRAPH
 					Double_t v_data_SC_CLK[5] = {voltage_SC_CLK[i-2], voltage_SC_CLK[i-1], voltage_SC_CLK[i], voltage_SC_CLK[i+1], voltage_SC_CLK[i+2]};
-					Double_t t_data_SC_CLK[5] = {time_SC_CLK[i-2], time_SC_CLK[i-1], time_SC_CLK[i], time_SC_CLK[i+1], time_SC_CLK[i+1]};
+					Double_t t_data_SC_CLK[5] = {time_SC_CLK[i-2], time_SC_CLK[i-1], time_SC_CLK[i], time_SC_CLK[i+1], time_SC_CLK[i+2]};
+					
+					if (0)
+					{
+						cout << "\nvoltage_SC_CLK["<<i-2<<"] = " <<voltage_SC_CLK[i-2] << endl;
+						cout << "\nvoltage_SC_CLK["<<i-1<<"] = " << voltage_SC_CLK[i-1] << endl;
+						cout << "\nvoltage_SC_CLK["<<i  <<"] = " << voltage_SC_CLK[i] << endl;
+						cout << "\nvoltage_SC_CLK["<<i+1<<"] = " << voltage_SC_CLK[i+1] << endl;
+						cout << "\nvoltage_SC_CLK["<<i+2<<"] = " << voltage_SC_CLK[i+2] << endl;
+
+						cout << "\ntime_SC_CLK["<<i-2<<"] = " << time_SC_CLK[i-2] << endl;
+						cout << "\ntime_SC_CLK["<<i-1<<"] = " << time_SC_CLK[i-1] << endl;
+						cout << "\ntime_SC_CLK["<<i  <<"] = " << time_SC_CLK[i] << endl;
+						cout << "\ntime_SC_CLK["<<i+1<<"] = " << time_SC_CLK[i+1] << endl;
+						cout << "\ntime_SC_CLK["<<i+2<<"] = " << time_SC_CLK[i+2] << endl;
+					}
 
 					TGraph *gr_SC_CLK = new TGraph(n, t_data_SC_CLK, v_data_SC_CLK);
-					gr_SC_CLK->Fit("f_fit_SC_CLK","Qr");
-					
-					Double_t a_fit_SC_CLK;
-					Double_t b_fit_SC_CLK;					
+
+					gr_SC_CLK->Fit("f_fit_SC_CLK","Qr");			
 					
 					a_fit_SC_CLK = f_fit_SC_CLK->GetParameter(1);
+					sigma_a_fit_SC_CLK = f_fit_SC_CLK->GetParError(1);
 					b_fit_SC_CLK = f_fit_SC_CLK->GetParameter(0);
+					sigma_b_fit_SC_CLK = f_fit_SC_CLK->GetParError(0);
 
 					// ZERO CROSSING POINT
-					ZeroCrossingPoint[j] = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
+					ZeroCrossingPoint[j]       = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
+					sigma_ZeroCrossingPoint[i] = ZeroCrossingPoint[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
+
 					
 					// NUMBER OF CLOCK CYCLES
-					N_SC_CLK = j;
-
-					cout << "ZeroCrossingPoint["<<j<<"] = " <<ZeroCrossingPoint[j] << endl;
-					cout << "N_SC_CLK = " << N_SC_CLK << endl;
+					N_SC_CLK[j] = j+1;
+					//sigma_N_SC_CLK[j] = 0.;
 
 					delete f_fit_SC_CLK;
 					delete gr_SC_CLK;
-					break;
+					
+					i += 20;
+					j +=1;
             	}
+				if (N_SC_CLK[j] == 25) break;
         	}
 		}
-
+		
+		
+		for (Int_t i=0; i<25; i++)
+		{	
+			cout << "\n***********************************************************" << endl;
+			cout <<left<<setw(4)<< "*" <<left<<setw(10)<<"i"<<left<<setw(30)<<"ZeroCrossingPoint [ns]"<<left<<setw(30)<<"N_SC_CLK "<<left<<setw(4)<<"*"<<endl;
+			cout <<left<<setw(4)<< "*" <<left<<setw(10)<<i<<left<<setw(30)<<ZeroCrossingPoint[i]<<left<<setw(30)<<N_SC_CLK[i]<<left<<setw(4)<<"*"<<endl;
+			cout << "***********************************************************" << endl;
+		}
+		
+		
+		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(n_point_SC_phi, N_SC_CLK, ZeroCrossingPoint);
+		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", N_SC_CLK[0], N_SC_CLK[26]);
+		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetLineStyle(2); // 2 = --
+		gr_N_SC_CLK_vs_ZeroCrossingPoint->Fit("f_fit_N_SC_CLK_vs_ZeroCrossingPoint","Qr");
+		
 		//*********************************************************
 		// TOF-WALL
 		//*********************************************************
@@ -141,7 +193,7 @@ void rec::Loop()
 		// 1) CORRECTION OF WF
 		enablesum = 0;
 
-		for (Int_t i=1; i<1023; i++)     
+		for (Int_t i=0; i<1023; i++)     
 		{
 			voltage_TW_CLK[i]    = board166_waveform[chn_TW_CLK][i]; // Final Amplitude
 			voltage_TW_CLK_NC[i] = board166_waveform[chn_TW_CLK][i]; // Amplitude Not Corrected
@@ -152,50 +204,18 @@ void rec::Loop()
 			voltage_TW_CLK[i] = voltage_TW_CLK_NC[i] + enablesum; // sommo 1V
 			n_points_TW += 1;
 		}
-
-		TGraph *gr1 = new TGraph(n_points_SC, time_SC_CLK, voltage_SC_CLK);
-		gr1->GetXaxis()->SetTitle("Time [ns]");
-		gr1->GetYaxis()->SetTitle("Amplitude [V]");
-		gr1->SetTitle(" ");
-		gr1->SetLineColor(4);
-		gr1->GetXaxis()->SetRangeUser(-20., 350);
-		gr1->GetYaxis()->SetRangeUser(-0.75, -0.2);
-
 		
-		TGraph *gr2 = new TGraph(n_points_TW, time_TW_CLK, voltage_TW_CLK);
-		gr2->GetXaxis()->SetTitle("Time [ns]");
-		gr2->GetYaxis()->SetTitle("Amplitude [V]");
-		gr2->SetTitle(" ");
-		gr2->SetLineColor(2);
-		gr2->GetXaxis()->SetRangeUser(-20., 350);
-		gr2->GetYaxis()->SetRangeUser(-0.75, -0.2);
-		
-		TCanvas *c1 = new TCanvas("c1"," ", 800,800);
-		c1->SetTickx();
-   		c1->SetTicky();
-   		c1->SetLeftMargin(0.15);
-		gr1->Draw("AC");
-		
-		TCanvas *c2 = new TCanvas("c2"," ", 800,800);
-		c2->SetTickx();
-   		c2->SetTicky();
-   		c2->SetLeftMargin(0.15);
-		gr2->Draw("AC");
-
-
-		TCanvas *c3 = new TCanvas("c3"," ", 800,800);
-		c3->SetLeftMargin(0.15);
-		c3->SetTickx();
-   		c3->SetTicky();
-		gr1->Draw("AC");
-		gr2->Draw("CP");
-		auto legend = new TLegend(0.1, 0.7, 0.44, 0.9);
-   		//legend->SetHeader("Clock signals","C"); // option "C" allows to center the header
-   		legend->AddEntry(gr1,"Start Counter","l");
-   		legend->AddEntry(gr2,"Tof-wall","l");
-   		legend->Draw();   		
-
-		
+		// START COUNTER
+		TCanvas *c4 = new TCanvas("c4"," ", 800,800);
+		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetTitle("# cycles");
+		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetYaxis()->SetTitle("Zero-Crossing Time [ns]");
+		gr_N_SC_CLK_vs_ZeroCrossingPoint->SetMarkerStyle(20);
+		c4->SetLeftMargin(0.15);
+		c4->SetTickx();
+   		c4->SetTicky();
+		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetRangeUser(0, 30);
+		gr_N_SC_CLK_vs_ZeroCrossingPoint->Draw("AP");
+			
 	}
 
 }
