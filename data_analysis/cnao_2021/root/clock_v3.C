@@ -50,7 +50,7 @@ void rec::Loop()
 		
 
 		// START-COUNTER
-		for (Int_t i=1; i<1023; i++)     
+		for (Int_t i=0; i<1023; i++)     
 		{
 			voltage_SC_CLK[i]    = board173_waveform[chn_SC_CLK][i]; // Final Amplitude
 			voltage_SC_CLK_NC[i] = board173_waveform[chn_SC_CLK][i]; // Amplitude Not Corrected
@@ -70,7 +70,7 @@ void rec::Loop()
 		enablesum = 0;
 
 		// TOF-WALL
-		for (Int_t i=1; i<1023; i++)     
+		for (Int_t i=0; i<1023; i++)     
 		{
 			voltage_TW_CLK[i]    = board166_waveform[chn_TW_CLK][i]; // Final Amplitude
 			voltage_TW_CLK_NC[i] = board166_waveform[chn_TW_CLK][i]; // Amplitude Not Corrected
@@ -87,8 +87,8 @@ void rec::Loop()
 		gr1->GetYaxis()->SetTitle("Amplitude [V]");
 		gr1->SetTitle(" ");
 		gr1->SetLineColor(4);
-		gr1->GetXaxis()->SetRangeUser(-20., 350);
-		gr1->GetYaxis()->SetRangeUser(-0.75, -0.2);
+		//gr1->GetXaxis()->SetRangeUser(-20., 350);
+		//gr1->GetYaxis()->SetRangeUser(-0.75, -0.2);
 
 		
 		TGraph *gr2 = new TGraph(n_points_TW, time_TW_CLK, voltage_TW_CLK);
@@ -96,8 +96,8 @@ void rec::Loop()
 		gr2->GetYaxis()->SetTitle("Amplitude [V]");
 		gr2->SetTitle(" ");
 		gr2->SetLineColor(2);
-		gr2->GetXaxis()->SetRangeUser(-20., 350);
-		gr2->GetYaxis()->SetRangeUser(-0.75, -0.2);
+		//gr2->GetXaxis()->SetRangeUser(-20., 350);
+		//gr2->GetYaxis()->SetRangeUser(-0.75, -0.2);
 		
 		TCanvas *c1 = new TCanvas("c1"," ", 800,800);
 		c1->SetTickx();
