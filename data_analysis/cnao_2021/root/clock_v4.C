@@ -91,10 +91,10 @@ void rec::Loop()
 			n_points_SC += 1;
 			
 			
-			//cout << "\n----------------------------------------------------------------------------------------" << endl;
-			//cout << left<<setw(10)<<"i"<<left<<setw(20)<<"voltage_SC_CLK [V]"<<left<<setw(20)<<"time_SC_CLK [ns]"<<left<<setw(20)<<endl;
-			//cout << left<<setw(10)<<i<<left<<setw(20)<<voltage_SC_CLK[i]<<left<<setw(20)<<time_SC_CLK[i]<<left<<setw(20)<<endl;
-			//cout << "\n----------------------------------------------------------------------------------------" << endl;
+			cout << "\n----------------------------------------------------------------------------------------" << endl;
+			cout << left<<setw(10)<<"i"<<left<<setw(20)<<"voltage_SC_CLK [V]"<<left<<setw(20)<<"time_SC_CLK [ns]"<<left<<setw(20)<<endl;
+			cout << left<<setw(10)<<i<<left<<setw(20)<<voltage_SC_CLK[i]<<left<<setw(20)<<time_SC_CLK[i]<<left<<setw(20)<<endl;
+			cout << "\n----------------------------------------------------------------------------------------" << endl;
 		}
 
 		//---------------------------------------------------------
@@ -155,7 +155,6 @@ void rec::Loop()
 					// ZERO CROSSING POINT
 					ZeroCrossingPoint[j]       = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
 					sigma_ZeroCrossingPoint[i] = ZeroCrossingPoint[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
-
 					
 					// NUMBER OF CLOCK CYCLES
 					N_SC_CLK[j] = j+1;
@@ -171,18 +170,27 @@ void rec::Loop()
         	}
 		}
 		
-		
+		// DATA CORRECTION (problem with the first element)
+		Double_t new_ZeroCrossingPoint[25];
+		Double_t new_N_SC_CLK[25];
+		Int_t    new_n_point_SC_phi = n_point_SC_phi-2;
+
 		for (Int_t i=0; i<25; i++)
 		{	
+
+			// SHIFT ALL ELEMENTS BY ONE POSITION
+			new_N_SC_CLK[i] = N_SC_CLK[i];
+			new_ZeroCrossingPoint[i] = ZeroCrossingPoint[i+1];
+
 			cout << "\n***********************************************************" << endl;
 			cout <<left<<setw(4)<< "*" <<left<<setw(10)<<"i"<<left<<setw(30)<<"ZeroCrossingPoint [ns]"<<left<<setw(30)<<"N_SC_CLK "<<left<<setw(4)<<"*"<<endl;
-			cout <<left<<setw(4)<< "*" <<left<<setw(10)<<i<<left<<setw(30)<<ZeroCrossingPoint[i]<<left<<setw(30)<<N_SC_CLK[i]<<left<<setw(4)<<"*"<<endl;
+			cout <<left<<setw(4)<< "*" <<left<<setw(10)<<i<<left<<setw(30)<<new_ZeroCrossingPoint[i]<<left<<setw(30)<<new_N_SC_CLK[i]<<left<<setw(4)<<"*"<<endl;
 			cout << "***********************************************************" << endl;
 		}
 		
 		
-		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(n_point_SC_phi, N_SC_CLK, ZeroCrossingPoint);
-		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", N_SC_CLK[0], N_SC_CLK[26]);
+		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint);
+		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", new_N_SC_CLK[0], N_SC_CLK[24]);
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetLineStyle(2); // 2 = --
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->Fit("f_fit_N_SC_CLK_vs_ZeroCrossingPoint","Qr");
 		
@@ -207,7 +215,7 @@ void rec::Loop()
 		
 		// START COUNTER
 		TCanvas *c4 = new TCanvas("c4"," ", 800,800);
-		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetTitle("# cycles");
+		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetTitle("Number of Cycles");
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetYaxis()->SetTitle("Zero-Crossing Time [ns]");
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->SetMarkerStyle(20);
 		c4->SetLeftMargin(0.15);
