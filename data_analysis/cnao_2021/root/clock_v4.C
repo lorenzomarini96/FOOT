@@ -21,7 +21,7 @@ void rec::Loop()
    	Long64_t nbytes = 0, nb = 0;
 
 
-   	gStyle->SetOptFit(10111);   
+   	//gStyle->SetOptFit(10111);   
 
 
   	// LOOP ON ENTRIES
@@ -191,7 +191,7 @@ void rec::Loop()
 		
 		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint);
 		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", new_N_SC_CLK[0], N_SC_CLK[24]);
-		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(0, "#phi_{CLK,SC}");
+		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(0, "#varphi_{CLK,SC}");
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(1, "T_{SC}");
 		
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetLineStyle(2); // 2 = --
@@ -230,17 +230,25 @@ void rec::Loop()
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetRangeUser(0, 30);
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->Draw("AP");
 		
+		
 		TLegend *legend = new TLegend(0.5,0.5,0.8,0.8);
-		Char_t message[80];
-		//sprintf(message,"#splitline{#chi^{2}/ndf = %.4f/%.0f}{#phi_{CLK,SC} = }", f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetChisquare(), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetNDF());
-		sprintf(message,"#chi^{2}/ndf = %.4f/%d", f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetChisquare(), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetNDF());
-		legend->AddEntry((TObject*)0, "Some text", "");
-		//sprintf(message,"#phi_{CLK,SC} = %.2f +/- %.2f", f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(0));
-		//sprintf(message,"T_{CLK,SC} = %.2f +/- %.2f"   , f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(1), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(1));
+		
+		legend->AddEntry((TObject*)0, TString::Format("#chi^{2} / ndf = %.3f/%d",      f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetChisquare(), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetNDF()), "");
+		legend->AddEntry((TObject*)0, TString::Format("#varphi_{CLK,SC} = %.4f #pm %.4f", f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(0)), "");
+		legend->AddEntry((TObject*)0, TString::Format("T_{CLK,SC} = %.4f #pm %.4f",    f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(1), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(1)), "");
+		
+		// ADD TEXT RELATED TO A FUNCTION
+		//Char_t message[80];
+		//sprintf(message,"#phi_{CLK,SC} = %.4f/%.4f", f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(0));
+		
+		// ADD TEXT TO LEGEND
+		//legend->AddEntry((TObject*)0, "Some text", "");
+		
 		legend->SetBorderSize(0);
-		legend->AddEntry(gr_N_SC_CLK_vs_ZeroCrossingPoint, message);
+		legend->SetTextSize(0.033);
 		legend->Draw();
 
+		// ADD TEXT IN THE CANVAS
 		//TLatex *text = new TLatex(10, 200, "testo..." );
 		//text->SetTextSize(0.05);
 		//tex->SetTextColor(2);
