@@ -23,12 +23,12 @@ void rec::Loop()
 
    	//gStyle->SetOptFit(10111);   
 
-	TH1D *hist_delta_CLK = new TH1D("hist_delta_CLK", "hist_delta_CLK", 100, 19.5, 21.5); // [ns]
+	TH1D *hist_delta_CLK = new TH1D("hist_delta_CLK", "hist_delta_CLK", 100, -4, 4); // [ns]
 
 
   	// LOOP ON ENTRIES
-  	//for (Long64_t jentry=0; jentry<nentries/10; jentry++)
-	for (Long64_t jentry=1; jentry<2; jentry++)           // ONLY FIRST EVENT FOR THE MOMENT
+  	for (Long64_t jentry=0; jentry<nentries/10; jentry++)
+	//for (Long64_t jentry=0; jentry<1; jentry++)           // ONLY FIRST EVENT FOR THE MOMENT
    	{
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
@@ -322,12 +322,12 @@ void rec::Loop()
 		//*********************************************************
 		// VISUALIZATION
 		//*********************************************************
-
+		/*
 		TCanvas *c4 = new TCanvas("c4"," ", 800,800);
 		c4->SetLeftMargin(0.15);
 		c4->SetTickx();
    		c4->SetTicky();
-		
+		*/
 		//*********************************************************
 		// START-COUNTER
 		//*********************************************************
@@ -335,11 +335,14 @@ void rec::Loop()
 		//TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint);
 		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint_SC);
 		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", 0, N_SC_CLK[24]);
+		/*
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(0, "#varphi_{CLK,SC}");
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(1, "T_{SC}");
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetLineStyle(2); // 2 = --
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetLineColor(2); // 2 = red
+		*/
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->Fit("f_fit_N_SC_CLK_vs_ZeroCrossingPoint","Qr");
+		/*
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetTitle("Number of Cycles");
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetYaxis()->SetTitle("Zero-Crossing Time [ns]");
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->SetTitle(" ");
@@ -347,7 +350,7 @@ void rec::Loop()
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetRangeUser(0, 10);
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->GetYaxis()->SetRangeUser(-10, 60);
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->Draw("AP");
-		
+		*/
 		//*********************************************************
 		// TOF-WALL
 		//*********************************************************
@@ -355,11 +358,14 @@ void rec::Loop()
 		//TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint);
 		TGraph *gr_N_TW_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_TW_phi, new_N_TW_CLK, new_ZeroCrossingPoint_TW);
 		TF1 *f_fit_N_TW_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_TW_CLK_vs_ZeroCrossingPoint", "pol1", 0, N_TW_CLK[24]);
+		/*
 		f_fit_N_TW_CLK_vs_ZeroCrossingPoint->SetParName(0, "#varphi_{CLK,TW}");
 		f_fit_N_TW_CLK_vs_ZeroCrossingPoint->SetParName(1, "T_{TW}");
 		f_fit_N_TW_CLK_vs_ZeroCrossingPoint->SetLineStyle(2); // 2 = --
 		f_fit_N_TW_CLK_vs_ZeroCrossingPoint->SetLineColor(4); // 4 = blue
+		*/
 		gr_N_TW_CLK_vs_ZeroCrossingPoint->Fit("f_fit_N_TW_CLK_vs_ZeroCrossingPoint","Qr");
+		/*
 		gr_N_TW_CLK_vs_ZeroCrossingPoint->GetXaxis()->SetTitle("Number of Cycles");
 		gr_N_TW_CLK_vs_ZeroCrossingPoint->GetYaxis()->SetTitle("Zero-Crossing Time [ns]");
 		gr_N_TW_CLK_vs_ZeroCrossingPoint->SetTitle(" ");
@@ -386,9 +392,21 @@ void rec::Loop()
 		legend->SetBorderSize(0);
 		legend->SetTextSize(0.033);
 		legend->Draw();
-		
-		cout << f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0) << endl;
-		cout << f_fit_N_TW_CLK_vs_ZeroCrossingPoint->GetParameter(0) << endl;
+		*/
+		// HIST DELTA CLOCK
+		phi_SC_CLK = f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0);
+		phi_TW_CLK = f_fit_N_TW_CLK_vs_ZeroCrossingPoint->GetParameter(0);
+		cout << "Event      = " << jentry     << endl;		
+		cout << "phi_SC_CLK = " << phi_SC_CLK << endl;
+		cout << "phi_TW_CLK = " << phi_TW_CLK << endl;
+
+		hist_delta_CLK->Fill(phi_TW_CLK - phi_SC_CLK);
 	}
+
+	TCanvas *c_delta_CLK = new TCanvas("c_delta_CLK"," ", 800,800);
+	c_delta_CLK->SetLeftMargin(0.15);
+	c_delta_CLK->SetTickx();
+   	c_delta_CLK->SetTicky();
+	hist_delta_CLK->Draw();
 }
 
