@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// clock_v1.C																										    //
+// clock_SC_v2.C																										    //
 // Macro to analyze clock signals.																					    //
 // Date: 06 December 2021																							    //
 // Author: L. Marini																								    //
@@ -27,6 +27,10 @@ void rec::Loop()
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
       	nb = fChain->GetEntry(jentry);   nbytes += nb;
+		
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// DEFINITION
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 		//*********************************************************
 		// START COUNTER
@@ -51,8 +55,11 @@ void rec::Loop()
 		Double_t N_SC_CLK[27];			         // NUMBER OF CLOCK CYCLES
 		Double_t sigma_N_SC_CLK[27];		     // NUMBER OF CLOCK CYCLES
 		Int_t n_point_SC_phi = 27;
-		
 
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// PROCESSING
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
 		//---------------------------------------------------------
 		// 1) CORRECTION OF WF
 		//---------------------------------------------------------
@@ -93,7 +100,6 @@ void rec::Loop()
         	if (voltage_SC_CLK[i] > max_SC_CLK) max_SC_CLK = voltage_SC_CLK[i];
 		}
 		zero_SC_CLK = (min_SC_CLK + max_SC_CLK)/2;
-
 
 		//---------------------------------------------------------
 		// 3) ZERO CROSSING POINT
@@ -156,7 +162,10 @@ void rec::Loop()
 			cout << "**********************************************************************************************" << endl;
 		}
 		
-		//TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint);
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// VISUALIZATION
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
 		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint_SC, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint_SC);
 		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", new_N_SC_CLK[0], N_SC_CLK[24]);
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(0, "#varphi_{CLK,SC}");
@@ -175,7 +184,6 @@ void rec::Loop()
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->SetTitle(" ");
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->SetMarkerStyle(20);
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->Draw("AP");
-		
 
 		TLegend *legend = new TLegend(0.5,0.5,0.8,0.8);
 		legend->AddEntry((TObject*)0, TString::Format("#chi^{2} / ndf = %.3f/%d"              , f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetChisquare(), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetNDF()), "");
