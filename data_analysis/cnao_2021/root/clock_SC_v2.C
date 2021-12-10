@@ -124,9 +124,9 @@ void rec::Loop()
 
 				// ZERO CROSSING POINT
 				ZeroCrossingPoint[j]       = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
-				//sigma_ZeroCrossingPoint[j] = ZeroCrossingPoint[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
 				sigma_ZeroCrossingPoint[j] = ZeroCrossingPoint[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
 				cout << "ZeroCrossingPoint = " << ZeroCrossingPoint[j] << "+/-" << sigma_ZeroCrossingPoint[j] << endl;
+
 				// NUMBER OF CLOCK CYCLES
 				N_SC_CLK[j] = j+1;
 
@@ -134,12 +134,11 @@ void rec::Loop()
 				delete gr_SC_CLK;
 					
 				i += 20;
-				j +=1;
+				j += 1;
             }
 			if (N_SC_CLK[j] == 25) break;
         }
-
-		for (int j=0; j<25; j++) cout << "ZeroCrossingPoint = " << ZeroCrossingPoint[j] << "+/-" << sigma_ZeroCrossingPoint[j] << endl;
+		
 		// DATA CORRECTION (problem with the first element)
 		Double_t new_ZeroCrossingPoint[25];
 		Double_t new_sigma_ZeroCrossingPoint[25];
