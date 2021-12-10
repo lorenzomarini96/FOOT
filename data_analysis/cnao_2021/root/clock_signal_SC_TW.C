@@ -152,7 +152,7 @@ void rec::Loop()
 		gr_TW_CLK->GetXaxis()->SetLimits(0, 60);
 		gr_TW_CLK->GetYaxis()->SetLimits(-0.6, 0-6);
 		//gr_TW_CLK->SetLineWidth(2);
-		gr_TW_CLK->Draw("AC");
+		gr_TW_CLK->Draw();
 
 		TCanvas *c3 = new TCanvas("c3"," ", 800,800);
 		
