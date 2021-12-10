@@ -309,9 +309,9 @@ void rec::Loop()
 		// HIST DELTA CLOCK
 		phi_SC_CLK = f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0);
 		phi_TW_CLK = f_fit_N_TW_CLK_vs_ZeroCrossingPoint->GetParameter(0);
-		cout << "\nEvent      = " << jentry     << endl;		
-		cout << "phi_SC_CLK = " << phi_SC_CLK << endl;
-		cout << "phi_TW_CLK = " << phi_TW_CLK << endl;
+		//cout << "\nEvent      = " << jentry     << endl;		
+		//cout << "phi_SC_CLK = " << phi_SC_CLK << endl;
+		//cout << "phi_TW_CLK = " << phi_TW_CLK << endl;
 
 		hist_delta_CLK->Fill(phi_TW_CLK - phi_SC_CLK);
 	}
