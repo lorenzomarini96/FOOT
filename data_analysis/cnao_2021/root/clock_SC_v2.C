@@ -38,18 +38,18 @@ void rec::Loop()
 		Double_t time_SC_CLK[1023];
 
 		// CLOCK ANALYSIS
-		Double_t min_SC_CLK;                  // V AMPLITUDE MIN OF CHANNEL [V]
-		Double_t max_SC_CLK;                  // V AMPLITUDE MIN OF CHANNEL [V]
+		Double_t min_SC_CLK;                     // V AMPLITUDE MIN OF CHANNEL [V]
+		Double_t max_SC_CLK;                     // V AMPLITUDE MIN OF CHANNEL [V]
 		Double_t a_fit_SC_CLK;
 		Double_t sigma_a_fit_SC_CLK;
 		Double_t b_fit_SC_CLK;
 		Double_t sigma_b_fit_SC_CLK;
 		Double_t phi_SC_CLK;		     
-		Double_t zero_SC_CLK;                 // MEAN OF MAX AND MIN VALUES OF WF
-		Double_t ZeroCrossingPoint[27];       // ZERO CROSSING POINT ON THE RISING EDGES OF WF [ns]
-		Double_t sigma_ZeroCrossingPoint[27]; // ERROR ON ZERO CROSSING POINT [ns]
-		Double_t N_SC_CLK[27];			      // NUMBER OF CLOCK CYCLES
-		Double_t sigma_N_SC_CLK[27];		  // NUMBER OF CLOCK CYCLES
+		Double_t zero_SC_CLK;                    // MEAN OF MAX AND MIN VALUES OF WF
+		Double_t ZeroCrossingPoint_SC[27];       // ZERO CROSSING POINT ON THE RISING EDGES OF WF [ns]
+		Double_t sigma_ZeroCrossingPoint_SC[27]; // ERROR ON ZERO CROSSING POINT [ns]
+		Double_t N_SC_CLK[27];			         // NUMBER OF CLOCK CYCLES
+		Double_t sigma_N_SC_CLK[27];		     // NUMBER OF CLOCK CYCLES
 		Int_t n_point_SC_phi = 27;
 		
 
@@ -119,13 +119,9 @@ void rec::Loop()
 				b_fit_SC_CLK       = f_fit_SC_CLK->GetParameter(0);
 				sigma_b_fit_SC_CLK = f_fit_SC_CLK->GetParError(0);
 
-				//cout << "a_fit_SC_CLK = " << a_fit_SC_CLK << "+/-" << sigma_a_fit_SC_CLK << endl;
-				//cout << "b_fit_SC_CLK = " << b_fit_SC_CLK << "+/-" << sigma_b_fit_SC_CLK << endl;
-
 				// ZERO CROSSING POINT
-				ZeroCrossingPoint[j]       = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
-				sigma_ZeroCrossingPoint[j] = ZeroCrossingPoint[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
-				cout << "ZeroCrossingPoint = " << ZeroCrossingPoint[j] << "+/-" << sigma_ZeroCrossingPoint[j] << endl;
+				ZeroCrossingPoint_SC[j]       = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
+				sigma_ZeroCrossingPoint_SC[j] = ZeroCrossingPoint_SC[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
 
 				// NUMBER OF CLOCK CYCLES
 				N_SC_CLK[j] = j+1;
@@ -138,10 +134,10 @@ void rec::Loop()
             }
 			if (N_SC_CLK[j] == 25) break;
         }
-		
+
 		// DATA CORRECTION (problem with the first element)
-		Double_t new_ZeroCrossingPoint[25];
-		Double_t new_sigma_ZeroCrossingPoint[25];
+		Double_t new_ZeroCrossingPoint_SC[25];
+		Double_t new_sigma_ZeroCrossingPoint_SC[25];
 		Double_t new_N_SC_CLK[25];
 		Double_t new_sigma_N_SC_CLK[25];
 		Int_t    new_n_point_SC_phi = n_point_SC_phi-2;
@@ -149,20 +145,19 @@ void rec::Loop()
 		for (Int_t i=0; i<25; i++)
 		{	
 			// SHIFT ALL ELEMENTS BY ONE POSITION
-			new_N_SC_CLK[i] 				 = N_SC_CLK[i];
-			new_sigma_N_SC_CLK[i] 			 = 0;
-			new_ZeroCrossingPoint[i]		 = ZeroCrossingPoint[i+1];
-			new_sigma_ZeroCrossingPoint[i]   = sigma_ZeroCrossingPoint[i];
+			new_N_SC_CLK[i] 				  = N_SC_CLK[i];
+			new_sigma_N_SC_CLK[i] 			  = 0;
+			new_ZeroCrossingPoint_SC[i]		  = ZeroCrossingPoint_SC[i+1];
+			new_sigma_ZeroCrossingPoint_SC[i] = sigma_ZeroCrossingPoint_SC[i];
 
 			cout << "**********************************************************************************************" << endl;
 			cout <<left<<setw(4)<< "*" <<left<<setw(10)<<"i"<<left<<setw(30)<<"ZeroCrossingPoint [ns]"<<left<<setw(30)<<"Sigma_ZCP [ns]"<<left<<setw(30)<<"N_SC_CLK "<<left<<setw(10)<<""<<endl;
-			cout <<left<<setw(4)<< "*" <<left<<setw(10)<< i <<left<<setw(30)<<new_ZeroCrossingPoint[i]<<left<<setw(30)<<new_sigma_ZeroCrossingPoint[i]<<new_N_SC_CLK[i]<<left<<setw(10)<<""<<endl;
+			cout <<left<<setw(4)<< "*" <<left<<setw(10)<< i <<left<<setw(30)<<new_ZeroCrossingPoint_SC[i]<<left<<setw(30)<<new_sigma_ZeroCrossingPoint_SC[i]<<new_N_SC_CLK[i]<<left<<setw(10)<<""<<endl;
 			cout << "**********************************************************************************************" << endl;
 		}
 		
-		
 		//TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint);
-		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint);
+		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint_SC, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint_SC);
 		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", new_N_SC_CLK[0], N_SC_CLK[24]);
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(0, "#varphi_{CLK,SC}");
 		f_fit_N_SC_CLK_vs_ZeroCrossingPoint->SetParName(1, "T_{SC}");
@@ -183,9 +178,9 @@ void rec::Loop()
 		
 
 		TLegend *legend = new TLegend(0.5,0.5,0.8,0.8);
-		legend->AddEntry((TObject*)0, TString::Format("#chi^{2} / ndf = %.3f/%d",         f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetChisquare(), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetNDF()), "");
-		legend->AddEntry((TObject*)0, TString::Format("#varphi_{CLK,SC} = %.4f #pm %.4f", f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(0)), "");
-		legend->AddEntry((TObject*)0, TString::Format("T_{CLK,SC} = %.4f #pm %.4f",       f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(1), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(1)), "");	
+		legend->AddEntry((TObject*)0, TString::Format("#chi^{2} / ndf = %.3f/%d"              , f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetChisquare(), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetNDF()), "");
+		legend->AddEntry((TObject*)0, TString::Format("#varphi_{CLK,SC} = %.2f #pm %.2f [ns]" , f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(0)), "");
+		legend->AddEntry((TObject*)0, TString::Format("T_{CLK,SC} = %.2f #pm %.2f [ns]"       , f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(1), f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParError(1)), "");	
 		legend->SetBorderSize(0);
 		legend->SetTextSize(0.033);
 		legend->Draw();
