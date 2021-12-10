@@ -30,7 +30,7 @@ void rec::Loop()
 	TH1D *hist_delta_CLK = new TH1D("hist_delta_CLK", "hist_delta_CLK", 100, 2, 5); // [ns]
 
   	// LOOP ON ENTRIES
-  	for (Long64_t jentry=0; jentry<nentries; jentry++)
+  	for (Long64_t jentry=0; jentry<nentries/10; jentry++)
    	{
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
@@ -327,6 +327,7 @@ void rec::Loop()
 	c_delta_CLK->SetLeftMargin(0.15);
 	c_delta_CLK->SetTickx();
    	c_delta_CLK->SetTicky();
+	hist_delta_CLK->SetLineColor(1);
 	hist_delta_CLK->Draw();
 }
 
