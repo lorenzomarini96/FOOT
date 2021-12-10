@@ -23,12 +23,14 @@ void rec::Loop()
 
    	//gStyle->SetOptFit(10111);   
 
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// DEFINITION
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 	TH1D *hist_delta_CLK = new TH1D("hist_delta_CLK", "hist_delta_CLK", 100, 2, 5); // [ns]
 
-
   	// LOOP ON ENTRIES
-  	for (Long64_t jentry=0; jentry<nentries/5; jentry++)
-	//for (Long64_t jentry=0; jentry<1; jentry++)           // ONLY FIRST EVENT FOR THE MOMENT
+  	for (Long64_t jentry=0; jentry<nentries; jentry++)
    	{
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
@@ -54,7 +56,6 @@ void rec::Loop()
 		Double_t zero_SC_CLK;                 	// MEAN OF MAX AND MIN VALUES OF WF
 		Double_t ZeroCrossingPoint_SC[27];      // ZERO CROSSING POINT ON THE RISING EDGES OF WF [ns]
 		Double_t sigma_ZeroCrossingPoint_SC[27];// ERROR ON ZERO CROSSING POINT [ns]
-		Double_t dy_SC[27];                     // TEST FOR ERROR BARS
 		Double_t N_SC_CLK[27];			      	// NUMBER OF CLOCK CYCLES
 		Double_t sigma_N_SC_CLK[27];		  	// NUMBER OF CLOCK CYCLES
 		Int_t n_point_SC_phi = 27;		
@@ -79,11 +80,14 @@ void rec::Loop()
 		Double_t zero_TW_CLK;                   // MEAN OF MAX AND MIN VALUES OF WF
 		Double_t ZeroCrossingPoint_TW[27];      // ZERO CROSSING POINT ON THE RISING EDGES OF WF [ns]
 		Double_t sigma_ZeroCrossingPoint_TW[27];// ERROR ON ZERO CROSSING POINT [ns]
-		Double_t dy_TW[27];                     // TEST FOR ERROR BARS
 		Double_t N_TW_CLK[27];			     	// NUMBER OF CLOCK CYCLES
 		Double_t sigma_N_TW_CLK[27];		  	// ERROR ON NUMBER OF CLOCK CYCLES
 		Int_t n_point_TW_phi = 27;
 		
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		// PROCESSING
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 		//*********************************************************
 		// START-COUNTER
 		//*********************************************************
@@ -127,14 +131,13 @@ void rec::Loop()
            	if (voltage_SC_CLK[i] < min_SC_CLK) min_SC_CLK = voltage_SC_CLK[chn_SC_CLK];
         	if (voltage_SC_CLK[i] > max_SC_CLK) max_SC_CLK = voltage_SC_CLK[i];
 		}
-
 		zero_SC_CLK = (min_SC_CLK + max_SC_CLK)/2;
-
 
 		//---------------------------------------------------------
 		// 3) ZERO CROSSING POINT
 		//---------------------------------------------------------
-		Int_t j = 0;	
+		Int_t j = 0;
+
         for (Int_t i=0; i<1000; i++) 
 		{ 	
             if (voltage_SC_CLK[i] > zero_SC_CLK)
@@ -153,10 +156,10 @@ void rec::Loop()
 				sigma_a_fit_SC_CLK = f_fit_SC_CLK->GetParError(1);
 				b_fit_SC_CLK       = f_fit_SC_CLK->GetParameter(0);
 				sigma_b_fit_SC_CLK = f_fit_SC_CLK->GetParError(0);
-					
+
 				// ZERO CROSSING POINT
-				ZeroCrossingPoint_SC[j]  = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
-				sigma_ZeroCrossingPoint_SC[i] = ZeroCrossingPoint_SC[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
+				ZeroCrossingPoint_SC[j]       = (zero_SC_CLK - b_fit_SC_CLK)/a_fit_SC_CLK; // [ns]
+				sigma_ZeroCrossingPoint_SC[j] = ZeroCrossingPoint_SC[j] * sqrt(pow(sigma_a_fit_SC_CLK/a_fit_SC_CLK,2) + pow(sigma_b_fit_SC_CLK/b_fit_SC_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
 
 				// NUMBER OF CLOCK CYCLES
 				N_SC_CLK[j] = j+1;
@@ -166,11 +169,9 @@ void rec::Loop()
 					
 				i += 20;
 				j += 1;
-					
-				if (N_SC_CLK[j] == 25) break;
             }
+			if (N_SC_CLK[j] == 25) break;
         }
-	
 
 		// DATA CORRECTION (problem with the first element)
 		Double_t new_ZeroCrossingPoint_SC[25];
@@ -186,8 +187,12 @@ void rec::Loop()
 			new_sigma_N_SC_CLK[i] 			  = 0;
 			new_ZeroCrossingPoint_SC[i]		  = ZeroCrossingPoint_SC[i+1];
 			new_sigma_ZeroCrossingPoint_SC[i] = sigma_ZeroCrossingPoint_SC[i];
+
+			//cout << "**********************************************************************************************" << endl;
+			//cout <<left<<setw(4)<< "*" <<left<<setw(10)<<"i"<<left<<setw(30)<<"ZeroCrossingPoint [ns]"<<left<<setw(30)<<"Sigma_ZCP [ns]"<<left<<setw(30)<<"N_SC_CLK "<<left<<setw(10)<<""<<endl;
+			//cout <<left<<setw(4)<< "*" <<left<<setw(10)<< i <<left<<setw(30)<<new_ZeroCrossingPoint_SC[i]<<left<<setw(30)<<new_sigma_ZeroCrossingPoint_SC[i]<<new_N_SC_CLK[i]<<left<<setw(10)<<""<<endl;
+			//cout << "**********************************************************************************************" << endl;
 		}
-		
 
 		//*********************************************************
 		// TOF-WALL
@@ -196,6 +201,7 @@ void rec::Loop()
 		//---------------------------------------------------------
 		// 1) CORRECTION OF WF
 		//---------------------------------------------------------
+		enablesum = 0;
 
 		for (Int_t i=0; i<1023; i++)     
 		{
@@ -208,6 +214,15 @@ void rec::Loop()
 
 			voltage_TW_CLK[i] = voltage_TW_CLK_NC[i] + enablesum; // sommo 1V
 			n_points_TW += 1;
+			
+			if (0)
+			{
+				cout << "\n----------------------------------------------------------------------------------------" << endl;
+				cout << left<<setw(10)<<"i"<<left<<setw(20)<<"voltage_TW_CLK [V]"<<left<<setw(20)<<"time_TW_CLK [ns]"<<left<<setw(20)<<endl;
+				cout << left<<setw(10)<<i<<left<<setw(20)<<voltage_TW_CLK[i]<<left<<setw(20)<<time_TW_CLK[i]<<left<<setw(20)<<endl;
+				cout << "\n----------------------------------------------------------------------------------------" << endl;
+			}
+
 		}
 
 		//---------------------------------------------------------
@@ -225,13 +240,12 @@ void rec::Loop()
 
 		zero_TW_CLK = (min_TW_CLK + max_TW_CLK)/2;
 
-
 		//---------------------------------------------------------
 		// 3) ZERO CROSSING POINT
 		//---------------------------------------------------------
-		Int_t j_TW = 0;
+        Int_t j_TW = 0;
 
-        for (Int_t i=0; i<1000; i++) 
+		for (Int_t i=0; i<1000; i++)
 		{ 	
             if (voltage_TW_CLK[i] > zero_TW_CLK)
 			{
@@ -252,8 +266,8 @@ void rec::Loop()
 
 				// ZERO CROSSING POINT
 				ZeroCrossingPoint_TW[j_TW]       = (zero_TW_CLK - b_fit_TW_CLK)/a_fit_TW_CLK; // [ns]
-				sigma_ZeroCrossingPoint_TW[j_TW] = ZeroCrossingPoint_TW[j] * sqrt(pow(sigma_a_fit_TW_CLK/a_fit_TW_CLK,2) + pow(sigma_b_fit_TW_CLK/b_fit_TW_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
-	
+				sigma_ZeroCrossingPoint_TW[j_TW] = ZeroCrossingPoint_TW[j_TW] * sqrt(pow(sigma_a_fit_TW_CLK/a_fit_TW_CLK,2) + pow(sigma_b_fit_TW_CLK/b_fit_TW_CLK,2)); // Somma in quadratura degli errori sui parametri di best-fit
+
 				// NUMBER OF CLOCK CYCLES
 				N_TW_CLK[j_TW] = j_TW+1;
 
@@ -264,9 +278,8 @@ void rec::Loop()
 				j_TW += 1;
             }
 			if (N_TW_CLK[j_TW] == 25) break;
-        }
-		
-		
+		}
+
 		// DATA CORRECTION (problem with the first element)
 		Double_t new_ZeroCrossingPoint_TW[25];
 		Double_t new_sigma_ZeroCrossingPoint_TW[25];
@@ -281,38 +294,32 @@ void rec::Loop()
 			new_sigma_N_TW_CLK[i] 			  = 0;
 			new_ZeroCrossingPoint_TW[i]		  = ZeroCrossingPoint_TW[i+1];
 			new_sigma_ZeroCrossingPoint_TW[i] = sigma_ZeroCrossingPoint_TW[i+1];
+
+			//cout << "**********************************************************************************************" << endl;
+			//cout <<left<<setw(4)<< "*" <<left<<setw(10)<<"i"<<left<<setw(30)<<"ZeroCrossingPoint [ns]"<<left<<setw(30)<<"Sigma_ZCP [ns]"<<left<<setw(30)<<"N_TW_CLK "<<left<<setw(10)<<""<<endl;
+			//cout <<left<<setw(4)<< "*" <<left<<setw(10)<< i <<left<<setw(30)<<new_ZeroCrossingPoint_TW[i]<<left<<setw(30)<<new_sigma_ZeroCrossingPoint_TW[i]<<new_N_TW_CLK[i]<<left<<setw(10)<<""<<endl;
+			//cout << "**********************************************************************************************" << endl;
 		}
 		
-
-		//*********************************************************
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		// VISUALIZATION
-		//*********************************************************
-
-		//*********************************************************
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
 		// START-COUNTER
-		//*********************************************************
-
-		//TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint);
-		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint_SC);
+		TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint_SC, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint_SC);
 		TF1 *f_fit_N_SC_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_SC_CLK_vs_ZeroCrossingPoint", "pol1", 0, N_SC_CLK[24]);
 		gr_N_SC_CLK_vs_ZeroCrossingPoint->Fit("f_fit_N_SC_CLK_vs_ZeroCrossingPoint","Qr");
 
-		//*********************************************************
 		// TOF-WALL
-		//*********************************************************
-
-		//TGraph *gr_N_SC_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_SC_phi, new_N_SC_CLK, new_ZeroCrossingPoint, new_sigma_N_SC_CLK, new_sigma_ZeroCrossingPoint);
-		TGraph *gr_N_TW_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_TW_phi, new_N_TW_CLK, new_ZeroCrossingPoint_TW);
+		TGraph *gr_N_TW_CLK_vs_ZeroCrossingPoint = new TGraphErrors(new_n_point_TW_phi, new_N_TW_CLK, new_ZeroCrossingPoint_TW, new_sigma_N_TW_CLK, new_sigma_ZeroCrossingPoint_TW);
 		TF1 *f_fit_N_TW_CLK_vs_ZeroCrossingPoint = new TF1("f_fit_N_TW_CLK_vs_ZeroCrossingPoint", "pol1", 0, N_TW_CLK[24]);
 		gr_N_TW_CLK_vs_ZeroCrossingPoint->Fit("f_fit_N_TW_CLK_vs_ZeroCrossingPoint","Qr");
 
 		// HIST DELTA CLOCK
 		phi_SC_CLK = f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0);
 		phi_TW_CLK = f_fit_N_TW_CLK_vs_ZeroCrossingPoint->GetParameter(0);
-		//cout << "\nEvent      = " << jentry     << endl;		
-		//cout << "phi_SC_CLK = " << phi_SC_CLK << endl;
-		//cout << "phi_TW_CLK = " << phi_TW_CLK << endl;
-
+		//cout << "phi_SC_CLK [ns] = " << phi_SC_CLK << endl;
+		//cout << "phi_TW_CLK [ns] = " << phi_TW_CLK << endl;
 		hist_delta_CLK->Fill(phi_TW_CLK - phi_SC_CLK);
 	}
 
