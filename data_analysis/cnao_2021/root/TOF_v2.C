@@ -583,7 +583,28 @@ void rec::Loop()
 		Int_t counter = 0; // Contatotre per contare il numero di canali accesi a seguito di un evento su SC
 		Double_t time_mean_SC = 0;
 		Double_t time_sum_SC  = 0;
-		
+
+		//---------------------------------------------------------
+		// 1) CORRECTION OF WF
+		//---------------------------------------------------------
+		Int_t enablesum_SC = 0;
+		Double_t voltage_SC[8][1023];
+
+     	// LOOP ON CHANNELS OF WAVEDREAM
+      	for (Int_t chn=0; chn<8; chn++)
+      	{	
+			for (Int_t i=0; i<1023; i++)     
+			{
+				voltage_SC[chn][i]    = board173_waveform[chn][i]; // Final Amplitude
+				if (board173_waveform[chn][i] - board173_waveform[chn][i-1] >  0.5) enablesum_SC -= 1;
+				if (board173_waveform[chn][i] - board173_waveform[chn][i-1] < -0.5) enablesum_SC += 1;
+
+				voltage_SC[chn][i] = board173_waveform[chn][i] + enablesum_SC; // sommo 1V
+				//n_points_SC += 1;
+			}
+		}
+
+
       	// LOOP ON CHANNELS OF WAVEDREAM
       	for (Int_t chn=0; chn<8; chn++)
       	{	
@@ -591,13 +612,13 @@ void rec::Loop()
 			
 			// 1° CHECK SIGNAL
         	// FIND MIN AND MAX OF WAVEFORM
-        	Double_t min_SC = board173_waveform[chn][100]; // V AMPLITUDE MIN OF CHANNEL [V]
-        	Double_t max_SC = board173_waveform[chn][100]; // V AMPLITUDE MAX OF CHANNEL [V]
+        	Double_t min_SC = voltage_SC[chn][100]; // V AMPLITUDE MIN OF CHANNEL [V]
+        	Double_t max_SC = voltage_SC[chn][100]; // V AMPLITUDE MAX OF CHANNEL [V]
             
         	for (Int_t t=100; t<900; t++) 
         	{ // LOOP ON SAMPLES OF WAVEFORM
-           		if (board173_waveform[chn][t] < min_SC) min_SC = board173_waveform[chn][t];
-           		if (board173_waveform[chn][t] > max_SC) max_SC = board173_waveform[chn][t];
+           		if (voltage_SC[chn][t] < min_SC) min_SC = voltage_SC[chn][t];
+           		if (voltage_SC[chn][t] > max_SC) max_SC = voltage_SC[chn][t];
         	}
             
 			if (max_SC - min_SC > 0.95) status[chn] = 0;  // NOISE
@@ -613,13 +634,13 @@ void rec::Loop()
 	        if (board173_hit[chn]==1)
 			{
             	// INITIALIZE VALUES
-            	Double_t voltage_SC;                         
+            	                       
 				Double_t a_fit;
 				Double_t b_fit;
             	Double_t v_base_SC;                               // V BASELINE (PEDESTAL) [V]
             	Double_t sigma_v_base_SC;                         // V BASELINE (PEDESTAL) [V]
             	Double_t v_ampl_SC;                               // V AMPLITUDE OF CHANNEL [V]
-            	Double_t v_peak_SC = board173_waveform[chn][300]; // V MINIMUM (PEAK)[V]
+            	Double_t v_peak_SC = voltage_SC[chn][300];             // V MINIMUM (PEAK)[V]
             	Double_t t_peak_SC;                               // TIME CORRESPONDING TO PEAK
             	Double_t v_th_SC;                                 // V THRESHOLD [V]
             	Double_t t_stop_SC;                               // TIME STOP OF SIGNAL[ns]
@@ -630,7 +651,7 @@ void rec::Loop()
 
 				// V BASELINE   
                	TH1F *wf_SC = new TH1F("wf_SC","wf_SC", 30, 0.30, 0.60);
-               	for (Int_t t=10; t<250; t++) wf_SC->Fill(board173_waveform[chn][t]);
+               	for (Int_t t=10; t<250; t++) wf_SC->Fill(voltage_SC[chn][t]);
                	v_base_SC = wf_SC->GetMean();
                	sigma_v_base_SC = wf_SC->GetRMS(); // TO EVALUATE THE NOISE (FOR FUTURES...)
 
@@ -639,10 +660,10 @@ void rec::Loop()
 				// V PEAK (MINIMUM)
                	for (Int_t i=100; i<800; i++)
 				{ // LOOP ON SAMPLES OF WAVEFORM
-                  	if (board173_waveform[chn][i] < v_peak_SC) 
+                  	if (voltage_SC[chn][i] < v_peak_SC) 
 					{
 						i_min_position_SC = i;
-                    	v_peak_SC = board173_waveform[chn][i];
+                    	v_peak_SC = voltage_SC[chn][i];
                     	t_peak_SC = board173_time[chn][i] * TMath::Power(10,9); // Convert time from [s] in [ns]
                 	}
                	}
@@ -659,17 +680,20 @@ void rec::Loop()
                	// TIME OF CHANNEL (CFD algorithm)
                	for (Int_t t=i_min_position_SC; ; t--) 
 				{ // LOOP ON SAMPLES OF WAVEFORM
-                  	if (board173_waveform[chn][t] > v_th_SC) 
+                  	if (voltage_SC[chn][t] > v_th_SC) 
 					{
 						TF1 *f_fit = new TF1("f_fit", "pol1", board173_time[chn][t-2], board173_time[chn][t+2]);
 
-						Double_t v_data_fit[5] = {board173_waveform[chn][t-2], board173_waveform[chn][t-1], board173_waveform[chn][t] ,board173_waveform[chn][t+1], board173_waveform[chn][t+2]};
-						Double_t t_data_fit[5] = {board173_time[chn][t-2], board173_time[chn][t-1], board173_time[chn][t] ,board173_time[chn][t+1], board173_time[chn][t+2]};
+						Double_t v_data_fit[5] = {voltage_SC[chn][t-2], voltage_SC[chn][t-1], voltage_SC[chn][t], voltage_SC[chn][t+1], voltage_SC[chn][t+2]};
+						Double_t t_data_fit[5] = {board173_time[chn][t-2], board173_time[chn][t-1], board173_time[chn][t], board173_time[chn][t+1], board173_time[chn][t+2]};
 						
 						TGraph *gr = new TGraph(n,t_data_fit, v_data_fit);
 						gr->Fit("f_fit","Qr");						
 						a_fit = f_fit->GetParameter(1);
 						b_fit = f_fit->GetParameter(0);
+
+						//cout << "a_fit = " << a_fit << endl;
+						//cout << "b_fit = " << b_fit << endl;
 
 						time_SC[chn] = (v_th_SC - b_fit)/a_fit * TMath::Power(10,9);
 
@@ -704,10 +728,10 @@ void rec::Loop()
                   	std::cout << "\nv_th         [V]    = " << v_th_SC          << std::endl;
                  	std::cout << "\ntime         [ns]   = " << time_SC[chn]     << std::endl;
 					//cout << "********************************************************" << endl;
-					//cout << "counter            = " << counter      << endl; 	
-					//cout << "time_sum_SC [ns]   = " << time_sum_SC  << endl;
-					//cout << "time_mean_SC [ns]  = " << time_mean_SC << endl; 
-					//cout << "********************************************************" << endl;
+					cout << "counter            = " << counter      << endl; 	
+					cout << "time_sum_SC [ns]   = " << time_sum_SC  << endl;
+					cout << "time_mean_SC [ns]  = " << time_mean_SC << endl; 
+					cout << "********************************************************" << endl;
 				}
 			} // END if (board173_hit[chn]==1)	
 		} // END LOOP ON CHANNELS OF WAVEDREAM
