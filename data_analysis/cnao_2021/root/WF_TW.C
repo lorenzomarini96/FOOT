@@ -31,9 +31,9 @@ void rec::Loop()
 		// DEFINITION
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     	
-		//Int_t chn = 3;                                    // GOOD SIGNAL
+		Int_t chn = 3;                                    // GOOD SIGNAL
 		//Int_t chn = 5;                                    // NOISE SIGNAL
-		Int_t chn = 4;                                    // NOISE SIGNAL
+		//Int_t chn = 4;                                    // NOISE SIGNAL
 		Double_t f_CFD = 0.3;         					  // FRATION FOR COMPUTE TIME
         Double_t voltage_166[1023];                         
 		Double_t time_166[1023];                         
@@ -145,7 +145,7 @@ void rec::Loop()
 		gr_WF_TW->Draw("AC");
 		
 
-		if (0)
+		if (1)
 		{
 			TLine *l_v_base = new TLine(0, v_base_166, 350, v_base_166);
 			l_v_base->SetLineColor(kBlack);
@@ -164,6 +164,12 @@ void rec::Loop()
 			l_v_th_166->SetLineWidth(2);
 			l_v_th_166->SetLineStyle(2); // 2 = --
 			l_v_th_166->Draw();
+
+			TLine *l_v_peak = new TLine(0, v_peak_166, t_peak_166, v_peak_166);
+			l_v_peak->SetLineColor(kBlack);
+			l_v_peak->SetLineWidth(2);
+			l_v_peak->SetLineStyle(2); // 2 = --
+			l_v_peak->Draw();
 
 			TText *t_time = new TText(time - 0.10 * time,v_th_166/2,"Time");
 			t_time->SetTextAlign(22);
@@ -188,9 +194,17 @@ void rec::Loop()
 			t_v_th->SetTextSize(25);
 			t_v_th->SetTextAngle(0);
 			t_v_th->Draw();
+
+			TText *t_v_peak = new TText(t_peak_166/2, v_peak_166 + 0.20 * v_peak_166,"V peak");
+			t_v_peak->SetTextAlign(22);
+			t_v_peak->SetTextColor(kBlack);
+			t_v_peak->SetTextFont(45);
+			t_v_peak->SetTextSize(25);
+			t_v_peak->SetTextAngle(0);
+			t_v_peak->Draw();
 		}
 
-		c_WF_TW->SaveAs("/Users/lorenzomarini/Desktop/clock_TEX/WF_TW_noise_good.tex");
+		c_WF_TW->SaveAs("/Users/lorenzomarini/Desktop/clock_TEX/WF_TW_computed.tex");
 
 		/*
 		TLegend *legend = new TLegend(0.5,0.5,0.8,0.8);

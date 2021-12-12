@@ -145,10 +145,10 @@ void rec::Loop()
 		// SHOW CFD METHOD??...
 		
 		gr_WF_SC->SetLineColor(4);
-		//gr_WF_SC->Draw("AC");
-		gr_WF_SC->Draw(); // Per artifacts
+		gr_WF_SC->Draw("AC");
+		//gr_WF_SC->Draw(); // Per artifacts
 		
-		if (0)
+		if (1)
 		{
 			TLine *l_v_base = new TLine(0, v_base_173, 350, v_base_173);
 			l_v_base->SetLineColor(kBlack);
@@ -167,6 +167,12 @@ void rec::Loop()
 			l_v_th_166->SetLineWidth(2);
 			l_v_th_166->SetLineStyle(2); // 2 = --
 			l_v_th_166->Draw();
+
+			TLine *l_v_peak = new TLine(0, v_peak_173, t_peak_173, v_peak_173);
+			l_v_peak->SetLineColor(kBlack);
+			l_v_peak->SetLineWidth(2);
+			l_v_peak->SetLineStyle(2); // 2 = --
+			l_v_peak->Draw();
 
 			TText *t_time = new TText(time - 0.10 * time, v_th_173 - 0.03, "Time");
 			t_time->SetTextAlign(22);
@@ -191,9 +197,17 @@ void rec::Loop()
 			t_v_th->SetTextSize(25);
 			t_v_th->SetTextAngle(0);
 			t_v_th->Draw();
+
+			TText *t_v_peak = new TText(t_peak_173/2, v_peak_173 + 0.013 * v_peak_173,"V peak");
+			t_v_peak->SetTextAlign(22);
+			t_v_peak->SetTextColor(kBlack);
+			t_v_peak->SetTextFont(45);
+			t_v_peak->SetTextSize(25);
+			t_v_peak->SetTextAngle(0);
+			t_v_peak->Draw();
 		}
 
-		c_WF_SC->SaveAs("/Users/lorenzomarini/Desktop/clock_TEX/WF_SC_artifact.tex");
+		c_WF_SC->SaveAs("/Users/lorenzomarini/Desktop/clock_TEX/WF_SC_computed.tex");
 
 		/*
 		TLegend *legend = new TLegend(0.5,0.5,0.8,0.8);
