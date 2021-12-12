@@ -121,7 +121,7 @@ void rec::Loop()
         std::cout << "\nt_peak_166         [ns]  "       << t_peak_166        << std::endl;
         std::cout << "\nv_ampl_166         [V]   "       << v_ampl_166        << std::endl;
         std::cout << "\nv_th_166           [V]   "       << v_th_166          << std::endl;
-        std::cout << "\ntime           [ns]  "       	 << time              << std::endl;			
+        std::cout << "\ntime               [ns]  "       << time              << std::endl;			
 		
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		// VISUALIZATION
@@ -136,14 +136,60 @@ void rec::Loop()
 		gr_WF_TW->GetXaxis()->SetTitle("Time [ns]");
 		gr_WF_TW->GetYaxis()->SetTitle("Voltage [V]");
 		gr_WF_TW->SetTitle(" ");
-		//gr_WF_TW->SetLineWidth(2);
+	
+		// SHOW CFD METHOD??...
+		
 		gr_WF_TW->SetLineColor(2);
 		gr_WF_TW->Draw("AC");
 		
 
-		TLine *l = new TLine(100, 0.20, 200, 0.40);
-		l->SetLineColor(kBlue);
-		l->Draw();
+		if (0)
+		{
+			TLine *l_v_base = new TLine(0, v_base_166, 350, v_base_166);
+			l_v_base->SetLineColor(kBlack);
+			l_v_base->SetLineWidth(2);
+			l_v_base->SetLineStyle(2); // 2 = --
+			l_v_base->Draw();
+
+			TLine *l_time = new TLine(time, 0.035, time, v_th_166);
+			l_time->SetLineColor(kBlack);
+			l_time->SetLineWidth(2);
+			l_time->SetLineStyle(2); // 2 = --
+			l_time->Draw();
+
+			TLine *l_v_th_166 = new TLine(0, v_th_166, time, v_th_166);
+			l_v_th_166->SetLineColor(kBlack);
+			l_v_th_166->SetLineWidth(2);
+			l_v_th_166->SetLineStyle(2); // 2 = --
+			l_v_th_166->Draw();
+
+			TText *t_time = new TText(time - 0.10 * time,v_th_166/2,"Time");
+			t_time->SetTextAlign(22);
+			t_time->SetTextColor(kBlack);
+			t_time->SetTextFont(45);
+			t_time->SetTextSize(25);
+			t_time->SetTextAngle(90);
+			t_time->Draw();
+
+			TText *t_v_base = new TText(time/2, v_base_166+0.03 * v_base_166,"V baseline");
+			t_v_base->SetTextAlign(22);
+			t_v_base->SetTextColor(kBlack);
+			t_v_base->SetTextFont(45);
+			t_v_base->SetTextSize(25);
+			t_v_base->SetTextAngle(0);
+			t_v_base->Draw();
+
+			TText *t_v_th = new TText(time/2, v_th_166 + 0.04 * v_th_166,"V threshold");
+			t_v_th->SetTextAlign(22);
+			t_v_th->SetTextColor(kBlack);
+			t_v_th->SetTextFont(45);
+			t_v_th->SetTextSize(25);
+			t_v_th->SetTextAngle(0);
+			t_v_th->Draw();
+		}
+
+		c_WF_TW->SaveAs("/Users/lorenzomarini/Desktop/clock_TEX/WF_TW_CFD.tex");
+
 		/*
 		TLegend *legend = new TLegend(0.5,0.5,0.8,0.8);
 		legend->AddEntry((TObject*)0, TString::Format("#chi^{2} / ndf = %.3f/%d"             , f_fit_N_TW_CLK_vs_ZeroCrossingPoint->GetChisquare(),  f_fit_N_TW_CLK_vs_ZeroCrossingPoint->GetNDF()), "");
