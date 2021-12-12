@@ -24,7 +24,9 @@ void rec::Loop()
 	//------------------------------
    	// HIST FOR TIME RESOLUTION
    	//------------------------------
-   	TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 50, 16.8, 17.8); // [ns]
+   	TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 25, 17, 17.7); // [ns]
+	//TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 25, 18.5, 19.5); // [ns]
+	//TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 25, 19.5, 21.5); // [ns]
    
    	Double_t f_CFD = 0.3;         // FRATION FOR COMPUTE TIME
 	Int_t status[8];
@@ -47,6 +49,9 @@ void rec::Loop()
 		Double_t delta_CLK_X = 0; // [ns] REAR,  X-VIEW
 		Double_t delta_CLK_Y = 0; // [ns] FRONT, Y-VIEW
 
+		// CLOCK CORRECTION
+		if (1)
+		{
 		//*********************************************************
 		// START COUNTER
 		//*********************************************************
@@ -389,7 +394,7 @@ void rec::Loop()
 				sigma_ZeroCrossingPoint_TW_Y[j_TW_Y] = ZeroCrossingPoint_TW_Y[j_TW_Y] * sqrt(pow(sigma_a_fit_TW_CLK_Y/a_fit_TW_CLK_Y,2) + pow(sigma_b_fit_TW_CLK_Y/b_fit_TW_CLK_Y,2)); // Somma in quadratura degli errori sui parametri di best-fit
 
 				// NUMBER OF CLOCK CYCLES
-				N_TW_CLK_Y[j_TW_Y] = j_TW_Y+1;
+				N_TW_CLK_Y[j_TW_Y] = j_TW_Y + 1;
 
 				delete f_fit_TW_CLK_Y;
 				delete gr_TW_CLK_Y;
@@ -425,6 +430,7 @@ void rec::Loop()
 
 		delta_CLK_Y = phi_TW_CLK_Y - phi_SC_CLK;
 
+		} // END CLOCK CORRECTION
 		//****************************************************************************
 
 		//****************************************************************************
@@ -468,7 +474,6 @@ void rec::Loop()
             	// INITIALIZE VALUES
 
             	Double_t voltage_166;                         
-				//Double_t voltage_fit[4];                           // ARRAY OF VOLTAGE TO MAKE FIT (TIME RESOLUTION)
 				Double_t a_fit;
 				Double_t b_fit;
             	Double_t v_base_166;                               // V BASELINE (PEDESTAL) [V]
@@ -535,32 +540,37 @@ void rec::Loop()
 				
 				// MEAN TIME OF BAR [ns]
 				if (chn==3)      Mean_Time_Bar_9_X = (time_166[3] + time_166[2])/2; // T_bar_layer = (T_R + T_L) / 2
-				else if (chn==9) Mean_Time_Bar_9_Y = (time_166[9] + time_166[8])/2; // T_bar_front = (T_R + T_L) / 2
-
+				else if (chn==9) Mean_Time_Bar_9_Y = (time_166[9] + time_166[8])/2; // T_bar_front = (T_R + T_L) / 2				
+				
 				// TIME OF TOFWALL
 				if (Mean_Time_Bar_9_X > 0. && Mean_Time_Bar_9_Y > 0. && delta_CLK_X > 0. && delta_CLK_Y > 0.) 
+				//if (Mean_Time_Bar_9_X > 0. && Mean_Time_Bar_9_Y > 0.) 
 				{
-					time_TW = (Mean_Time_Bar_9_X - delta_CLK_X + Mean_Time_Bar_9_Y - delta_CLK_Y)/2;	
+					// delta_CLK_X = phi_TW_CLK_X - phi_SC_CLK;
+					// delta_CLK_Y = phi_TW_CLK_Y - phi_SC_CLK;
+					time_TW     = (Mean_Time_Bar_9_X - delta_CLK_X + Mean_Time_Bar_9_Y - delta_CLK_Y)/2;	
 				}
                //***********************************************************************************************************
 
 				if (0)
 				{
-                	std::cout << "\n**************************"       << std::endl;
-                	std::cout << "\nWD 166"                           << std::endl;
-                  	std::cout << "\nEntry                   = "       << jentry             << std::endl;
-                  	std::cout << "\nchn                     = "       << chn                << std::endl;
-                  	std::cout << "\n------------------------------------------"             << std::endl;
-                  	std::cout << "\nv_base_166       [V]    = "       << v_base_166         << std::endl;
-                  	std::cout << "\nsigma_v_base_166 [V]    = "       << sigma_v_base_166   << std::endl;
-                  	std::cout << "\nv_peak_166       [V]    = "       << v_peak_166         << std::endl;
-                  	std::cout << "\nt_peak_166       [ns]   = "       << t_peak_166         << std::endl;
-                  	std::cout << "\nv_ampl_166       [V]    = "       << v_ampl_166         << std::endl;
-                  	std::cout << "\nv_th_166         [V]    = "       << v_th_166           << std::endl;
-                  	std::cout << "\ntime_166         [ns]   = "       << time_166[chn]      << std::endl;
-					std::cout << "\nMean_Time_Bar_9_X    [ns] = " << Mean_Time_Bar_9_X  << std::endl;
-					std::cout << "\nMean_Time_Bar_9_Y    [ns] = " << Mean_Time_Bar_9_Y  << std::endl;
-					std::cout << "\ntime_TOF             [ns] = " << time_TOF           << std::endl;
+                	std::cout << "\n**************************"                           << std::endl;
+                	std::cout << "\nTOF-WALL"                                               << std::endl;
+					std::cout << "\nWD 166"                                               << std::endl;
+                  	std::cout << "\nEntry                    "       << jentry            << std::endl;
+                  	std::cout << "\nchn                      "       << chn               << std::endl;
+                  	std::cout << "\n------------------------------------------"           << std::endl;
+                  	std::cout << "\nv_base_166         [V]   "       << v_base_166        << std::endl;
+                  	std::cout << "\nsigma_v_base_166   [V]   "       << sigma_v_base_166  << std::endl;
+                  	std::cout << "\nv_peak_166         [V]   "       << v_peak_166        << std::endl;
+                  	std::cout << "\nt_peak_166         [ns]  "       << t_peak_166        << std::endl;
+                  	std::cout << "\nv_ampl_166         [V]   "       << v_ampl_166        << std::endl;
+                  	std::cout << "\nv_th_166           [V]   "       << v_th_166          << std::endl;
+                  	std::cout << "\ntime_166           [ns]  "       << time_166[chn]     << std::endl;
+					std::cout << "\n------------------------------------------"           << std::endl;
+					std::cout << "\nMean_Time_Bar_9_X  [ns]  " 		 << Mean_Time_Bar_9_X << std::endl;
+					std::cout << "\nMean_Time_Bar_9_Y  [ns]  "       << Mean_Time_Bar_9_Y << std::endl;
+					std::cout << "\ntime_TOF           [ns]  "       << time_TOF          << std::endl;
                	}
 			} // END if (board166_hit[chn] == 1 && board166_hit[chn+1] == 1)
       	} // END CHANNEL LOOP
@@ -568,9 +578,8 @@ void rec::Loop()
 		//****************************************************************************
 		// START-COUNTER
 		//****************************************************************************
-		Int_t counter = 0; // Contatotre per contare il numero di canali accesi a seguito di un evento su SC
 		Double_t time_mean_SC = 0;
-		Double_t time_sum_SC  = 0;
+		Double_t time_sum_SC  = 0; // Per calcolo media ponderata del tempo (pesata sui valori di ampiezza)
 		Double_t ampl_sum_SC  = 0; // Per calcolo media ponderata del tempo (pesata sui valori di ampiezza)
 
 		//---------------------------------------------------------
@@ -589,13 +598,8 @@ void rec::Loop()
 				if (board173_waveform[chn][i] - board173_waveform[chn][i-1] < -0.5) enablesum_SC += 1;
 
 				voltage_SC[chn][i] = board173_waveform[chn][i] + enablesum_SC; // sommo 1V
-				//n_points_SC += 1;
 			}
-		}
-
-      	// LOOP ON CHANNELS OF WAVEDREAM
-      	for (Int_t chn=0; chn<8; chn++)
-      	{	
+			
        		status[chn] = 1;
 			
 			// 1° CHECK SIGNAL
@@ -608,21 +612,16 @@ void rec::Loop()
            		if (voltage_SC[chn][i] < min_SC) min_SC = voltage_SC[chn][i];
            		if (voltage_SC[chn][i] > max_SC) max_SC = voltage_SC[chn][i];
         	}
-            
-			if (max_SC - min_SC > 0.95) status[chn] = 0;  // NOISE
-            
+
+			if (max_SC - min_SC > 0.95)  status[chn] = 0;  // NOISE
         	if (max_SC - min_SC < 0.010) status[chn] = 0; // NOISE
                
-        	if (status[chn]==0) board173_hit[chn] = 0;
-		}
+        	//if (status[chn]==0) board173_hit[chn] = 0;
 
-      	// LOOP ON CHANNELS OF WAVEDREAM
-      	for (Int_t chn=0; chn<8; chn++)
-		{
-	        if (board173_hit[chn]==1)
+	        //if (board173_hit[chn]==1)
+			if (status[chn] == 1)
 			{
-            	// INITIALIZE VALUES
-            	                       
+            	// INITIALIZE VALUES   
 				Double_t a_fit;
 				Double_t b_fit;
             	Double_t v_base_SC;                               // V BASELINE (PEDESTAL) [V]
@@ -639,8 +638,8 @@ void rec::Loop()
 
 				// V BASELINE   
                	TH1F *wf_SC = new TH1F("wf_SC","wf_SC", 30, 0.30, 0.60);
-               	for (Int_t t=30; t<250; t++) wf_SC->Fill(voltage_SC[chn][t]);
-               	v_base_SC = wf_SC->GetMean();
+               	for (Int_t i=30; i<250; i++) wf_SC->Fill(voltage_SC[chn][i]);
+				v_base_SC       = wf_SC->GetMean();
                	sigma_v_base_SC = wf_SC->GetRMS(); // TO EVALUATE THE NOISE (FOR FUTURES...)
 
                	wf_SC->SetDirectory(0); // remove an histogram from the gDirectory list
@@ -680,9 +679,6 @@ void rec::Loop()
 						a_fit = f_fit->GetParameter(1);
 						b_fit = f_fit->GetParameter(0);
 
-						//cout << "a_fit = " << a_fit << endl;
-						//cout << "b_fit = " << b_fit << endl;
-
 						time_SC[chn] = (v_th_SC - b_fit)/a_fit * TMath::Power(10,9);
 
 						delete f_fit;
@@ -690,67 +686,59 @@ void rec::Loop()
                      	break;
                   	}
 				}
-				
-				//time_sum_SC += time_SC[chn];
-				time_sum_SC += time_SC[chn]*v_ampl_SC;
-
-				ampl_sum_SC += v_ampl_SC;
-				//cout << "time_mean_SC [ns]  = " << time_mean_SC << endl; 
-				//cout << "counter            = " << counter << endl; 	
-				counter += 1;
 
 				// MEAN TIME OF SC
-				//if (time_sum_SC > 0.) time_mean_SC = time_sum_SC/counter;
-				//time_mean_SC = time_sum_SC/counter;
+				time_sum_SC += time_SC[chn]*v_ampl_SC;
+				ampl_sum_SC += v_ampl_SC;
 				time_mean_SC = time_sum_SC/ampl_sum_SC;
 
 				if (0) 
 				{
                 	std::cout << "\nSTART COUNTER"                              << std::endl;
-                  	std::cout << "\nEntry               " << jentry           << std::endl;
-                  	std::cout << "\nchn                 " << chn              << std::endl;
-                  	//std::cout << "\nmin [V]             = " << min_SC           << std::endl;
-                  	//std::cout << "\nmax [V]             = " << max_SC           << std::endl;
+                  	std::cout << "\nEntry               " << jentry             << std::endl;
+                  	std::cout << "\nchn                 " << chn                << std::endl;
+                  	std::cout << "\nmin [V]             " << min_SC             << std::endl;
+                  	std::cout << "\nmax [V]             " << max_SC             << std::endl;
                   	std::cout << "\n------------------------------------------" << std::endl;
-                  	std::cout << "\nv_base       [V]    " << v_base_SC        << std::endl;
-                  	std::cout << "\nsigma_v_base [V]    " << sigma_v_base_SC  << std::endl;
-                  	std::cout << "\nv_peak       [V]    " << v_peak_SC        << std::endl;
-                  	std::cout << "\nt_peak       [ns]   " << t_peak_SC        << std::endl;
-                	std::cout << "\nv_ampl       [V]    " << v_ampl_SC        << std::endl;
-                  	std::cout << "\nv_th         [V]    " << v_th_SC          << std::endl;
-                 	std::cout << "\ntime         [ns]   " << time_SC[chn]     << std::endl;
-					//cout << "********************************************************" << endl;
-					cout << "counter             " << counter      << endl; 	
-					cout << "time_sum_SC [ns]    " << time_sum_SC  << endl;
-					cout << "time_mean_SC [ns]   " << time_mean_SC << endl; 
-					cout << "********************************************************" << endl;
+                  	std::cout << "\nv_base       [V]    " << v_base_SC          << std::endl;
+                  	std::cout << "\nsigma_v_base [V]    " << sigma_v_base_SC    << std::endl;
+                  	std::cout << "\nv_peak       [V]    " << v_peak_SC          << std::endl;
+                  	std::cout << "\nt_peak       [ns]   " << t_peak_SC          << std::endl;
+                	std::cout << "\nv_ampl       [V]    " << v_ampl_SC          << std::endl;
+                  	std::cout << "\nv_th         [V]    " << v_th_SC            << std::endl;
+                 	std::cout << "\ntime         [ns]   " << time_SC[chn]       << std::endl;
+					std::cout << "\n------------------------------------------" << std::endl;
+					std::cout << "time_sum_SC    [ns]   " << time_sum_SC        << std::endl;
+					std::cout << "time_mean_SC   [ns]   " << time_mean_SC       << std::endl;
+					std::cout << "*********************************************" << std::endl;
 				}
-			} // END if (board173_hit[chn]==1)	
+			} // END if (status[chn]==1)	
 		} // END LOOP ON CHANNELS OF WAVEDREAM
 
 		if (time_TW > 0. && time_mean_SC > 0. && delta_CLK_X > 0. && delta_CLK_Y > 0.)
+		//if (time_TW > 0. && time_mean_SC > 0.)
 		{
 			time_TOF = time_TW - time_mean_SC;
 			hist_TOF->Fill(time_TOF);
 
 			if (1)
 			{
-				cout << "********************************************************" << endl;
-				cout << "ENTRY                   " << jentry << endl;
-				cout << "-------------------------------------------------------------\n" << endl;
-				cout << "CLOCK" << endl;
-				cout << "delta_CLK_X [ns]        " << delta_CLK_X << endl;
-				cout << "delta_CLK_Y [ns]        " << delta_CLK_Y << endl;
-				cout << "-------------------------------------------------------------\n" << endl;
-				cout << "START COUNTER" << endl;
-				cout << "time_mean_SC [ns]       " << time_mean_SC << endl; 
-				cout << "-------------------------------------------------------------\n" << endl;
-				cout << "TOFWALL" << endl;
-				cout << "Mean_Time_Bar_9_X [ns]  " << Mean_Time_Bar_9_X << endl;
-				cout << "Mean_Time_Bar_9_Y [ns]  " << Mean_Time_Bar_9_Y << endl;
-				cout << "time_TW [ns]            " << time_TW << endl;
-				cout << "\n-------------------------------------------------------------\n" << endl;
-				cout << "time_TOF [ns]           " << time_TW << " - " << time_mean_SC << " = " << time_TOF << endl;
+				std::cout << "********************************************************" << std::endl;
+				std::cout << "ENTRY                   " << jentry << endl;
+				std::cout << "-------------------------------------------------------------\n" << std::endl;
+				std::cout << "CLOCK" << endl;
+				std::cout << "delta_CLK_X [ns]        " << delta_CLK_X << endl;
+				std::cout << "delta_CLK_Y [ns]        " << delta_CLK_Y << endl;
+				std::cout << "-------------------------------------------------------------\n" << std::endl;
+				std::cout << "START COUNTER" << endl;
+				std::cout << "time_mean_SC [ns]       " << time_mean_SC << endl; 
+				std::cout << "-------------------------------------------------------------\n" << std::endl;
+				std::cout << "TOFWALL" << endl;
+				std::cout << "Mean_Time_Bar_9_X [ns]  " << Mean_Time_Bar_9_X << endl;
+				std::cout << "Mean_Time_Bar_9_Y [ns]  " << Mean_Time_Bar_9_Y << endl;
+				std::cout << "time_TW [ns]            " << time_TW << endl;
+				std::cout << "\n-------------------------------------------------------------\n" << std::endl;
+				std::cout << "time_TOF [ns]           " << time_TW << " - " << time_mean_SC << " = " << time_TOF << std::endl;
 			}
 		}
    	} // END LOOP ON ENTRIES
@@ -766,7 +754,6 @@ void rec::Loop()
    	hist_TOF->GetXaxis()->SetTitle("TOF = T_{TW} - T_{SC} [ns]");
    	hist_TOF->GetYaxis()->SetTitle("Counts");
    	hist_TOF->Fit("gaus", "Q");
-   	hist_TOF->Draw();
+   	hist_TOF->Draw("E");
 	//c_TOF->SaveAs("figures/c_TOF.pdf");
-	
 }
