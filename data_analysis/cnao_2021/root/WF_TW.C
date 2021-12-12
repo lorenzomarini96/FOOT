@@ -31,7 +31,9 @@ void rec::Loop()
 		// DEFINITION
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     	
-		Int_t chn = 3;
+		//Int_t chn = 3;                                    // GOOD SIGNAL
+		//Int_t chn = 5;                                    // NOISE SIGNAL
+		Int_t chn = 4;                                    // NOISE SIGNAL
 		Double_t f_CFD = 0.3;         					  // FRATION FOR COMPUTE TIME
         Double_t voltage_166[1023];                         
 		Double_t time_166[1023];                         
@@ -138,7 +140,7 @@ void rec::Loop()
 		gr_WF_TW->SetTitle(" ");
 	
 		// SHOW CFD METHOD??...
-		
+
 		gr_WF_TW->SetLineColor(2);
 		gr_WF_TW->Draw("AC");
 		
@@ -188,7 +190,7 @@ void rec::Loop()
 			t_v_th->Draw();
 		}
 
-		c_WF_TW->SaveAs("/Users/lorenzomarini/Desktop/clock_TEX/WF_TW_CFD.tex");
+		c_WF_TW->SaveAs("/Users/lorenzomarini/Desktop/clock_TEX/WF_TW_noise_good.tex");
 
 		/*
 		TLegend *legend = new TLegend(0.5,0.5,0.8,0.8);
