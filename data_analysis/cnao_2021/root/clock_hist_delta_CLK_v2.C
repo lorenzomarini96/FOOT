@@ -21,13 +21,13 @@ void rec::Loop()
    	Long64_t nbytes = 0, nb = 0;
 
 
-   	//gStyle->SetOptFit(10111);   
+   	//gStyle->SetOptFit(10111); 
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// DEFINITION
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	TH1D *hist_delta_CLK = new TH1D("hist_delta_CLK", " ", 100, 2, 5); // [ns]
+	TH1D *hist_delta_CLK = new TH1D("hist_delta_CLK", " ", 200, 2.5, 4); // [ns]
 
   	// LOOP ON ENTRIES
   	for (Long64_t jentry=0; jentry<nentries; jentry++)
@@ -35,6 +35,10 @@ void rec::Loop()
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
       	nb = fChain->GetEntry(jentry);   nbytes += nb;	
+
+
+		Double_t delta_CLK_X = 0; // [ns] REAR,  X-VIEW
+		Double_t delta_CLK_Y = 0; // [ns] FRONT, Y-VIEW
 
 		//*********************************************************
 		// START COUNTER
@@ -61,7 +65,7 @@ void rec::Loop()
 		Int_t n_point_SC_phi = 27;		
 
 		//*********************************************************
-		// TOF-WALL
+		// TOF-WALL REAR (X)
 		//*********************************************************
 		Int_t n_points_TW = 0; 					// number of points for graphs of wf
       	Int_t chn_TW_CLK = 16;
@@ -83,7 +87,31 @@ void rec::Loop()
 		Double_t N_TW_CLK[27];			     	// NUMBER OF CLOCK CYCLES
 		Double_t sigma_N_TW_CLK[27];		  	// ERROR ON NUMBER OF CLOCK CYCLES
 		Int_t n_point_TW_phi = 27;
-		
+
+		//*********************************************************
+		// TOF-WALL REAR FRONT
+		//*********************************************************
+		Int_t n_points_TW_Y = 0; 					// number of points for graphs of wf
+      	Int_t chn_TW_CLK_Y = 17;
+		Double_t voltage_TW_CLK_NC_Y[1023];		// No correction
+		Double_t voltage_TW_CLK_Y[1023];
+		Double_t time_TW_CLK_Y[1023];
+
+		// CLOCK ANALYSIS
+		Double_t min_TW_CLK_Y;                  	// V AMPLITUDE MIN OF CHANNEL [V]
+		Double_t max_TW_CLK_Y;                  	// V AMPLITUDE MIN OF CHANNEL [V]
+		Double_t a_fit_TW_CLK_Y;
+		Double_t sigma_a_fit_TW_CLK_Y;
+		Double_t b_fit_TW_CLK_Y;
+		Double_t sigma_b_fit_TW_CLK_Y;
+		Double_t phi_TW_CLK_Y;		     
+		Double_t zero_TW_CLK_Y;                   // MEAN OF MAX AND MIN VALUES OF WF
+		Double_t ZeroCrossingPoint_TW_Y[27];      // ZERO CROSSING POINT ON THE RISING EDGES OF WF [ns]
+		Double_t sigma_ZeroCrossingPoint_TW_Y[27];// ERROR ON ZERO CROSSING POINT [ns]
+		Double_t N_TW_CLK_Y[27];			     	// NUMBER OF CLOCK CYCLES
+		Double_t sigma_N_TW_CLK_Y[27];		  	// ERROR ON NUMBER OF CLOCK CYCLES
+		Int_t n_point_TW_phi_Y = 27;
+
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		// PROCESSING
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -318,9 +346,117 @@ void rec::Loop()
 		// HIST DELTA CLOCK
 		phi_SC_CLK = f_fit_N_SC_CLK_vs_ZeroCrossingPoint->GetParameter(0);
 		phi_TW_CLK = f_fit_N_TW_CLK_vs_ZeroCrossingPoint->GetParameter(0);
-		//cout << "phi_SC_CLK [ns] = " << phi_SC_CLK << endl;
-		//cout << "phi_TW_CLK [ns] = " << phi_TW_CLK << endl;
+
+		delta_CLK_X = phi_TW_CLK - phi_SC_CLK;
+		
 		hist_delta_CLK->Fill(phi_TW_CLK - phi_SC_CLK);
+
+		//*********************************************************
+		// TOF-WALL FRONT
+		//*********************************************************
+
+		//---------------------------------------------------------
+		// 1) CORRECTION OF WF
+		//---------------------------------------------------------
+		enablesum = 0;
+
+		for (Int_t i=0; i<1023; i++)     
+		{
+			voltage_TW_CLK_Y[i]    = board166_waveform[chn_TW_CLK_Y][i]; // Final Amplitude
+			voltage_TW_CLK_NC_Y[i] = board166_waveform[chn_TW_CLK_Y][i]; // Amplitude Not Corrected
+			time_TW_CLK_Y[i]       = board166_time[chn_TW_CLK_Y][i] * TMath::Power(10,9);
+
+			if (voltage_TW_CLK_NC_Y[i] - voltage_TW_CLK_NC_Y[i-1] >  0.5) enablesum -= 1;
+			if (voltage_TW_CLK_NC_Y[i] - voltage_TW_CLK_NC_Y[i-1] < -0.5) enablesum += 1;
+
+			voltage_TW_CLK_Y[i] = voltage_TW_CLK_NC_Y[i] + enablesum; // sommo 1V
+			n_points_TW_Y += 1;
+		}
+
+		//---------------------------------------------------------
+        // 2) FIND MIN AND MAX OF WAVEFORM
+		//---------------------------------------------------------
+        min_TW_CLK_Y = voltage_TW_CLK_Y[100]; // V AMPLITUDE MIN OF CHANNEL [V]
+        max_TW_CLK_Y = voltage_TW_CLK_Y[100]; // V AMPLITUDE MAX OF CHANNEL [V]
+            
+        for (Int_t i=0; i<1000; i++)
+        { 		
+			// LOOP ON SAMPLES OF WAVEFORM
+           	if (voltage_TW_CLK_Y[i] < min_TW_CLK_Y) min_TW_CLK_Y = voltage_TW_CLK_Y[i];
+        	if (voltage_TW_CLK_Y[i] > max_TW_CLK_Y) max_TW_CLK_Y = voltage_TW_CLK_Y[i];
+		}
+
+		zero_TW_CLK_Y = (min_TW_CLK_Y + max_TW_CLK_Y)/2;
+
+		//---------------------------------------------------------
+		// 3) ZERO CROSSING POINT
+		//---------------------------------------------------------
+        Int_t j_TW_Y = 0;
+
+		for (Int_t i=0; i<1000; i++)
+		{ 	
+            if (voltage_TW_CLK_Y[i] > zero_TW_CLK_Y)
+			{
+				TF1 *f_fit_TW_CLK_Y = new TF1("f_fit_TW_CLK_Y", "pol1", time_TW_CLK_Y[i-2], time_TW_CLK_Y[i+2]);
+				
+				Int_t n_Y = 5;  // NUMBER OF POINTS FOR THE GRAPH
+				Double_t v_data_TW_CLK_Y[5] = {voltage_TW_CLK_Y[i-2], voltage_TW_CLK_Y[i-1], voltage_TW_CLK_Y[i], voltage_TW_CLK_Y[i+1], voltage_TW_CLK_Y[i+2]};
+				Double_t t_data_TW_CLK_Y[5] = {time_TW_CLK_Y[i-2], time_TW_CLK_Y[i-1], time_TW_CLK_Y[i], time_TW_CLK_Y[i+1], time_TW_CLK_Y[i+2]};
+
+				TGraph *gr_TW_CLK_Y = new TGraph(n_Y, t_data_TW_CLK_Y, v_data_TW_CLK_Y);
+
+				gr_TW_CLK_Y->Fit("f_fit_TW_CLK_Y","Qr");			
+					
+				a_fit_TW_CLK_Y       = f_fit_TW_CLK_Y->GetParameter(1);
+				sigma_a_fit_TW_CLK_Y = f_fit_TW_CLK_Y->GetParError(1);
+				b_fit_TW_CLK_Y       = f_fit_TW_CLK_Y->GetParameter(0);
+				sigma_b_fit_TW_CLK_Y = f_fit_TW_CLK_Y->GetParError(0);
+
+				// ZERO CROSSING POINT
+				ZeroCrossingPoint_TW_Y[j_TW_Y]       = (zero_TW_CLK_Y - b_fit_TW_CLK_Y)/a_fit_TW_CLK_Y; // [ns]
+				sigma_ZeroCrossingPoint_TW_Y[j_TW_Y] = ZeroCrossingPoint_TW_Y[j_TW_Y] * sqrt(pow(sigma_a_fit_TW_CLK_Y/a_fit_TW_CLK_Y,2) + pow(sigma_b_fit_TW_CLK_Y/b_fit_TW_CLK_Y,2)); // Somma in quadratura degli errori sui parametri di best-fit
+
+				// NUMBER OF CLOCK CYCLES
+				N_TW_CLK_Y[j_TW_Y] = j_TW_Y+1;
+
+				delete f_fit_TW_CLK_Y;
+				delete gr_TW_CLK_Y;
+					
+				i += 20;
+				j_TW_Y += 1;
+            }
+			if (N_TW_CLK_Y[j_TW_Y] == 25) break;
+		}
+
+		// DATA CORRECTION (problem with the first element)
+		Double_t new_ZeroCrossingPoint_TW_Y[25];
+		Double_t new_sigma_ZeroCrossingPoint_TW_Y[25];
+		Double_t new_N_TW_CLK_Y[25];
+		Double_t new_sigma_N_TW_CLK_Y[25];
+		Int_t    new_n_point_TW_phi_Y = n_point_TW_phi_Y-2;
+
+		for (Int_t i=0; i<25; i++)
+		{	
+			// SHIFT ALL ELEMENTS BY ONE POSITION
+			new_N_TW_CLK_Y[i] 			     	= N_TW_CLK_Y[i];
+			new_sigma_N_TW_CLK_Y[i] 			= 0;
+			new_ZeroCrossingPoint_TW_Y[i]		= ZeroCrossingPoint_TW_Y[i+1];
+			new_sigma_ZeroCrossingPoint_TW_Y[i] = sigma_ZeroCrossingPoint_TW_Y[i+1];
+		}
+
+		// TOF-WALL
+		TGraph *gr_N_TW_CLK_vs_ZeroCrossingPoint_Y = new TGraphErrors(new_n_point_TW_phi_Y, new_N_TW_CLK_Y, new_ZeroCrossingPoint_TW_Y, new_sigma_N_TW_CLK_Y, new_sigma_ZeroCrossingPoint_TW_Y);
+		TF1 *f_fit_N_TW_CLK_vs_ZeroCrossingPoint_Y = new TF1("f_fit_N_TW_CLK_vs_ZeroCrossingPoint_Y", "pol1", 0, N_TW_CLK_Y[24]);
+		gr_N_TW_CLK_vs_ZeroCrossingPoint_Y->Fit("f_fit_N_TW_CLK_vs_ZeroCrossingPoint_Y","Qr");
+
+		phi_TW_CLK_Y = f_fit_N_TW_CLK_vs_ZeroCrossingPoint_Y->GetParameter(0);
+
+		delta_CLK_Y = phi_TW_CLK_Y - phi_SC_CLK;
+		
+		cout << "\n************************************************************" << endl;
+		cout << "Entry             " << jentry << endl;
+		cout << "delta_CLK_X = " << delta_CLK_X << endl;
+		cout << "delta_CLK_Y = " << delta_CLK_Y << endl;
 	}
 
 	TCanvas *c_delta_CLK = new TCanvas("c_delta_CLK"," ", 800,800);
