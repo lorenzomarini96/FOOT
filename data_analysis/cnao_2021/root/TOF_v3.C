@@ -27,7 +27,34 @@ void rec::Loop()
    	TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 25, 17, 17.7); // [ns]
 	//TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 25, 18.5, 19.5); // [ns]
 	//TH1D *hist_TOF = new TH1D("hist_TOF", "hist_TOF", 25, 19.5, 21.5); // [ns]
-   
+
+   	//------------------------------
+   	// HISTOGRAMS CHARGHE BAR WD165
+   	//------------------------------
+   	TH1F *hist_q_bar_166[16];
+   	char name_q_bar_166[20];
+   	char title_q_bar_166[100];
+
+   	for (Int_t b=0; b<6; b++) 
+	{
+		if (b<3)
+		{
+			int x_bar = b+8;
+		    sprintf(name_q_bar_166, "hist_q_bar_166%d", x_bar);
+      		sprintf(title_q_bar_166, "Bar%d", x_bar);
+		}
+		else
+		{
+			int y_bar = b+25;
+			sprintf(name_q_bar_166, "hist_q_bar_166%d", y_bar);
+      		sprintf(title_q_bar_166, "Bar%d", y_bar);
+		}
+      	hist_q_bar_166[b] = new TH1F(name_q_bar_166,title_q_bar_166, 60, 0, 20);
+      	hist_q_bar_166[b]->GetXaxis()->SetTitle("Q [a.u.]");
+      	hist_q_bar_166[b]->GetYaxis()->SetTitle("Entries");
+   	}
+
+
    	Double_t f_CFD = 0.3;         // FRATION FOR COMPUTE TIME
 	Int_t status[8];
 
@@ -489,6 +516,10 @@ void rec::Loop()
             	Double_t time_166[16];                             // TIME OF WF OF CHANNEL [ns]
 				Double_t mean_time;
 				//Double_t time_TW;                                  // TIME OF TOWFWALL: (T_bar_front + T_bar_layer)/2
+				Double_t q = 0.;                                   // CHARGE [a.u.]
+            	Double_t q_166[16];                                // CHARGE OF CHANNEL [a.u.]
+            	Double_t q_bar_166[8];                             // CHARGE OF CHARGE [a.u.]
+			
             	
 				// V BASELINE   
                	TH1F *wf_166 = new TH1F("wf_166","wf_166", 30, 0.30, 0.60);
@@ -515,6 +546,13 @@ void rec::Loop()
                	// V THRESHOLD                                    
                	v_th_166 = v_base_166 - f_CFD * (v_base_166 - v_peak_166);
 				
+				// CHARGHE OF CHANNEL - METODO TRAPEZI: (b+B)*h/2
+               	for (Int_t i=150; i<900; i++) 
+				{
+					q += ((v_base_166 - board166_waveform[chn][i]) + (v_base_166 - board166_waveform[chn][i+1])) * (board166_time[chn][i+1] - board166_time[chn][i])/2 * TMath::Power(10,9);;
+				}
+               	q_166[chn] = q;
+
 				// TIME OF CHANNEL
 				Int_t n = 5;
                	for (Int_t i=i_min_position_166; ; i--) { // LOOP ON SAMPLES OF WAVEFORM
@@ -538,12 +576,20 @@ void rec::Loop()
                   	}
                	}
 				
+				// CHARGE OF BAR
+				if (chn%2!=0) q_bar_166[chn/2] = sqrt(q_166[chn] * q_166[chn-1]);
+               	
 				// MEAN TIME OF BAR [ns]
 				if (chn==3)      Mean_Time_Bar_9_X = (time_166[3] + time_166[2])/2; // T_bar_layer = (T_R + T_L) / 2
 				else if (chn==9) Mean_Time_Bar_9_Y = (time_166[9] + time_166[8])/2; // T_bar_front = (T_R + T_L) / 2				
 				
+               	//***********************************************************************************************************
+               	// FILL THE HISTOGRAM
+               	if (v_ampl_166>0.010 && q_166[chn]>0. && chn%2!=0) hist_q_bar_166[chn/2]->Fill(q_bar_166[chn/2]);
+                
+
 				// TIME OF TOFWALL
-				if (Mean_Time_Bar_9_X > 0. && Mean_Time_Bar_9_Y > 0. && delta_CLK_X > 0. && delta_CLK_Y > 0.) 
+				if (Mean_Time_Bar_9_X > 0. && Mean_Time_Bar_9_Y > 0. && delta_CLK_X > 0. && delta_CLK_Y > 0. && q_bar_166[1] > 13.0 & q_bar_166[4] > 13.0) 
 				//if (Mean_Time_Bar_9_X > 0. && Mean_Time_Bar_9_Y > 0.) 
 				{
 					// delta_CLK_X = phi_TW_CLK_X - phi_SC_CLK;
@@ -754,6 +800,26 @@ void rec::Loop()
    	hist_TOF->GetXaxis()->SetTitle("TOF = T_{TW} - T_{SC} [ns]");
    	hist_TOF->GetYaxis()->SetTitle("Counts");
    	hist_TOF->Fit("gaus", "Q");
-   	hist_TOF->Draw("E");
+   	hist_TOF->Draw();
 	//c_TOF->SaveAs("figures/c_TOF.pdf");
+
+   	//------------------------------
+   	// CHARGHE BAR WD166
+   	//------------------------------
+   	for (int b=0; b<6; b++) 
+	{  
+    	TString canvas_title_q_bar_166 = Form("c_q_bar_166%d", b); 
+      	TCanvas *c_q_bar_166 = new TCanvas(canvas_title_q_bar_166, canvas_title_q_bar_166, 600, 600);
+		c_q_bar_166->SetTickx();
+		c_q_bar_166->SetTicky();
+		c_q_bar_166->SetLeftMargin(0.15);
+		c_q_bar_166->SetLogy();
+		//hist_q_bar_166[b]->SetMarkerStyle(20);
+		hist_q_bar_166[b]->SetMarkerStyle(kFullCircle);
+		hist_q_bar_166[b]->SetMarkerColor(kBlack);
+		hist_q_bar_166[b]->SetNdivisions(20,"X");
+		hist_q_bar_166[b]->Draw();
+		c_q_bar_166->SaveAs("figures/"+canvas_title_q_bar_166+".pdf");
+	}
+
 }
