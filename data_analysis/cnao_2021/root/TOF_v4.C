@@ -20,7 +20,7 @@ void rec::Loop()
    	Long64_t nbytes = 0, nb = 0;
 	
 	gStyle->SetOptFit(10111);
-
+	gStyle->SetPalette(kRainBow);
 	//------------------------------
    	// HIST FOR TIME RESOLUTION
    	//------------------------------
@@ -55,14 +55,14 @@ void rec::Loop()
   	//------------------------------
    	// HISTOGRAMS Q VS TOF
    	//------------------------------
-	TH2D *hist_charge_TOF_X = new TH2D("hist_charge_TOF_X", "hist_charge_TOF_X", 200, 12.5, 22.5, 100, 0.0, 20.0);
-	TH2D *hist_charge_TOF_Y = new TH2D("hist_charge_TOF_Y", "hist_charge_TOF_Y", 200, 12.5, 22.5, 100, 0.0, 20.0);
+	TH2D *hist_charge_TOF_X = new TH2D("hist_charge_TOF_X", "hist_charge_TOF_X", 200, 15.0, 20, 100, 0.0, 20.0);
+	TH2D *hist_charge_TOF_Y = new TH2D("hist_charge_TOF_Y", "hist_charge_TOF_Y", 200, 15.0, 20, 100, 0.0, 20.0);
 	
    	Double_t f_CFD = 0.3;         // FRATION FOR COMPUTE TIME
 	Int_t status[8];
 
   	// LOOP ON ENTRIES
-  	for (Long64_t jentry=0; jentry<nentries/10; jentry++)
+  	for (Long64_t jentry=0; jentry<nentries/5; jentry++)
    	{
     	Long64_t ientry = LoadTree(jentry);
       	if (ientry < 0) break;
@@ -73,11 +73,6 @@ void rec::Loop()
 		Double_t TOF_9_Y[nentries/10];
 		Double_t Q_9_X[nentries/10];
 		Double_t Q_9_Y[nentries/10];
-
-		//Double_t q_9_X;
-		//Double_t q_9_Y;
-		//Double_t tof_9_Y;
-		//Double_t tof_9_Y;
 
 
 		//if (tcb17_trigger_type == 1)
@@ -797,7 +792,7 @@ void rec::Loop()
 			hist_charge_TOF_X->Fill(time_TOF, Q_9_X[jentry]);
 			hist_charge_TOF_Y->Fill(time_TOF, Q_9_Y[jentry]);
 
-			if (1)
+			if (0)
 			{
 				std::cout << "*************************************************************"     << std::endl;
 				std::cout << "ENTRY                   " << jentry << endl;
